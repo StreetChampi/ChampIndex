@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Clé des champignons à lames</title>
+<style>
+  :root {
+    /* Palette "carnet de terrain" : papier chaud, encre brune, tampons terracotta */
+    --paper: #F3ECDD;
+    --paper-deep: #EAE0C9;
+    --paper-line: #DCCFAF;
+    --ink: #2B2318;
+    --ink-soft: #5C5341;
+    --soil: #221B13;
+    --soil-mid: #3A2E1F;
+    --rust: #B15A2C;
+    --rust-deep: #8A4220;
+    --clay: #C48A3E;
+    --moss: #5F7A4A;
+    --moss-pale: #DEE2CB;
+
+    --risk-deadly-bg: #551A13;
+    --risk-toxic-bg: #9B3A1B;
+    --risk-caution-bg: #B4832A;
+    --risk-edible-bg: #55694A;
+    --risk-unknown-bg: #746C5D;
+
+    --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: var(--font-sans);
+    background: var(--soil);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.04), transparent 55%),
+      radial-gradient(ellipse at 100% 100%, rgba(0,0,0,0.35), transparent 60%);
+    color: var(--ink);
+    overscroll-behavior: none;
+  }
+  #app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
+  }
+  #app::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='%232B2318' fill-opacity='0.045'%3E%3Ccircle cx='14' cy='20' r='1.1'/%3E%3Ccircle cx='60' cy='9' r='0.8'/%3E%3Ccircle cx='96' cy='31' r='1.3'/%3E%3Ccircle cx='34' cy='58' r='0.9'/%3E%3Ccircle cx='77' cy='70' r='1.1'/%3E%3Ccircle cx='104' cy='90' r='0.8'/%3E%3Ccircle cx='17' cy='98' r='1.2'/%3E%3Ccircle cx='50' cy='106' r='0.7'/%3E%3Ccircle cx='7' cy='55' r='0.9'/%3E%3Ccircle cx='88' cy='48' r='0.7'/%3E%3Ccircle cx='42' cy='30' r='0.6'/%3E%3Ccircle cx='110' cy='12' r='0.9'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+  #app::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 5px;
+    background-image: repeating-linear-gradient(to bottom, var(--rust-deep) 0 6px, transparent 6px 14px);
+    opacity: 0.55;
+    z-index: 1;
+  }
+  header, main, footer { position: relative; z-index: 2; }
+
+  header {
+    background: linear-gradient(180deg, var(--soil-mid), var(--soil));
+    color: var(--paper);
+    padding: 20px 22px 22px 26px;
+    flex-shrink: 0;
+  }
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .brand-glyph { color: var(--clay); flex-shrink: 0; }
+  header h1 {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-variant: small-caps;
+    letter-spacing: 0.5px;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--paper);
+    flex: 1;
+  }
+  .home-btn {
+    margin-left: 8px;
+    flex-shrink: 0;
+    background: none;
+    border: 1.5px solid rgba(243,236,221,0.35);
+    color: var(--paper);
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    padding: 7px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .home-btn svg { width: 100%; height: 100%; display: block; }
+  .progress-track {
+    height: 7px;
+    border-radius: 8px;
+    background-image: repeating-linear-gradient(to right, rgba(255,255,255,0.16) 0 4px, transparent 4px 9px);
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--rust-deep), var(--rust));
+    background-image:
+      linear-gradient(90deg, var(--rust-deep), var(--rust)),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.15) 0 3px, transparent 3px 7px);
+    transition: width 0.3s ease;
+  }
+  .progress-fill.progress-fill-multi {
+    background-image:
+      linear-gradient(90deg, var(--clay), var(--rust)),
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.22) 0 3px, transparent 3px 7px);
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-percent {
+    flex: 0 0 auto;
+    min-width: 34px;
+    text-align: right;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.3px;
+  }
+
+  main {
+    flex: 1;
+    padding: 26px 22px 110px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-label {
+    display: inline-block;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: var(--paper-deep);
+    border: 1.3px dashed var(--paper-line);
+    border-radius: 200px 8px 200px 8px;
+    padding: 4px 12px;
+    transform: rotate(-1.4deg);
+    margin-bottom: 14px;
+  }
+  .step-label.multi { color: var(--rust-deep); border-color: var(--rust); }
+
+  .question {
+    position: relative;
+    font-family: var(--font-serif);
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.4;
+    margin-bottom: 22px;
+    padding-right: 30px;
+  }
+  .question::after {
+    content: "";
+    position: absolute;
+    top: -8px; right: -6px;
+    width: 34px; height: 34px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M24 8C14 8 7 17 6 23h36C41 17 34 8 24 8Z' fill='%232B2318' fill-opacity='0.11'/%3E%3Crect x='19' y='23' width='10' height='15' rx='4' fill='%232B2318' fill-opacity='0.11'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+
+  .intro-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+
+  .hint {
+    position: relative;
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin: -10px 0 22px 2px;
+    padding: 2px 0 2px 14px;
+    border-left: 2px dashed var(--paper-line);
+  }
+  .hint.hint-warning {
+    color: var(--risk-deadly-bg);
+    font-style: normal;
+    font-weight: 600;
+    border-left-color: var(--risk-toxic-bg);
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .option-btn {
+    position: relative;
+    background: var(--paper-deep);
+    border: 1.5px solid transparent;
+    border-radius: 22px 8px 20px 10px;
+    padding: 16px 18px 16px 34px;
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 0 rgba(43,35,24,0.08));
+    transition: transform 0.08s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .option-btn::before {
+    content: "";
+    position: absolute;
+    left: 14px; top: 50%;
+    width: 8px; height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: var(--rust);
+    opacity: 0.6;
+  }
+  .option-btn:nth-child(2n) { border-radius: 10px 20px 8px 22px; }
+  .option-btn:nth-child(3n) { border-radius: 18px 10px 22px 9px; }
+  .option-btn:active {
+    transform: scale(0.98);
+    border-color: var(--rust);
+    background: var(--moss-pale);
+  }
+  .option-btn-unknown {
+    position: relative;
+    background: var(--paper);
+    border: 2px dashed var(--clay);
+    color: var(--rust-deep);
+    border-radius: 18px 10px 18px 10px;
+    padding: 14px 18px 14px 36px;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .option-btn-unknown::before {
+    content: "?";
+    position: absolute;
+    left: 12px; top: 50%;
+    width: 16px; height: 16px;
+    margin-top: -9px;
+    border-radius: 50%;
+    border: 1.4px dashed var(--clay);
+    font-size: 11px;
+    line-height: 15px;
+    text-align: center;
+    font-family: var(--font-sans);
+  }
+  .option-btn-unknown:active { background: var(--moss-pale); }
+
+  .no-match-link {
+    display: block;
+    text-align: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    text-decoration: underline dotted;
+    margin-top: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    width: 100%;
+  }
+  .stop-link {
+    display: block;
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    text-decoration: underline dotted;
+    margin-top: 2px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    width: 100%;
+    opacity: 0.7;
+  }
+
+  /* ---- Fiches specimen (resultats / pistes) ---- */
+  .result-card, .candidate-card {
+    background: var(--paper-deep);
+    padding: 20px 20px 16px 20px;
+    margin-bottom: 14px;
+    clip-path: polygon(
+      0% 3%, 5% 0%, 11% 2.5%, 17% 0%, 23% 2.5%, 29% 0%, 35% 2.5%, 41% 0%,
+      47% 2.5%, 53% 0%, 59% 2.5%, 65% 0%, 71% 2.5%, 77% 0%, 83% 2.5%, 89% 0%,
+      95% 2.5%, 100% 0%, 100% 100%, 0% 100%
+    );
+    filter: drop-shadow(0 3px 2px rgba(43,35,24,0.16));
+    transform: rotate(-0.35deg);
+  }
+  .candidate-card { padding: 18px 16px 16px 16px; margin-bottom: 14px; transform: rotate(0.35deg); }
+  .candidate-card:nth-child(even) { transform: rotate(-0.35deg); }
+
+  .risk-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    padding: 6px 13px 6px 9px;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    border: 1.4px dashed rgba(255,255,255,0.55);
+    transform: rotate(-2deg);
+    margin-bottom: 12px;
+  }
+  .badge-icon { display: inline-flex; width: 14px; height: 14px; flex-shrink: 0; }
+  .badge-icon svg { width: 100%; height: 100%; display: block; }
+
+  .result-genus {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 2px 0;
+  }
+  .candidate-genus {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 4px 0;
+  }
+  .result-latin {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0 0 16px 0;
+  }
+  .result-note, .candidate-note {
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .candidate-note { font-size: 13px; color: var(--ink-soft); }
+
+  .candidate-card-clickable {
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: border-color 0.15s ease, transform 0.08s ease;
+  }
+  .candidate-card-clickable:active { transform: scale(0.985); }
+  .candidate-clue {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    background: var(--moss-pale);
+    border-radius: 3px 12px 3px 12px;
+    padding: 8px 11px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #3E4A31;
+    line-height: 1.4;
+  }
+  .candidate-clue .badge-icon { flex-shrink: 0; margin-top: 1px; color: #4E5C3B; }
+  .candidate-open-hint {
+    margin: 8px 0 0 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--rust-deep);
+    text-align: right;
+  }
+
+  .detail-block { margin-bottom: 13px; padding-top: 13px; border-top: 1px dashed var(--paper-line); }
+  .detail-block:first-of-type { padding-top: 0; border-top: none; }
+  .detail-label {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--rust-deep);
+    margin-bottom: 3px;
+    border-bottom: 1.5px solid var(--clay);
+    padding-bottom: 1px;
+  }
+  .detail-text {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .confusion-card {
+    position: relative;
+    border: 1.5px dashed var(--ink-soft);
+    border-radius: 4px 16px 4px 16px;
+    padding: 13px 14px 12px 14px;
+    margin-top: 16px;
+    background: var(--paper);
+    transform: rotate(0.6deg);
+  }
+  .confusion-card::before {
+    content: "";
+    position: absolute;
+    top: -7px; left: 16px;
+    width: 26px; height: 12px;
+    background: rgba(180,90,44,0.35);
+    transform: rotate(-3deg);
+  }
+  .confusion-card .detail-label { color: var(--ink-soft); border-bottom-color: var(--paper-line); }
+
+  /* ---- Fiche espèce : sections hiérarchisées ---- */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+  .section-head .section-icon { display: inline-flex; width: 17px; height: 17px; flex-shrink: 0; }
+  .section-head .section-icon svg { width: 100%; height: 100%; display: block; }
+  .sh-id { color: var(--rust-deep); }
+  .sh-why { color: #4E5C3B; }
+  .sh-observe { color: #8A5A17; }
+  .sh-desc { color: var(--rust-deep); }
+  .sh-confuse { color: var(--ink-soft); }
+
+  .sheet-section {
+    background: var(--paper);
+    border: 1px solid var(--paper-line);
+    border-radius: 20px 6px 20px 6px;
+    padding: 18px 18px 16px 18px;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 2px 2px rgba(43,35,24,0.07));
+  }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    display: inline-block;
+    background: var(--moss-pale);
+    color: var(--ink);
+    border-radius: 3px 12px 3px 12px;
+    padding: 6px 11px;
+    font-size: 12.5px;
+    line-height: 1.3;
+  }
+  .chip strong { font-weight: 800; color: #3E4A31; }
+  .chip-observe {
+    background: #F3E3C2;
+    color: #5B3E12;
+    font-style: italic;
+  }
+
+  .warning-card {
+    position: relative;
+    background: var(--paper);
+    border-left: 3px solid var(--risk-deadly-bg);
+    border-radius: 3px 12px 12px 3px;
+    padding: 13px 14px 13px 16px;
+    font-size: 13px;
+    color: var(--risk-deadly-bg);
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+  .doubt-card {
+    position: relative;
+    background: var(--moss-pale);
+    border-left: 3px solid var(--moss);
+    border-radius: 3px 12px 12px 3px;
+    padding: 13px 14px 13px 16px;
+    font-size: 12.5px;
+    color: #3E4A31;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .doubt-card strong {
+    display: block;
+    font-family: var(--font-serif);
+    margin-bottom: 4px;
+    font-size: 13.5px;
+  }
+  .disclaimer {
+    background: var(--soil-mid);
+    color: var(--paper-deep);
+    border-radius: 4px 14px 4px 14px;
+    padding: 13px 15px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+
+  /* ---- Accueil / observations ---- */
+  .home-cta {
+    display: block;
+    width: 100%;
+    background: var(--rust);
+    color: var(--paper);
+    border: none;
+    border-radius: 22px 8px 22px 8px;
+    padding: 16px;
+    font-family: var(--font-sans);
+    font-size: 15.5px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 2px 0 rgba(43,35,24,0.12));
+  }
+  .home-cta-secondary {
+    background: var(--paper-deep);
+    color: var(--ink);
+    border: 1.5px solid var(--paper-line);
+  }
+  .save-obs-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: var(--moss);
+    color: var(--paper);
+    border: none;
+    border-radius: 8px 22px 8px 22px;
+    padding: 13px;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 0 rgba(43,35,24,0.1));
+  }
+  .save-obs-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .save-obs-confirm {
+    text-align: center;
+    font-size: 12.5px;
+    font-style: italic;
+    color: #3E4A31;
+    margin: -10px 0 16px 0;
+  }
+  .obs-empty {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .obs-delete {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--rust-deep);
+    text-decoration: underline dotted;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 0;
+  }
+
+  /* ---- Modale d'enregistrement ---- */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(34,27,19,0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--paper);
+    border-radius: 22px 8px 22px 8px;
+    padding: 22px 20px 20px 20px;
+    max-width: 340px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.35));
+  }
+  .modal-title {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    margin: 0 0 2px 0;
+    color: var(--ink);
+  }
+  .modal-subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 16px 0;
+  }
+  .modal-field { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; }
+  .modal-field label {
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--rust-deep);
+  }
+  .modal-field input {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-deep);
+    color: var(--ink);
+  }
+  .modal-btn-row { display: flex; gap: 10px; margin-top: 8px; }
+  .modal-btn-row .btn { flex: 1; }
+
+  footer {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-top: 3px double var(--paper-line);
+    padding: 13px 20px calc(15px + env(safe-area-inset-bottom));
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 -6px 14px rgba(34,27,19,0.12);
+  }
+  .btn {
+    flex: 1;
+    padding: 13px;
+    border-radius: 20px 8px 20px 8px;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 0 rgba(43,35,24,0.1));
+  }
+  .btn-secondary {
+    background: var(--paper-deep);
+    color: var(--ink);
+    border: 1.5px solid var(--paper-line);
+  }
+  .btn-primary {
+    background: var(--rust);
+    color: var(--paper);
+  }
+  .btn-restart {
+    background: var(--clay);
+    color: var(--soil);
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="brand-row">
+      <svg class="brand-glyph" viewBox="0 0 48 48" width="22" height="22" aria-hidden="true">
+        <path d="M24 8C14 8 7 17 6 23h36C41 17 34 8 24 8Z" fill="currentColor"/>
+        <rect x="19" y="23" width="10" height="15" rx="4" fill="currentColor"/>
+        <circle cx="16" cy="16" r="1.4" fill="#221B13"/>
+        <circle cx="27" cy="13" r="1.1" fill="#221B13"/>
+        <circle cx="32" cy="19" r="1" fill="#221B13"/>
+      </svg>
+      <h1 id="header-title">Clé des champignons à lames</h1>
+      <button id="home-btn" class="home-btn" aria-label="Accueil" type="button"></button>
+    </div>
+    <div class="progress-row">
+      <div class="progress-track" role="progressbar" aria-label="Progression : 0% des pistes finales exclues" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <span class="progress-percent" id="progress-percent" aria-hidden="true">0%</span>
+    </div>
+  </header>
+  <main id="main"></main>
+  <footer id="footer"></footer>
+</div>
+
+<div id="modal-overlay" class="modal-overlay">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<script>
+/* ============================================================
+   Clé de détermination des champignons à lames
+   Reformulation personnelle organisée pour un usage EN FORÊT.
+
+   Moteur multi-pistes : quand une question ne peut pas être
+   observée (bouton "je ne sais pas") ou qu'aucune réponse ne
+   correspond, l'app explore LES DEUX branches possibles et
+   continue de poser d'autres questions utiles tant qu'il en
+   reste. La liste de pistes ne s'affiche que lorsqu'aucune
+   question supplémentaire ne permettrait plus de trancher.
+
+   Quatre genres sont approfondis jusqu'à l'espèce : Amanites,
+   Lépiotes, Cystodermes et Agarics. L'Amanite tue-mouches sert
+   de démonstration pour un modèle de fiche plus complet.
+   ============================================================ */
+
+const RISK_LABELS = {
+  deadly: "Mortelle",
+  toxic: "Toxique",
+  caution: "Comestibilité délicate, grande prudence",
+  inedible: "Non comestible",
+  edible: "Comestible réputée (à confirmer)",
+  unknown: "Comestibilité mal connue",
+};
+const RISK_COLORS = {
+  deadly: { bg: "var(--risk-deadly-bg)", fg: "#F3ECDD" },
+  toxic: { bg: "var(--risk-toxic-bg)", fg: "#F3ECDD" },
+  caution: { bg: "var(--risk-caution-bg)", fg: "#241D13" },
+  inedible: { bg: "#5B5344", fg: "#F3ECDD" },
+  edible: { bg: "var(--risk-edible-bg)", fg: "#F3ECDD" },
+  unknown: { bg: "var(--risk-unknown-bg)", fg: "#F3ECDD" },
+};
+const RISK_RANK = { deadly: 0, toxic: 1, caution: 2, inedible: 3, unknown: 4, edible: 5 };
+function riskRank(res) {
+  if (res.risk && RISK_RANK.hasOwnProperty(res.risk)) return RISK_RANK[res.risk];
+  return 2.5;
+}
+
+/* Petites icônes de risque, tracé minimal, encre unique (currentColor) */
+const ICONS = {
+  skull: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 0-7 7v3.5c0 1 .5 1.7 1.3 2.2L7 17v2a1 1 0 0 0 1 1h1.2l.4 1.3a.9.9 0 0 0 .9.7h3a.9.9 0 0 0 .9-.7l.4-1.3H16a1 1 0 0 0 1-1v-2l.7-1.3c.8-.5 1.3-1.2 1.3-2.2V10a7 7 0 0 0-7-7Z"/><circle cx="9.5" cy="11" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="11" r="1.1" fill="currentColor" stroke="none"/></svg>',
+  warning: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 21 19H3Z"/><line x1="12" y1="10" x2="12" y2="14"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor" stroke="none"/></svg>',
+  caution: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 21 12 12 21 3 12Z"/><line x1="12" y1="8.5" x2="12" y2="13"/><circle cx="12" cy="15.6" r="0.9" fill="currentColor" stroke="none"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 9.5 17 19 6.5"/></svg>',
+  question: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9a3 3 0 1 1 4.5 2.6c-1 .6-1.5 1.1-1.5 2.4"/><circle cx="12" cy="17.5" r="0.9" fill="currentColor" stroke="none"/></svg>',
+  idtag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 11 3h7a1 1 0 0 1 1 1v7l-8 8a1.5 1.5 0 0 1-2 0l-6-6a1.5 1.5 0 0 1 0-2Z"/><circle cx="15.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
+  why: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.5 12.8 13.6 8.7 15.3l1.7-4.1 4.1-1.7Z"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>',
+  capicon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11c0-4 3.5-7 8-7s8 3 8 7"/><line x1="4" y1="11" x2="20" y2="11"/><path d="M10 11v6a2 2 0 0 0 4 0v-6"/></svg>',
+  confuse: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9.5" cy="12" r="6"/><circle cx="14.5" cy="12" r="6"/></svg>',
+  inedible: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h13a3 3 0 0 1 0 6H4z"/><path d="M4 10V8"/><path d="M14 10c1-2 3-3 5-2"/><line x1="3" y1="3" x2="21" y2="21"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9"/><path d="M10 20v-5h4v5"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></svg>',
+};
+const RISK_ICON_NAME = { deadly: "skull", toxic: "warning", caution: "caution", inedible: "inedible", edible: "check", unknown: "question" };
+
+function makeIcon(name) {
+  const span = document.createElement("span");
+  span.className = "badge-icon";
+  span.innerHTML = ICONS[name] || "";
+  return span;
+}
+function makeRiskBadge(risk) {
+  const badge = document.createElement("div");
+  badge.className = "risk-badge";
+  const colors = RISK_COLORS[risk];
+  badge.style.background = colors.bg;
+  badge.style.color = colors.fg;
+  badge.appendChild(makeIcon(RISK_ICON_NAME[risk] || "question"));
+  const label = document.createElement("span");
+  label.textContent = RISK_LABELS[risk];
+  badge.appendChild(label);
+  return badge;
+}
+
+/* Fiche espèce enrichie : petit lexique pour nommer brièvement
+   le type d'observation derrière chaque question posée. Purement
+   présentatif — dérivé du texte de la question, aucune donnée
+   scientifique n'est modifiée. */
+function shortTraitLabel(question) {
+  const q = question.toLowerCase();
+  const rules = [
+    [/volve/, "Volve"],
+    [/anneau/, "Anneau"],
+    [/latex/, "Latex"],
+    [/cortine/, "Cortine"],
+    [/bulbe/, "Bulbe"],
+    [/chair/, "Chair"],
+    [/lames? (sont|descend|fendu|arête|devenant|deviennent)|arête des lames/, "Lames"],
+    [/couleur|rouge|brun|gris|jaune|blanc|orangé|rose|lilas|vermillon/, "Couleur"],
+    [/odeur/, "Odeur"],
+    [/taille|grande|petite| cm/, "Taille"],
+    [/se sépare|se détache/, "Séparation chapeau / pied"],
+    [/bois|sol|crottin|fumier|herbe|pousse/, "Habitat"],
+    [/chapeau/, "Chapeau"],
+  ];
+  for (const [re, label] of rules) {
+    if (re.test(q)) return label;
+  }
+  return "Observation";
+}
+
+function makeSectionHead(label, iconName, variantClass) {
+  const head = document.createElement("div");
+  head.className = "section-head " + variantClass;
+  const icon = document.createElement("span");
+  icon.className = "section-icon";
+  icon.innerHTML = ICONS[iconName] || "";
+  const text = document.createElement("span");
+  text.textContent = label;
+  head.appendChild(icon);
+  head.appendChild(text);
+  return head;
+}
+
+function buildChip(question, answerLabel, variant) {
+  const chip = document.createElement("span");
+  chip.className = "chip" + (variant ? " chip-" + variant : "");
+  const strong = document.createElement("strong");
+  strong.textContent = shortTraitLabel(question) + " : ";
+  chip.appendChild(strong);
+  chip.appendChild(document.createTextNode(answerLabel));
+  return chip;
+}
+
+function buildObserveChip(question) {
+  const chip = document.createElement("span");
+  chip.className = "chip chip-observe";
+  chip.textContent = shortTraitLabel(question) + " : à vérifier";
+  return chip;
+}
+
+/* Sur une courte liste de pistes (1 à 4), on peut proposer un
+   indice tiré de la fiche espèce quand elle existe (repérée par
+   la présence d'un champ "risk", propre aux fiches détaillées).
+   Aucune fiche générique de genre ne porte ce champ : elles ne
+   reçoivent donc jamais d'indice supplémentaire. */
+function hasSpeciesSheet(res) {
+  return res && res.risk !== undefined;
+}
+function extractClue(res, candidates) {
+  const source = res.note || res.chapeau || res.confusions || "";
+  if (!source) return "";
+  const sentences = source.split(/(?<=[.!?;])\s+/).map((s) => s.trim()).filter(Boolean);
+  const distinctive = [
+    [/écaill|verrue|mèch|flocon|fibrille|squam/i, 12],
+    [/anneau|cortine|volve/i, 11],
+    [/bulbe|bourrelet|guêtr|radicant/i, 10],
+    [/lame|lamelle|arête/i, 9],
+    [/chair|roug|jaun|brun.*à la cassure/i, 8],
+    [/odeur|phénol|anis|radis/i, 8],
+    [/habitat|feuillu|résineux|pelouse|herbe|bois|souche/i, 7],
+    [/mamelon|strié|visqueux|gluant|velout/i, 6],
+  ];
+  const candidateText = (candidates || []).map((id) => {
+    const r = KEY.results[id] || {};
+    return [r.note, r.chapeau, r.pied, r.lames, r.chair, r.habitat, r.confusions].filter(Boolean).join(" ").toLowerCase();
+  });
+  function score(sentence) {
+    const lower = sentence.toLowerCase();
+    let score = 0;
+    distinctive.forEach(([re, points]) => { if (re.test(lower)) score += points; });
+    distinctive.forEach(([re]) => {
+      if (!re.test(lower)) return;
+      const frequency = candidateText.filter((text) => re.test(text)).length;
+      if (candidateText.length > 1 && frequency <= Math.ceil(candidateText.length / 2)) score += 6;
+    });
+    if (/^grosse? espèce|^grande espèce|^espèce moyenne|^petite espèce/i.test(lower)) score -= 7;
+    return score;
+  }
+  let best = sentences.sort((a, b) => score(b) - score(a))[0] || "";
+
+  /* Dans une phrase du type « grosse espèce blanche, larges écailles,
+     anneau farineux », on remonte les fragments réellement distinctifs
+     au début pour éviter que l'indice soit dominé par l'allure générale. */
+  const fragments = best.split(/[,;]+/).map((s) => s.trim()).filter(Boolean);
+  if (fragments.length > 1) {
+    const ranked = fragments.map((fragment, index) => ({
+      fragment,
+      index,
+      score: score(fragment) + (index === 0 ? 0 : 2),
+    })).sort((a, b) => b.score - a.score);
+    const useful = ranked.filter((item) => item.score > 5).slice(0, 2);
+    if (useful.length) {
+      useful.sort((a, b) => a.index - b.index);
+      best = useful.map((item) => item.fragment).join(", ");
+    }
+  }
+
+  if (best.length > 150) {
+    let cut = best.slice(0, 150);
+    const lastSpace = cut.lastIndexOf(" ");
+    if (lastSpace > 100) cut = cut.slice(0, lastSpace);
+    best = cut + "\u2026";
+  }
+  return best;
+}
+
+const KEY = {
+  start: "q_ring",
+
+  nodes: {
+
+    /* ---------------- ENTREE : ANNEAU PUIS VOLVE ---------------- */
+
+    q_ring: {
+      question: "Le pied porte-t-il un anneau (une membrane en collerette autour du pied) ?",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: "q_volva_after_ring_yes" },
+        { label: "Non", next: "q_volva_after_ring_no" },
+      ],
+    },
+
+    q_volva_after_ring_yes: {
+      question: "Vois-tu aussi, à la base du pied, une volve nette (sac ou bourrelet), ou des restes floconneux, écailleux ou verruqueux qui pourraient en être les vestiges ?",
+      hint: "Creuse légèrement la terre si besoin. C'est un signe important : plusieurs amanites dangereuses portent aussi un anneau.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui, l'un ou l'autre", next: "q_amanite_volva_type" },
+        { label: "Non, rien de tout ça", next: "q_ring_separation" },
+      ],
+    },
+    q_volva_after_ring_no: {
+      question: "Vois-tu, à la base du pied, une volve nette (sac membraneux ou gros bourrelet) ?",
+      hint: "Creuse légèrement la terre avant de conclure à son absence.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: "q_volva_gills" },
+        { label: "Non", next: "q_noring_separation" },
+      ],
+    },
+    q_volva_gills: {
+      question: "Les lames sont-elles blanches, ou plutôt roses ?",
+      options: [
+        { label: "Blanches", next: "q_amanite_volva_type" },
+        { label: "Roses", next: "q_volvaire_texture" },
+      ],
+    },
+    q_volvaire_texture: {
+      question: "Le chapeau est-il nettement gluant ou visqueux, en milieu rudéral (jardins, décombres, champs, bords de route, jachères) plutôt qu'en forêt ?",
+      options: [
+        { label: "Oui", next: { result: "volvaire_gluante" } },
+        { label: "Non", next: { result: "volvaire" } },
+      ],
+    },
+
+    q_ring_separation: {
+      question: "Le chapeau se sépare-t-il facilement du pied, un peu comme si on le dévissait ?",
+      allowUnknown: true,
+      options: [
+        { label: "Oui, il se détache nettement", next: "q_ring_sep_scales" },
+        { label: "Non, pied et chapeau ne font qu'un", next: "q_ring_fused_texture" },
+      ],
+    },
+    q_ring_sep_scales: {
+      question: "Le chapeau porte-t-il des écailles nettes ?",
+      options: [
+        { label: "Oui", next: "q_lepiote_size" },
+        { label: "Non, chapeau plutôt lisse", next: "q_agaric_flesh" },
+      ],
+    },
+
+    q_ring_fused_texture: {
+      question: "Le chapeau est-il nettement visqueux ou gluant au toucher ?",
+      options: [
+        { label: "Oui", next: "q_ring_fused_visc_color" },
+        { label: "Non, chapeau sec", next: "q_ring_fused_dry_habitat" },
+      ],
+    },
+    q_ring_fused_visc_color: {
+      question: "Les lames sont-elles brun violacé à noirâtres, ou plutôt blanches ?",
+      options: [
+        { label: "Brun violacé à noirâtres", next: { result: "strophaire" } },
+        { label: "Blanches", next: { result: "mucidule" } },
+      ],
+    },
+
+    q_ring_fused_dry_habitat: {
+      question: "Le champignon pousse-t-il sur du bois (souche, tronc, racine) ?",
+      options: [
+        { label: "Oui, sur du bois", next: "q_ring_fused_dry_wood" },
+        { label: "Non, à même le sol", next: "q_ring_fused_dry_soil" },
+      ],
+    },
+    q_ring_fused_dry_wood: {
+      question: "Comment décrirais-tu la surface du chapeau ?",
+      options: [
+        { label: "Écailleux, souvent en touffes", next: { result: "pholiote" } },
+        { label: "Finement mèché, couleur miel, grosses touffes à la base d'un arbre", next: { result: "armillaire" } },
+        { label: "Fibrilleux, couleurs vives orangées à jaunes", next: { result: "gymnopile" } },
+        { label: "Lisse, change nettement de couleur en séchant", next: { result: "kuehneromyces" } },
+      ],
+    },
+    q_ring_fused_dry_soil: {
+      question: "Le chapeau est-il petit, granuleux ou comme poudré, l'espèce poussant isolée ?",
+      options: [
+        { label: "Oui", next: "q_cystoderme_color" },
+        { label: "Non", next: "q_ring_fused_dry_soil2" },
+      ],
+    },
+    q_ring_fused_dry_soil2: {
+      question: "Le chapeau a-t-il tendance à noircir et à se liquéfier avec l'âge (comme de l'encre) ?",
+      options: [
+        { label: "Oui", next: { result: "coprin" } },
+        { label: "Non", next: "q_ring_fused_dry_soil3" },
+      ],
+    },
+    q_ring_fused_dry_soil3: {
+      question: "Le chapeau semble-t-il recouvert d'une fine poudre blanchâtre, espèce de bonne taille ?",
+      options: [
+        { label: "Oui", next: { result: "pholiote_ridee" } },
+        { label: "Non, chapeau lisse et brun", next: { result: "agrocybe" } },
+      ],
+    },
+
+    /* ---------------- SANS ANNEAU NI VOLVE ---------------- */
+
+    q_noring_separation: {
+      question: "Le chapeau se sépare-t-il facilement du pied ?",
+      allowUnknown: true,
+      options: [
+        { label: "Oui, il se détache nettement", next: "q_noring_sep_next" },
+        { label: "Non, pied et chapeau ne font qu'un", next: "q_noring_fused_latex" },
+      ],
+    },
+    q_noring_sep_next: {
+      question: "Les lames sont-elles blanches, ou plutôt roses ?",
+      options: [
+        { label: "Blanches", next: { result: "limacelle" } },
+        { label: "Roses, souvent sur bois", next: "q_pluteus_color" },
+      ],
+    },
+
+    /* ============================================================
+       SOUS-CLE : PLUTÉES (jusqu'à l'espèce)
+       ============================================================ */
+
+    q_pluteus_color: {
+      question: "De quelle couleur est le chapeau ?",
+      hint: "Genre reconnu par ses lames libres virant au rose, sans anneau ni volve, poussant sur bois mort.",
+      options: [
+        { label: "Jaune vif, entièrement velouté, petit chapeau (2-5 cm)", next: { result: "pluteus_leoninus" } },
+        { label: "Brun brillant et soyeux, fibrilles plus foncées au centre (8-12 cm)", next: "q_pluteus_cervinus_check" },
+        { label: "Gris verdâtre (environ 8 cm)", next: { result: "pluteus_salicinus" } },
+        { label: "Blanc, centre ocré et crevassé, grande espèce (jusqu'à 20 cm)", next: { result: "pluteus_patricien" } },
+        { label: "Entièrement blanc, sur bois de résineux", next: { result: "pluteus_blanc" } },
+        { label: "Cendré, à veines saillantes, petit (3-4 cm)", next: { result: "pluteus_cendre" } },
+        { label: "Rouge vif devenant orangé", next: { result: "pluteus_rouge" } },
+        { label: "Aucune de ces couleurs ne correspond bien", next: { result: "plutee" } },
+      ],
+    },
+    q_pluteus_cervinus_check: {
+      question: "L'arête des lames est-elle colorée de brun-noir, chapeau squameux, plutôt en montagne sur conifères ?",
+      options: [
+        { label: "Oui", next: { result: "pluteus_atromarginatus" } },
+        { label: "Non, odeur nette de radis, sur bois de feuillus", next: { result: "pluteus_cervinus" } },
+      ],
+    },
+
+    q_noring_fused_latex: {
+      question: "Un latex (sorte de lait) s'écoule-t-il quand tu casses ou coupes une lame ?",
+      hint: "Nécessite de casser un morceau du champignon.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: { result: "lactaire" } },
+        { label: "Non", next: "q_noring_habitat" },
+      ],
+    },
+
+    q_noring_habitat: {
+      question: "Le champignon pousse-t-il sur du bois (tronc, souche, branche) ?",
+      options: [
+        { label: "Oui, sur du bois", next: "q_noring_wood_gills" },
+        { label: "Non, à même le sol", next: "q_noring_soil_next" },
+      ],
+    },
+
+    /* ----- sur bois, sans anneau, sans latex ----- */
+
+    q_noring_wood_gills: {
+      question: "Le pied est-il très court, absent, ou le chapeau nettement excentré (en éventail) ?",
+      options: [
+        { label: "Oui", next: "q_noring_wood_excentric_size" },
+        { label: "Non, pied net et central", next: "q_noring_wood_central_gills" },
+      ],
+    },
+    q_noring_wood_excentric_size: {
+      question: "L'espèce est-elle charnue et de bonne taille ?",
+      options: [
+        { label: "Oui", next: { result: "pleurote" } },
+        { label: "Non, plutôt petite ou coriace", next: "q_noring_wood_excentric_split" },
+      ],
+    },
+    q_noring_wood_excentric_split: {
+      question: "Les lames semblent-elles fendues en deux sur leur longueur ?",
+      options: [
+        { label: "Oui", next: { result: "schizophylle" } },
+        { label: "Non", next: "q_noring_wood_excentric_tiny" },
+      ],
+    },
+    q_noring_wood_excentric_tiny: {
+      question: "Très petite espèce, presque sans pied (moins de 3 cm) ?",
+      options: [
+        { label: "Oui", next: { result: "crepidote" } },
+        { label: "Non", next: "q_noring_wood_excentric_edge" },
+      ],
+    },
+    q_noring_wood_excentric_edge: {
+      question: "L'arête des lames est-elle visiblement dentelée ou crénelée ?",
+      options: [
+        { label: "Oui", next: { result: "lentin" } },
+        { label: "Non, arête lisse", next: { result: "panellus" } },
+      ],
+    },
+
+    q_noring_wood_central_gills: {
+      question: "Les lames descendent-elles nettement sur le pied (décurrentes) ?",
+      options: [
+        { label: "Oui", next: "q_noring_wood_central_decurrent_color" },
+        { label: "Non, lames échancrées ou libres", next: "q_noring_wood_central_attached" },
+      ],
+    },
+    q_noring_wood_central_decurrent_color: {
+      question: "Les couleurs sont-elles vives et orangées, ou plutôt ternes (brun, jaunâtre) ?",
+      options: [
+        { label: "Vives et orangées", next: { result: "omphalot" } },
+        { label: "Ternes", next: { result: "armillaire" } },
+      ],
+    },
+    q_noring_wood_central_attached: {
+      question: "Espèce fragile et petite, pied très fin ?",
+      options: [
+        { label: "Oui", next: { result: "mycene" } },
+        { label: "Non", next: "q_noring_wood_central_tuft" },
+      ],
+    },
+    q_noring_wood_central_tuft: {
+      question: "Pousse en touffe dense, couleurs jaune-vert à brunes ?",
+      options: [
+        { label: "Oui", next: { result: "hypholome" } },
+        { label: "Non", next: "q_noring_wood_central_other" },
+      ],
+    },
+    q_noring_wood_central_other: {
+      question: "Couleurs brun rouille, pied bien net et formé ?",
+      options: [
+        { label: "Oui", next: { result: "gymnopile" } },
+        { label: "Non, petite espèce fragile au chapeau sec", next: { result: "galerine" } },
+      ],
+    },
+
+    /* ----- à même le sol, sans anneau, sans latex ----- */
+
+    q_noring_soil_next: {
+      question: "Le champignon pousse-t-il sur du crottin, du fumier, ou en toute petite taille dans l'herbe ?",
+      options: [
+        { label: "Oui", next: "q_noring_soil_dung" },
+        { label: "Non", next: "q_noring_soil_general" },
+      ],
+    },
+    q_noring_soil_dung: {
+      question: "Pousse-t-il directement sur crottin ou fumier ?",
+      options: [
+        { label: "Oui", next: "q_noring_soil_dung_margin" },
+        { label: "Non, plutôt dans l'herbe", next: "q_noring_soil_grass" },
+      ],
+    },
+    q_noring_soil_dung_margin: {
+      question: "La marge du chapeau est-elle crénelée et déborde-t-elle nettement des lames ?",
+      options: [
+        { label: "Oui", next: { result: "panéole" } },
+        { label: "Non, marge droite", next: { result: "psilocybe" } },
+      ],
+    },
+    q_noring_soil_grass: {
+      question: "Le chapeau est-il visqueux et jaune ?",
+      options: [
+        { label: "Oui", next: { result: "bolbitie" } },
+        { label: "Non, chapeau sec et conique", next: { result: "conocybe" } },
+      ],
+    },
+
+    q_noring_soil_general: {
+      question: "Vois-tu une cortine (voile fin façon toile d'araignée) entre le bord du chapeau et le pied, au moins chez les sujets jeunes ?",
+      hint: "La cortine est fragile et peut avoir disparu chez un sujet âgé.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: "q_noring_soil_cortina" },
+        { label: "Non", next: "q_noring_soil_nocortina" },
+      ],
+    },
+    q_noring_soil_cortina: {
+      question: "Les lames sont-elles de couleur rouille ?",
+      options: [
+        { label: "Oui", next: { result: "cortinaire" } },
+        { label: "Non", next: "q_noring_soil_cortina2" },
+      ],
+    },
+    q_noring_soil_cortina2: {
+      question: "Le chapeau est-il sec, fibrilleux à squameux, souvent conique ?",
+      options: [
+        { label: "Oui", next: { result: "inocybe" } },
+        { label: "Non, plutôt visqueux et convexe", next: { result: "hebelome" } },
+      ],
+    },
+
+    q_noring_soil_nocortina: {
+      question: "Le chapeau a-t-il tendance à noircir et à se liquéfier avec l'âge (comme de l'encre) ?",
+      options: [
+        { label: "Oui", next: { result: "coprin" } },
+        { label: "Non", next: "q_noring_soil_decurrent" },
+      ],
+    },
+    q_noring_soil_decurrent: {
+      question: "Les lames descendent-elles nettement sur le pied (décurrentes) ?",
+      options: [
+        { label: "Oui", next: "q_noring_soil_decurrent2" },
+        { label: "Non, lames échancrées ou libres", next: "q_noring_soil_nondecurrent" },
+      ],
+    },
+    q_noring_soil_decurrent2: {
+      question: "Les lames sont-elles en réalité de simples plis peu profonds et ramifiés ?",
+      options: [
+        { label: "Oui", next: { result: "chanterelle" } },
+        { label: "Non, vraies lames", next: "q_noring_soil_decurrent3" },
+      ],
+    },
+    q_noring_soil_decurrent3: {
+      question: "Les lames sont-elles épaisses et bien espacées ?",
+      options: [
+        { label: "Cireuses, couleurs vives, se détachent facilement du chapeau", next: { result: "hygrophore" } },
+        { label: "Brunes, se détachant en bloc comme une membrane, se tachant en brun au toucher", next: { result: "paxille" } },
+        { label: "Non, lames plutôt fines", next: "q_noring_soil_decurrent4" },
+      ],
+    },
+    q_noring_soil_decurrent4: {
+      question: "Les lames sont-elles fines, souvent fourchues, se détachant facilement du chapeau et de couleur orangée ?",
+      options: [
+        { label: "Oui", next: { result: "fausse_chanterelle" } },
+        { label: "Non, lames serrées et non détachables, couleurs ternes", next: { result: "clitocybe" } },
+        { label: "Non, lames roses, chair charnue", next: { result: "clitopile" } },
+      ],
+    },
+
+    q_noring_soil_nondecurrent: {
+      question: "Le pied a-t-il la même consistance charnue que le chapeau (ni fin ni cassant) ?",
+      options: [
+        { label: "Oui", next: "q_noring_soil_fleshy" },
+        { label: "Non, pied grêle, cartilagineux ou coriace", next: "q_noring_soil_thin" },
+      ],
+    },
+    q_noring_soil_fleshy: {
+      question: "Les lames sont-elles très échancrées et se détachent-elles facilement en bloc du chapeau ?",
+      options: [
+        { label: "Oui", next: { result: "lepiste" } },
+        { label: "Non", next: "q_noring_soil_fleshy2" },
+      ],
+    },
+    q_noring_soil_fleshy2: {
+      question: "Le chapeau est-il épais et bien charnu, lames échancrées ?",
+      options: [
+        { label: "Oui", next: { result: "tricholome" } },
+        { label: "Non, chapeau plus mince, parfois un petit mamelon", next: { result: "melanoleuque" } },
+      ],
+    },
+    q_noring_soil_thin: {
+      question: "Les lames sont-elles épaisses et bien espacées, couleurs souvent roses ou lilas ?",
+      options: [
+        { label: "Oui", next: { result: "laccaire" } },
+        { label: "Non", next: "q_noring_soil_thin2" },
+      ],
+    },
+    q_noring_soil_thin2: {
+      question: "Le chapeau est-il coriace, capable de se dessécher puis de reprendre forme après la pluie ?",
+      options: [
+        { label: "Oui", next: { result: "marasme" } },
+        { label: "Non", next: "q_noring_soil_thin3" },
+      ],
+    },
+    q_noring_soil_thin3: {
+      question: "Le pied résiste-t-il bien à la torsion, chapeau peu charnu ?",
+      options: [
+        { label: "Oui", next: { result: "collybie" } },
+        { label: "Non", next: "q_noring_soil_thin4" },
+      ],
+    },
+    q_noring_soil_thin4: {
+      question: "Le chapeau est-il très visqueux, avec un long pied souvent enraciné en profondeur ?",
+      options: [
+        { label: "Oui", next: { result: "xerule" } },
+        { label: "Non", next: "q_noring_soil_thin5" },
+      ],
+    },
+    q_noring_soil_thin5: {
+      question: "Les lames sont-elles roses à maturité ?",
+      options: [
+        { label: "Oui", next: { result: "entolome" } },
+        { label: "Non, lames blanchâtres à grisâtres", next: "q_noring_soil_thin6" },
+      ],
+    },
+    q_noring_soil_thin6: {
+      question: "Espèce fragile au chapeau mince, souvent en groupe, lames devenant grises à noirâtres ?",
+      options: [
+        { label: "Oui", next: "q_psathyrelle_cortina" },
+        { label: "Non", next: { result: "rhodocybe" } },
+      ],
+    },
+
+    /* ============================================================
+       SOUS-CLE : PSATHYRELLES / LACRYMAIRES (jusqu'à l'espèce)
+       ============================================================ */
+
+    q_psathyrelle_cortina: {
+      question: "Le pied porte-t-il une cortine nette, en filaments, qui noircit avec la chute des spores ?",
+      hint: "Genre très fourni (une centaine d'espèces en France), souvent identifiable seulement au microscope : cette clé ne couvre que les cas les plus reconnaissables sur le terrain.",
+      options: [
+        { label: "Oui", next: "q_psathyrelle_lacrymaria_size" },
+        { label: "Non", next: "q_psathyrelle_habitat" },
+      ],
+    },
+    q_psathyrelle_lacrymaria_size: {
+      question: "Le chapeau mesure-t-il plutôt 6 à 10 cm, dans l'herbe des talus, bords de chemins ou lieux découverts ?",
+      options: [
+        { label: "Oui", next: { result: "lacrymaire_veloutee" } },
+        { label: "Non, plus petit (5-8 cm), teinte orangée vive comme le feu, plutôt en forêt", next: { result: "lacrymaire_rouge" } },
+      ],
+    },
+    q_psathyrelle_habitat: {
+      question: "Où pousse le champignon ?",
+      options: [
+        { label: "Sur souche ou tronc, en gros amas où les chapeaux se recouvrent", next: "q_psathyrelle_hygrophane" },
+        { label: "En touffe dense mais à même le sol, dans l'herbe ou en sous-bois", next: { result: "psathyrelle_cespiteuse" } },
+        { label: "Isolé ou en petit groupe sur souche ou bois enfoui", next: "q_psathyrelle_veil" },
+      ],
+    },
+    q_psathyrelle_hygrophane: {
+      question: "Le chapeau change-t-il nettement de couleur en séchant (brun luisant humide, devenant terne et pâle au sec) ?",
+      options: [
+        { label: "Oui", next: { result: "psathyrelle_hydrophile" } },
+        { label: "Non, chapeau plus charnu, brun rougeâtre, marge nue sans voile", next: { result: "psathyrelle_chataine" } },
+      ],
+    },
+    q_psathyrelle_veil: {
+      question: "La marge du chapeau porte-t-elle des restes floconneux de voile qui se fissurent facilement, le chapeau passant d'une teinte ocre jeune à blanc crème ?",
+      options: [
+        { label: "Oui", next: { result: "psathyrelle_de_candolle" } },
+        { label: "Non, rien de tel", next: { result: "psathyrelle" } },
+      ],
+    },
+
+    /* ============================================================
+       SOUS-CLE : AMANITES (jusqu'à l'espèce)
+       ============================================================ */
+
+    q_amanite_volva_type: {
+      question: "La volve (ou ce qu'il en reste) est-elle une membrane bien nette qui glisse librement, parfois en laissant de larges lambeaux sur le chapeau, ou plutôt collée et friable, avec des écailles ou verrues sur le chapeau ?",
+      hint: "Genre à très haut risque : certaines espèces sont parmi les plus mortelles d'Europe. Observe chaque détail avec soin avant de répondre.",
+      options: [
+        { label: "Volve libre et membraneuse", next: "q_amanite_free_ring" },
+        { label: "Volve collée/friable, écailles ou verrues sur le chapeau", next: "q_amanite_warty_bulb" },
+      ],
+    },
+
+    q_amanite_free_ring: {
+      question: "Le pied porte-t-il un anneau membraneux bien ample et retombant ?",
+      options: [
+        { label: "Oui", next: "q_amanite_ring_color" },
+        { label: "Non, pas d'anneau, marge du chapeau striée/cannelée", next: "q_amanite_striate" },
+      ],
+    },
+    q_amanite_ring_color: {
+      question: "Le chapeau, les lames, le pied et l'anneau sont-ils tous d'un jaune orangé uniforme ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_caesarea" } },
+        { label: "Non, plutôt blancs ou d'une autre teinte", next: "q_amanite_ring_white" },
+      ],
+    },
+    q_amanite_ring_white: {
+      question: "Le chapeau est-il finement rayé de fibrilles sombres sur un fond verdâtre ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_phalloides" } },
+        { label: "Non, chapeau blanc sans fibrilles", next: "q_amanite_white_shape" },
+      ],
+    },
+    q_amanite_white_shape: {
+      question: "L'espèce est-elle grosse, avec un chapeau ovoïde et un pied pelucheux ?",
+      options: [
+        { label: "Oui", next: "q_amanite_white_volva_color" },
+        { label: "Non, espèce moyenne", next: "q_amanite_white_medium" },
+      ],
+    },
+    q_amanite_white_volva_color: {
+      question: "La volve est-elle blanche, ou plutôt teintée de roux ?",
+      allowUnknown: true,
+      options: [
+        { label: "Blanche", next: { result: "amanite_ovoidea" } },
+        { label: "Rousse", next: { result: "amanite_proxima" } },
+      ],
+    },
+    q_amanite_white_medium: {
+      question: "Le chapeau est-il plat, avec un pied assez peu pelucheux ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_verna" } },
+        { label: "Non, chapeau plutôt conique, pied bien pelucheux", next: { result: "amanite_virosa" } },
+      ],
+    },
+
+    q_amanite_striate: {
+      question: "Le voile général est-il friable, laissant de larges plaques épaisses et grisâtres sur le pied et le chapeau ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_ceciliae" } },
+        { label: "Non, volve engainante bien persistante", next: "q_amanite_vaginata_color" },
+      ],
+    },
+    q_amanite_vaginata_color: {
+      question: "De quelle couleur est le chapeau ?",
+      options: [
+        { label: "Orangé", next: "q_amanite_orange_stem" },
+        { label: "Gris", next: { result: "amanite_vaginata" } },
+        { label: "Brun", next: { result: "amanite_battarrae" } },
+        { label: "Jaunâtre", next: { result: "amanite_lividopallescens" } },
+      ],
+    },
+    q_amanite_orange_stem: {
+      question: "Le pied est-il nettement zébré d'orange, ou plutôt blanc uni ?",
+      options: [
+        { label: "Zébré d'orange", next: { result: "amanite_crocea" } },
+        { label: "Blanc uni", next: { result: "amanite_fulva" } },
+      ],
+    },
+
+    q_amanite_warty_bulb: {
+      question: "Le pied présente-t-il un bulbe net à sa base ?",
+      hint: "Il est parfois nécessaire de dégager un peu le pied pour bien voir la forme du bulbe.",
+      allowUnknown: true,
+      options: [
+        { label: "Non, pas de bulbe net, volve très fugace", next: { result: "amanite_eliae" } },
+        { label: "Oui", next: "q_amanite_bulb_type" },
+      ],
+    },
+    q_amanite_bulb_type: {
+      question: "Comment décrirais-tu le bulbe à la base du pied ?",
+      allowUnknown: true,
+      options: [
+        { label: "Marginé (rebord net), avec une odeur de radis", next: "q_amanite_margine" },
+        { label: "Marqué de bourrelets ou de petits flocons", next: "q_amanite_bourrelets" },
+        { label: "En forme d'oignon simple, sans marge ni bourrelets marqués", next: "q_amanite_oignon" },
+      ],
+    },
+    q_amanite_margine: {
+      question: "Le chapeau est-il citrin ou blanc, à bord lisse, avec un anneau bien persistant ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_citrina" } },
+        { label: "Non, chapeau brun pourpré à bord strié, anneau fugace violacé", next: { result: "amanite_porphyrea" } },
+      ],
+    },
+    q_amanite_bourrelets: {
+      question: "De quelle couleur est le chapeau ?",
+      options: [
+        { label: "Rouge vif, couvert de verrues blanches", next: { result: "amanite_muscaria" } },
+        { label: "Brun, verrues blanches, 2 à 3 bourrelets nets au-dessus du bulbe", next: { result: "amanite_pantherina" } },
+        { label: "Jaune, bord strié, anneau fugace blanc", next: { result: "amanite_junquillea" } },
+        { label: "Blanc", next: "q_amanite_white_big" },
+      ],
+    },
+    q_amanite_white_big: {
+      question: "Les écailles sont-elles larges et aplaties, avec un anneau plutôt farineux ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_solitaria" } },
+        { label: "Non, petites écailles pointues, anneau fugace", next: { result: "amanite_echinocephala" } },
+      ],
+    },
+    q_amanite_oignon: {
+      question: "La chair vire-t-elle au vineux/rougeâtre à la moindre blessure ?",
+      hint: "Nécessite d'entamer légèrement la chair.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: { result: "amanite_rubescens" } },
+        { label: "Non", next: "q_amanite_oignon2" },
+      ],
+    },
+    q_amanite_oignon2: {
+      question: "La chair brunit-elle (brun madère) à la piqûre, avec des écailles jaunes sur le chapeau ?",
+      hint: "Nécessite d'entamer légèrement la chair.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: { result: "amanite_franchetii" } },
+        { label: "Non, chair qui reste blanche, écailles grises", next: "q_amanite_excelsa" },
+      ],
+    },
+    q_amanite_excelsa: {
+      question: "Le chapeau est-il gris bistre, l'allure trapue, avec une odeur de radis ?",
+      options: [
+        { label: "Oui", next: { result: "amanite_excelsa_spissa" } },
+        { label: "Non, chapeau bistré pâle, allure élancée, odeur faible", next: { result: "amanite_excelsa_excelsa" } },
+      ],
+    },
+
+    /* ============================================================
+       SOUS-CLE : LÉPIOTES (jusqu'à l'espèce)
+       ============================================================ */
+
+    q_lepiote_size: {
+      question: "Quelle allure correspond le mieux à ton champignon ?",
+      hint: "Prudence particulière : les petites lépiotes (moins de 5 cm) comptent parmi les champignons les plus dangereux, avec des toxines identiques à celles des amanites mortelles.",
+      options: [
+        { label: "Très petit, jaune vif, dans un pot de fleurs ou une serre", next: { result: "leucoagaricus_flos_sulfuris" } },
+        { label: "Petit à moyen, avec de nombreuses écailles brunes bien visibles", next: "q_lepiote_echinoderma" },
+        { label: "Grand ou moyen, avec un large chapeau et un anneau qui peut coulisser sur le pied", next: "q_lepiote_macro" },
+        { label: "Moyen, plutôt blanc à gris, avec un aspect cotonneux sur le chapeau et le pied", next: "q_lepiote_leucoagaricus" },
+        { label: "Très petit (1 à 5 cm), avec un anneau fragile ou difficile à voir", next: "q_lepiote_petite" },
+      ],
+    },
+    q_lepiote_echinoderma: {
+      question: "Le pied est-il comme guêtré, pour une petite espèce d'environ 6 cm ?",
+      options: [
+        { label: "Oui", next: { result: "echinoderma_echinaceum" } },
+        { label: "Non, plutôt moyenne (~12 cm) avec un anneau bien retombant", next: { result: "echinoderma_asperum" } },
+      ],
+    },
+    q_lepiote_macro: {
+      question: "La chair rougit-elle nettement à la cassure ?",
+      hint: "Nécessite d'entamer légèrement la chair.",
+      allowUnknown: true,
+      options: [
+        { label: "Oui", next: { result: "chlorophyllum" } },
+        { label: "Non", next: "q_lepiote_macro_pied" },
+      ],
+    },
+    q_lepiote_macro_pied: {
+      question: "Le pied est-il chiné (zébré de bandes), le chapeau mamelonné et mèché, pour une grande espèce de 20 à 30 cm ?",
+      options: [
+        { label: "Oui", next: { result: "macrolepiota_procera" } },
+        { label: "Non, espèce plus grêle (8-15 cm), pied non chiné", next: "q_lepiote_macro_scales" },
+      ],
+    },
+    q_lepiote_macro_scales: {
+      question: "Les écailles du chapeau sont-elles brunes et bien délimitées ?",
+      options: [
+        { label: "Oui", next: { result: "macrolepiota_mastoidea" } },
+        { label: "Non, écailles pâles visibles surtout au bord", next: { result: "macrolepiota_excoriata" } },
+      ],
+    },
+    q_lepiote_leucoagaricus: {
+      question: "L'espèce est-elle blanche, poussant en pelouse, lames devenant roses en vieillissant ?",
+      options: [
+        { label: "Oui", next: { result: "leucoagaricus_leucothites" } },
+        { label: "Non, plutôt grise, chapeau cotonneux, pied nettement radicant", next: { result: "leucoagaricus_barsii" } },
+      ],
+    },
+    q_lepiote_petite: {
+      question: "Le pied est-il couvert de petites guirlandes cotonneuses, plutôt qu'un vrai anneau ?",
+      options: [
+        { label: "Oui, guirlandes cotonneuses", next: "q_lepiote_petite_guirlande" },
+        { label: "Non, anneau net, parfois suspendu au bord du chapeau", next: "q_lepiote_petite_anneau" },
+      ],
+    },
+    q_lepiote_petite_guirlande: {
+      question: "Espèce pâle, ocre ou crème, chapeau presque lisse, plutôt dans l'herbe ?",
+      options: [
+        { label: "Oui", next: { result: "lepiota_laevigata" } },
+        { label: "Non, plus colorée, écailles concentriques nettes, plutôt en forêt", next: { result: "lepiota_clypeolaria" } },
+      ],
+    },
+    q_lepiote_petite_anneau: {
+      question: "Les écailles sont-elles brun foncé à noirâtres ?",
+      options: [
+        { label: "Oui", next: { result: "lepiota_felina" } },
+        { label: "Non, écailles ocre à roussâtres", next: { result: "lepiota_cristata" } },
+      ],
+    },
+
+    /* ============================================================
+       SOUS-CLE : CYSTODERMES (jusqu'à l'espèce)
+       ============================================================ */
+
+    q_cystoderme_color: {
+      question: "De quelle couleur et de quelle taille est le chapeau ?",
+      hint: "Petit groupe sans intérêt culinaire notable, mais un genre voisin (la pholiote dorée) leur ressemble beaucoup et se révèle être un bon comestible.",
+      options: [
+        { label: "Ocre-rouille, en cloche puis aplati avec un mamelon, odeur forte de moisi", next: { result: "cystoderme_amianthinum" } },
+        { label: "Lilas clair à rosé", next: { result: "cystoderme_carcharias" } },
+        { label: "Rouge vermillon vif", next: { result: "cystoderme_cinnabarinum" } },
+        { label: "Fauve doré, grosse espèce (15-20 cm), anneau ample et persistant", next: { result: "phaeolepiota_aurea" } },
+      ],
+    },
+
+    /* ============================================================
+       SOUS-CLE : AGARICS (jusqu'à l'espèce)
+       ============================================================ */
+
+    q_agaric_flesh: {
+      question: "La chair change-t-elle de couleur à la cassure, au frottement ou à l'air ?",
+      hint: "Nécessite d'entamer légèrement la chair. Vérifie aussi qu'il n'y a aucune volve à la base du pied et que les lames sont roses puis brun chocolat (jamais durablement blanches) : c'est ce qui distingue un vrai agaric d'une amanite jeune ou d'une lépiote blanche.",
+      allowUnknown: true,
+      options: [
+        { label: "Non, elle ne change pas de couleur", next: { result: "agaric_campestris" } },
+        { label: "Elle rougit", next: "q_agaric_red" },
+        { label: "Elle jaunit", next: "q_agaric_yellow" },
+      ],
+    },
+    q_agaric_red: {
+      question: "La chair est-elle très ferme, avec un anneau qui paraît double (façon poulie), sur une espèce qui pousse souvent en terrain piétiné (chemins, trottoirs) ?",
+      options: [
+        { label: "Oui", next: { result: "agaric_bitorquis" } },
+        { label: "Non, anneau simple", next: "q_agaric_red_ring" },
+      ],
+    },
+    q_agaric_red_ring: {
+      question: "L'anneau remonte-t-il sur le pied comme une chaussette, avec une odeur désagréable ?",
+      options: [
+        { label: "Oui", next: { result: "agaric_bernardii" } },
+        { label: "Non, l'anneau retombe plutôt comme une jupe", next: "q_agaric_red_speed" },
+      ],
+    },
+    q_agaric_red_speed: {
+      question: "Le rougissement est-il très net et rapide, avec une odeur agréable ?",
+      options: [
+        { label: "Oui", next: { result: "agaric_silvaticus" } },
+        { label: "Non, rougissement faible et lent, précédé d'un léger jaunissement", next: { result: "agaric_impudicus" } },
+      ],
+    },
+    q_agaric_yellow: {
+      question: "Le chapeau est-il couvert d'abondantes mèches gris cendré ?",
+      options: [
+        { label: "Oui", next: { result: "agaric_moelleri" } },
+        { label: "Non, chapeau lisse ou à mèches pâles/brunes/fauves", next: "q_agaric_yellow_scales" },
+      ],
+    },
+    q_agaric_yellow_scales: {
+      question: "Le chapeau est-il couvert de mèches brun-fauve, pour une grande espèce ?",
+      options: [
+        { label: "Oui", next: { result: "agaric_augustus" } },
+        { label: "Non, chapeau lisse ou à quelques mèches gris pâle", next: "q_agaric_yellow_speed" },
+      ],
+    },
+    q_agaric_yellow_speed: {
+      question: "Le jaunissement est-il lent et localisé, avec un anneau double denté et une odeur agréable, souvent anisée ?",
+      options: [
+        { label: "Oui", next: "q_agaric_yellow_habitat" },
+        { label: "Non, jaunissement intense et rapide, anneau simple, odeur souvent désagréable, chapeau d'abord trapézoïdal puis étalé, pied à bulbe irrégulier", next: { result: "agaric_xanthodermus" } },
+      ],
+    },
+    q_agaric_yellow_habitat: {
+      question: "Espèce plutôt moyenne et forestière, chapeau lisse et un peu jaunâtre ?",
+      options: [
+        { label: "Oui", next: { result: "agaric_silvicola" } },
+        { label: "Non, souvent plus grosse, poussant plutôt dans les lieux herbeux", next: { result: "agaric_arvensis" } },
+      ],
+    },
+  },
+
+  results: {
+    limacelle: { genus: "Limacelle (Limacella)", note: "Proche des amanites mais sans écailles nettes ni volve, souvent visqueuse." },
+    armillaire: { genus: "Armillaire (Armillaria)", note: "Pousse en touffes sur bois ou souches, pied souvent mèché, couleur miel à brune." },
+    mucidule: { genus: "Mucidule (Mucidula / Oudemansiella mucida)", note: "Chapeau blanc très visqueux, pousse en touffes sur bois, notamment le hêtre." },
+    mycene: { genus: "Mycène (Mycena)", note: "Petites espèces fragiles, pied fin, souvent sur bois ou litière." },
+    omphalot: { genus: "Omphalot (Omphalotus)", note: "Couleurs orangées vives, pousse en touffes sur bois ; peut être confondu avec la chanterelle mais est toxique." },
+    pleurote: { genus: "Pleurote (Pleurotus)", note: "Grande espèce charnue en éventail, pied très court ou nul, sur bois." },
+    panellus: { genus: "Panellus", note: "Petite espèce coriace, arête des lames fine et entière, sur bois." },
+    lentin: { genus: "Lentin / Lentinelle (Lentinus, Lentinellus)", note: "Espèce coriace à arête des lames crénelée, sur bois." },
+    lactaire: { genus: "Lactaire (Lactarius)", note: "Reconnaissable au latex qui perle à la coupe des lames ; sa couleur et son goût orientent l'espèce précise." },
+    chanterelle: { genus: "Chanterelle / Craterelle (Cantharellus, Craterellus)", note: "Lames remplacées par de simples plis peu profonds et ramifiés." },
+    hygrophore: { genus: "Hygrophore (Hygrophorus)", note: "Lames épaisses et espacées, chapeau souvent visqueux par temps humide." },
+    fausse_chanterelle: { genus: "Fausse chanterelle (Hygrophoropsis)", note: "Lames fines, fourchues, orangées ; ressemble à la chanterelle mais lames bien détachables." },
+    tricholome: { genus: "Tricholome (Tricholoma)", note: "Chapeau charnu, lames échancrées ; genre très vaste incluant des espèces comestibles et d'autres toxiques." },
+    melanoleuque: { genus: "Mélanoleuque (Melanoleuca)", note: "Chapeau mince, souvent avec un petit mamelon central." },
+    clitocybe: { genus: "Clitocybe (Clitocybe)", note: "Lames serrées et non détachables ; genre comportant des espèces dangereuses, prudence particulière." },
+    laccaire: { genus: "Laccaire (Laccaria)", note: "Lames et lamelles épaisses, très espacées, couleurs souvent rosées ou lilas." },
+    marasme: { genus: "Marasme (Marasmius)", note: "Chapeau coriace qui se dessèche sans pourrir et peut reprendre forme après la pluie." },
+    collybie: { genus: "Collybie (Collybia / Gymnopus)", note: "Pied résistant à la torsion, chapeau peu charnu." },
+    xerule: { genus: "Xérule (Xerula)", note: "Chapeau très visqueux, long pied souvent enraciné." },
+    volvaire: { genus: "Volvaire (Volvariella)", note: "Volve nette à la base, lames roses, pas d'anneau." },
+    plutee: { genus: "Plutée (Pluteus)", note: "Pas de volve, pousse le plus souvent sur bois mort, lames roses." },
+
+    /* ---------- espèce de Volvaire ---------- */
+    volvaire_gluante: {
+      genus: "Volvaire gluante",
+      latin: "Volvopluteus gloiocephalus (D.C.) Justo = Volvariella gloiocephala",
+      chapeau: "5 à 10 cm, d'abord en cloche puis étalé et mamelonné, surface gluante et lisse, marge se striant à la fin ; couleur variable, le plus souvent gris fumé, parfois blanc ou brun jaunâtre.",
+      pied: "Élancé, nu et lisse, 12 à 16 cm ou plus, blanc ou grisâtre ; volve persistante en gaine déchirée en lobes, souvent en partie enterrée.",
+      lames: "Libres, serrées, larges ; blanches à la sortie de la volve, puis rose clair, enfin brunâtres.",
+      chair: "Mince, blanche, molle, odeur et saveur faibles de radis.",
+      habitat: "Milieu rudéral : jardins, lieux fumés, décombres, jachères, champs, bords de route ; fréquente en été et surtout aux premiers froids d'automne.",
+      confusions: "Peut se confondre avec les amanites vaginées (également comestibles) et surtout avec l'amanite phalloïde (mortelle) : contrairement à ces dernières, la volvaire gluante pousse en milieu herbeux ou fumé et jamais en forêt, a un chapeau nettement gluant et des lames qui deviennent roses. Les amanites poussent en forêt, ont un chapeau non visqueux et des lames qui restent blanches.",
+      risk: "edible",
+    },
+
+    /* ---------- espèces de Plutées ---------- */
+    pluteus_leoninus: { genus: "Plutée couleur de lion (Pluteus leoninus)", note: "Occasionnelle sur souches ou bois mort humide de feuillus, en été et automne. Chapeau petit (2-5 cm), d'un jaune vif entièrement velouté. Pied grêle et élancé (5-7 cm), blanc, teinté de jaune à la base. Lames crème puis rosées, à arête généralement jaune. Chair mince, blanchâtre.", risk: "inedible" },
+    pluteus_cervinus: { genus: "Plutée couleur de cerf (Pluteus cervinus)", note: "Espèce commune dès le début de l'été et en automne, sur bois pourrissant et vieilles souches de feuillus. Chapeau de 8 à 12 cm, vite plan, brun brillant et soyeux, à fines fibrilles rayonnantes plus foncées au centre. Pied cylindrique strié (7-10 cm), souvent inséré latéralement sur des troncs couchés puis se redressant, habillé de petites mèches brunes vers la base. Lames libres, blanches puis nettement rose sale. Chair blanche, à odeur nette de radis.", risk: "inedible" },
+    pluteus_atromarginatus: { genus: "Plutée à arêtes noires (Pluteus atromarginatus)", note: "Proche du plutée couleur de cerf mais bien plus foncé, venant surtout sur conifères en montagne. Chapeau squameux ; arête des lames colorée de brun-noir.", risk: "unknown" },
+    pluteus_patricien: { genus: "Plutée patricien (Pluteus petasatus)", note: "Une des plus grandes espèces du genre, atteignant parfois 20 cm. Chapeau blanc, à centre ocré et crevassé, légèrement odorant. Croît sur la sciure ou les souches mortes.", risk: "unknown" },
+    pluteus_salicinus: { genus: "Plutée du saule (Pluteus salicinus)", note: "Taille moyenne, chapeau gris verdâtre large d'environ 8 cm, pied blanc. Vient sur souches de feuillus, en particulier de saules.", risk: "unknown" },
+    pluteus_cendre: { genus: "Plutée cendré (Pluteus thomsonii)", note: "Petite espèce à chapeau de teinte cendrée, large de 3 à 4 cm, marqué de veines saillantes en réseau. Sur souches.", risk: "unknown" },
+    pluteus_blanc: { genus: "Plutée blanc (Pluteus pellitus)", note: "De même taille que le plutée cendré mais entièrement blanc. Croît sur débris de bois de résineux.", risk: "unknown" },
+    pluteus_rouge: { genus: "Plutée rouge (Pluteus aurantiorugosus)", note: "Espèce rare au chapeau rouge vif devenant orangé, le pied se teintant aussi d'orangé à la base. Sur souches de feuillus.", risk: "unknown" },
+    clitopile: { genus: "Clitopile (Clitopilus)", note: "Espèce charnue terrestre, lames décurrentes, teinte rosée." },
+    schizophylle: { genus: "Schizophylle (Schizophyllum)", note: "Petite espèce coriace sur bois, lames fendues sur leur longueur." },
+    lepiste: { genus: "Lépiste (Lepista)", note: "Chapeau et pied charnus, lames très échancrées et facilement détachables." },
+    entolome: { genus: "Entolome (Entoloma)", note: "Pied grêle et cartilagineux, lames rosissant à maturité ; genre à hauts risques, certaines espèces sont mortelles." },
+    rhodocybe: { genus: "Rhodocybe (Rhodocybe)", note: "Proche des clitocybes mais à teinte rosée." },
+    coprin: { genus: "Coprin (Coprinus et genres voisins)", note: "Chapeau qui a tendance à noircir et à se liquéfier avec l'âge." },
+    strophaire: { genus: "Strophaire (Stropharia)", note: "Chapeau nettement visqueux, anneau souvent présent, lames brun violacé à noirâtres." },
+    hypholome: { genus: "Hypholome (Hypholoma)", note: "Pousse en touffes denses sur bois, couleurs vives." },
+    psathyrelle: { genus: "Psathyrelle (Psathyrella)", note: "Espèce fragile poussant à terre sur débris végétaux, lames grisâtres à noircissantes." },
+
+    /* ---------- espèces de Psathyrelles / Lacrymaires ---------- */
+    lacrymaire_veloutee: { genus: "Lacrymaire veloutée (Lacrymaria lacrymabunda)", note: "Cortine nette en filaments sur le pied, noircissant avec la chute des spores. Chapeau de 6 à 10 cm, densément couvert de fibrilles blanches à l'état jeune, se dénudant en brun ocré avec l'âge. Lames se maturant de façon irrégulière par plages, brun violacé lisérées de blanc, exsudant parfois de petites gouttelettes par temps humide. Fréquente dans l'herbe des talus, bords de chemins ou lieux découverts.", risk: "inedible" },
+    lacrymaire_rouge: { genus: "Lacrymaire rouge (Lacrymaria pyrotricha)", note: "Comme la précédente (cortine nette et noircissante sur le pied, lames se maturant par plages irrégulières) mais plus petite, chapeau de 5 à 8 cm d'une teinte orangée vive rappelant le feu, pied haut d'environ 8 cm. Plus rare, en milieu forestier.", risk: "unknown" },
+    psathyrelle_de_candolle: { genus: "Psathyrelle de De Candolle (Psathyrella candolleana)", note: "Très fréquente sur souches pourries ou bois enfoui, en touffes ou petits groupes, presque toute l'année. Chapeau jusqu'à 6 cm, légèrement ocre jeune puis blanc crème, marge portant des restes floconneux de voile qui se fissurent facilement. Lames serrées, gris rosé puis brun rougeâtre. Chair mince et fragile.", risk: "inedible" },
+    psathyrelle_chataine: { genus: "Psathyrelle châtain (Psathyrella spadicea)", note: "Forme aussi de grosses touffes sur souches et troncs, mais chapeau plus charnu (5 à 10 cm), brun rougeâtre pâlissant par le sec, à marge nue, enroulée au début, sans aucun voile. Plus rare que la précédente.", risk: "unknown" },
+    psathyrelle_hydrophile: { genus: "Psathyrelle hydrophile (Psathyrella piluliformis)", note: "Forme sur les souches des touffes parfois énormes où les chapeaux se recouvrent, presque toute l'année, très commune. Chapeau de 2 à 6 cm, hygrophane et très variable : brun luisant par temps humide, devenant brun terne et pâle en séchant ; voile blanc très fugace, sauf à la marge où persistent quelques restes en franges. Pied blanc, creux et cassant. Lames échancrées, serrées, blanches puis roses, enfin brun chocolat ; chair mince et fragile, odeur et saveur nulles.", risk: "inedible" },
+    psathyrelle_cespiteuse: { genus: "Psathyrelle cespiteuse (Psathyrella multipedata)", note: "Ressemble un peu à la précédente mais forme des touffes très denses à même le sol plutôt que sur souche, dans les lieux herbeux et les sous-bois, et n'a presque pas de voile.", risk: "unknown" },
+    "panéole": { genus: "Panéole (Panaeolus)", note: "Pousse sur fumier ou crottin, marge du chapeau crénelée et débordante." },
+    psilocybe: { genus: "Psilocybe (Psilocybe)", note: "Marge du chapeau droite ; genre réglementé, à identifier avec beaucoup de prudence." },
+    galerine: { genus: "Galérine (Galerina)", note: "Petite espèce discrète à hauts risques : certaines contiennent les mêmes toxines que les amanites mortelles." },
+    bolbitie: { genus: "Bolbitie (Bolbitius)", note: "Chapeau visqueux et jaune, espèce fragile et éphémère." },
+    conocybe: { genus: "Conocybe (Conocybe)", note: "Chapeau conique non visqueux ; genre à hauts risques toxiques." },
+    pholiote: { genus: "Pholiote (Pholiota)", note: "Chapeau écailleux, pousse en touffes sur bois." },
+    gymnopile: { genus: "Gymnopile (Gymnopilus)", note: "Chapeau fibrilleux souvent coloré, pousse sur bois." },
+    kuehneromyces: { genus: "Kuehneromyces", note: "Chapeau lisse très hygrophane (il change nettement de couleur en séchant), pousse en touffes sur bois." },
+    pholiote_ridee: { genus: "Pholiote ridée", note: "Chapeau semblant poudré de blanc, pousse à même le sol." },
+    agrocybe: { genus: "Agrocybe (Agrocybe)", note: "Chapeau lisse et brun, terrestre ou parfois sur bois enterré." },
+    cortinaire: { genus: "Cortinaire (Cortinarius)", note: "Genre immense reconnu par sa cortine et ses lames couleur rouille ; certaines espèces sont mortelles à retardement. Prudence maximale." },
+    inocybe: { genus: "Inocybe (Inocybe)", note: "Chapeau sec fibrilleux à squameux, souvent conique ; genre à hauts risques toxiques." },
+    hebelome: { genus: "Hébélome (Hebeloma)", note: "Chapeau plus ou moins visqueux et convexe, souvent une odeur de radis." },
+    crepidote: { genus: "Crépidote (Crepidotus)", note: "Très petite espèce sans pied ou presque, pousse à même le bois." },
+    paxille: { genus: "Paxille (Paxillus)", note: "Lames nettement décurrentes, se détachant en bloc ; la paxille enroulée est connue pour une toxicité retardée après consommations répétées." },
+
+    /* ---------- espèces d'Amanites ---------- */
+    amanite_ceciliae: { genus: "Amanite dorée (Amanita ceciliae)", note: "Volve friable laissant d'épaisses plaques grisâtres sur le pied et le chapeau, marge cannelée, pas d'anneau.", risk: "caution" },
+    amanite_fulva: { genus: "Amanite vaginée fauve (Amanita fulva)", note: "Volve engainante persistante, chapeau orangé, pied blanc non zébré, pas d'anneau.", risk: "caution" },
+    amanite_crocea: { genus: "Amanite safran (Amanita crocea)", note: "Comme la précédente mais pied nettement zébré d'orange.", risk: "caution" },
+    amanite_vaginata: { genus: "Amanite vaginée grise (Amanita vaginata)", note: "Volve engainante persistante, chapeau gris, pas d'anneau.", risk: "caution" },
+    amanite_battarrae: { genus: "Amanite brun-jaune (Amanita battarrae)", note: "Chapeau brun, pied zébré de brun, volve engainante, pas d'anneau.", risk: "caution" },
+    amanite_lividopallescens: { genus: "Amanite pâle (Amanita lividopallescens)", note: "Chapeau jaunâtre, pied zébré de jaune, volve engainante, pas d'anneau.", risk: "caution" },
+    amanite_caesarea: { genus: "Oronge (Amanita caesarea)", note: "Chapeau, lames, pied et anneau uniformément jaune orangé, volve blanche bien visible. Confusion possible au stade œuf avec la tue-mouches ou la panthère : coupe toujours le champignon en deux dans le sens de la hauteur avant de conclure.", risk: "edible" },
+    amanite_phalloides: { genus: "Amanite phalloïde (Amanita phalloides)", note: "Chapeau finement rayé de fibrilles sombres sur fond verdâtre, anneau ample et retombant, volve membraneuse à la base. Responsable de la grande majorité des intoxications mortelles en Europe.", risk: "deadly" },
+    amanite_ovoidea: { genus: "Amanite ovoïde (Amanita ovoidea)", note: "Grosse espèce blanche, chapeau ovoïde, pied pelucheux, volve blanche épaisse.", risk: "caution" },
+    amanite_proxima: { genus: "Amanite à volve rousse (Amanita proxima)", note: "Comme la précédente mais volve teintée de roux.", risk: "caution" },
+    amanite_verna: { genus: "Amanite printanière (Amanita verna)", note: "Tout en blanc, chapeau plat, pied peu pelucheux, anneau ample, volve membraneuse.", risk: "deadly" },
+    amanite_virosa: { genus: "Amanite vireuse (Amanita virosa)", note: "Tout en blanc, chapeau plutôt conique, pied pelucheux, anneau ample, volve membraneuse.", risk: "deadly" },
+    amanite_eliae: { genus: "Amanite d'Élias (Amanita eliae)", note: "Pied sans bulbe net, volve très fugace qui disparaît rapidement.", risk: "unknown" },
+    amanite_citrina: { genus: "Amanite citrine (Amanita citrina)", note: "Chapeau citrin ou blanc à bord lisse, bulbe marginé, odeur de radis, anneau persistant.", risk: "caution" },
+    amanite_porphyrea: { genus: "Amanite porphyre (Amanita porphyrea)", note: "Chapeau brun pourpré à bord strié, bulbe marginé, odeur de radis, anneau fugace violacé.", risk: "unknown" },
+
+    amanite_muscaria: {
+      genus: "Amanite tue-mouches",
+      latin: "Amanita muscaria (L.) Lamarck — Fausse oronge",
+      chapeau: "10 à 20 cm, étalé, d'un beau rouge vif, tout orné de verrues blanches qu'il peut perdre par temps humide (il devient alors plus orangé) ; marge se striant avec l'âge.",
+      pied: "Jusqu'à 25 cm, blanc, devenant creux et cassant, pelucheux, avec un large anneau blanc retombant ; base terminée en bulbe arrondi, cerclé de guirlandes floconneuses incomplètes et friables : ce sont les restes de la volve.",
+      lames: "Serrées, libres, assez larges, pouvant se teinter de jaune en vieillissant.",
+      chair: "Blanche, orangée sous le revêtement du chapeau, saveur douce, sans odeur particulière.",
+      habitat: "Sous feuillus comme sous résineux, sur sol acide et humide, en particulier au pied des bouleaux ; parfois aussi en pelouses arborées. Bien plus fréquente au nord, plus rare dans le Midi.",
+      confusions: "Peut se confondre, dans ses formes délavées par la pluie, avec l'oronge (Amanita caesarea) : celle-ci se reconnaît à ses lames et son pied jaune d'or et à sa volve membraneuse en forme de sac, alors que la volve de la tue-mouches est friable et se réduit à des flocons.",
+      risk: "toxic",
+    },
+
+    amanite_pantherina: { genus: "Amanite panthère (Amanita pantherina)", note: "Chapeau brun à verrues blanches, 2 à 3 bourrelets nets au-dessus du bulbe. Toxique, pouvant être grave.", risk: "toxic" },
+    amanite_junquillea: { genus: "Amanite jonquille (Amanita junquillea)", note: "Chapeau jaune à bord strié, bulbe à bourrelets, anneau fugace blanc.", risk: "caution" },
+    amanite_solitaria: { genus: "Amanite solitaire (Amanita solitaria)", note: "Grosse espèce blanche, larges écailles aplaties, anneau plutôt farineux.", risk: "unknown" },
+    amanite_echinocephala: { genus: "Amanite épineuse (Amanita echinocephala)", note: "Grosse espèce blanche, petites écailles pointues, anneau fugace.", risk: "unknown" },
+    amanite_rubescens: { genus: "Golmotte (Amanita rubescens)", note: "Bulbe simple en oignon, chair qui devient vineuse/rougeâtre à la moindre blessure. Toxique crue, ne se consomme que bien cuite.", risk: "caution" },
+    amanite_franchetii: { genus: "Amanite à voile jaune (Amanita franchetii)", note: "Bulbe en oignon, chair qui brunit (brun madère) à la piqûre, écailles jaunes sur le chapeau.", risk: "caution" },
+    amanite_excelsa_spissa: { genus: "Amanite épaisse (Amanita excelsa var. spissa)", note: "Bulbe en oignon, chair qui reste blanche, chapeau gris bistre, allure trapue, odeur de radis.", risk: "caution" },
+    amanite_excelsa_excelsa: { genus: "Amanite élevée (Amanita excelsa var. excelsa)", note: "Comme la précédente mais chapeau bistré pâle, allure élancée, odeur faible.", risk: "caution" },
+
+    /* ---------- espèces de Lépiotes ---------- */
+    leucoagaricus_flos_sulfuris: { genus: "Lépiote jaune (Leucoagaricus flos-sulfuris)", note: "Toute petite espèce jaune vif, typique des pots de fleurs et des serres.", risk: "unknown" },
+    echinoderma_asperum: { genus: "Lépiote hérissée (Echinoderma asperum)", note: "Espèce moyenne (~12 cm), écailles pyramidales brun foncé qui se détachent facilement, anneau bien retombant.", risk: "toxic" },
+    echinoderma_echinaceum: { genus: "Lépiote épineuse (Echinoderma echinaceum)", note: "Petite espèce (~6 cm), pied comme guêtré, écailles pyramidales brun foncé.", risk: "toxic" },
+    macrolepiota_procera: { genus: "Coulemelle (Macrolepiota procera)", note: "Grande espèce (20-30 cm), pied chiné, chapeau mamelonné couvert de mèches. Bien reconnaître impérativement les critères ci-dessus avant toute cueillette, en raison des confusions possibles avec de petites lépiotes toxiques.", risk: "edible" },
+    macrolepiota_mastoidea: { genus: "Lépiote mamelonnée (Macrolepiota mastoidea)", note: "Espèce plus grêle (8-15 cm), pied non chiné, écailles brunes bien délimitées sur le chapeau.", risk: "edible" },
+    macrolepiota_excoriata: { genus: "Lépiote excoriée (Macrolepiota excoriata)", note: "Comme la précédente mais écailles pâles, visibles surtout au bord d'un chapeau presque lisse.", risk: "edible" },
+    chlorophyllum: { genus: "Lépiote déguenillée (Chlorophyllum rhacodes / C. brunneum)", note: "Grande espèce à mèches, pied non chiné, chair rougissant nettement à la cassure. Les deux espèces se ressemblant beaucoup et C. brunneum étant une cause fréquente de troubles digestifs, la plus grande prudence est recommandée.", risk: "caution" },
+    leucoagaricus_leucothites: { genus: "Lépiote pudique (Leucoagaricus leucothites)", note: "Espèce blanche des pelouses, lames blanches devenant roses en vieillissant, rappelant un agaric des champs. Cause fréquente de confusions, prudence recommandée.", risk: "caution" },
+    leucoagaricus_barsii: { genus: "Lépiote à racine (Leucoagaricus barsii)", note: "Espèce grise, chapeau méchuleux-cotonneux, pied nettement radicant.", risk: "unknown" },
+    lepiota_laevigata: { genus: "Lépiote lisse (Lepiota laevigata)", note: "Toute petite espèce (1-5 cm), pied couvert de guirlandes cotonneuses, chapeau pâle ocre/crème presque lisse, souvent dans l'herbe. Comme toutes les petites lépiotes, à laisser sur place.", risk: "toxic" },
+    lepiota_clypeolaria: { genus: "Lépiote en bouclier (Lepiota clypeolaria)", note: "Comme la précédente mais plus colorée, écailles concentriques bien nettes, plutôt en forêt. Comme toutes les petites lépiotes, à laisser sur place.", risk: "toxic" },
+    lepiota_felina: { genus: "Lépiote féline (Lepiota felina)", note: "Toute petite espèce à anneau net parfois suspendu au bord du chapeau, écailles brun foncé à noirâtres. Contient les mêmes toxines que les amanites mortelles.", risk: "deadly" },
+    lepiota_cristata: { genus: "Lépiote à crête (Lepiota cristata)", note: "Comme la précédente mais écailles ocre à roussâtres. Petite lépiote à hauts risques.", risk: "deadly" },
+
+    /* ---------- espèces de Cystodermes (et voisin) ---------- */
+    cystoderme_amianthinum: { genus: "Cystoderme amiantacé (Cystoderma amianthinum)", note: "Pousse en troupes l'été et l'automne dans la mousse, en bois ou en lande humide et acide. Chapeau ocre-rouille de 3-6 cm, en cloche puis aplati avec un mamelon, surface granuleuse devenant floconneuse vers la marge, lames crème puis jaunâtre pâle, chair mince à forte odeur de moisi.", risk: "unknown" },
+    cystoderme_carcharias: { genus: "Cystoderme requin (Cystoderma carcharias)", note: "Chapeau de 3-5 cm, lilas clair à rosé, pied granulé comme le chapeau, avec un feston de peluches séparables rappelant des dents de requin. Assez rare.", risk: "unknown" },
+    cystoderme_cinnabarinum: { genus: "Cystoderme cinabre (Cystoderma cinnabarinum)", note: "Espèce rare des bois humides et résineux, assez charnue (jusqu'à 8 cm), d'un rouge vermillon vif, chapeau et pied restant granuleux, anneau fugace.", risk: "unknown" },
+    phaeolepiota_aurea: { genus: "Pholiote dorée (Phaeolepiota aurea)", note: "Espèce montagnarde rare mais bon comestible, atteignant 15 à 20 cm, tout fauve doré ; ressemble à un gros cystoderme mais porte un anneau ample et persistant, lames ocre puis rouillées. Ne pas confondre avec les cystodermes eux-mêmes, sans intérêt culinaire.", risk: "edible" },
+
+    /* ---------- espèces d'Agarics ---------- */
+    agaric_campestris: { genus: "Agaric champêtre (Agaricus campestris)", note: "Chair ne rougissant ni ne jaunissant, pied aminci à la base, anneau ténu vite disparu, pousse dans l'herbe. Le classique \u00ab rosé des prés \u00bb.", risk: "edible" },
+    agaric_bitorquis: { genus: "Agaric des trottoirs (Agaricus bitorquis)", note: "Chair très ferme rougissant à la coupe, anneau qui paraît double (façon poulie), pousse souvent en terrain piétiné.", risk: "edible" },
+    agaric_bernardii: { genus: "Agaric des prés salés (Agaricus bernardii)", note: "Chair rougissante, anneau remontant sur le pied comme une chaussette, odeur désagréable.", risk: "edible" },
+    agaric_silvaticus: { genus: "Agaric sylvatique (Agaricus silvaticus)", note: "Chair rougissant très nettement et rapidement, odeur agréable, anneau simple retombant.", risk: "edible" },
+    agaric_impudicus: { genus: "Agaric impudique (Agaricus impudicus)", note: "Rougissement faible et lent, précédé d'un léger jaunissement, anneau simple retombant. Moins connu, prudence recommandée.", risk: "caution" },
+    agaric_moelleri: { genus: "Agaric pintade (Agaricus moelleri)", note: "Chapeau couvert d'abondantes mèches gris cendré, jaunit à la cassure. Toxique, provoque des troubles digestifs.", risk: "toxic" },
+    agaric_augustus: { genus: "Agaric auguste (Agaricus augustus)", note: "Grande espèce au chapeau couvert de mèches brun-fauve, jaunissement lent et localisé, odeur agréable souvent anisée.", risk: "edible" },
+    agaric_silvicola: { genus: "Agaric sylvicole (Agaricus silvicola)", note: "Espèce moyenne et forestière, chapeau lisse un peu jaunâtre, jaunissement lent et localisé, anneau double denté, odeur anisée.", risk: "edible" },
+    agaric_arvensis: { genus: "Agaric des jachères (Agaricus arvensis)", note: "Comme le précédent mais souvent plus gros, poussant plutôt dans les lieux herbeux.", risk: "edible" },
+    agaric_xanthodermus: { genus: "Agaric jaunissant (Agaricus xanthodermus)", note: "Jaunissement intense et rapide à la base du pied et à la cassure, odeur souvent désagréable (phénol/encre), chapeau d'abord trapézoïdal puis étalé, pied à bulbe irrégulier. Cause fréquente de troubles digestifs.", risk: "toxic" },
+  },
+};
+
+/* ============================================================
+   Moteur de l'application (multi-pistes) — INCHANGÉ
+   ============================================================ */
+
+let liveSet = [KEY.start];
+let displayId = KEY.start;
+let historyStack = [];
+let answerTrail = [];   // { q, a } — questions résolues, pour "Pourquoi cette piste ?"
+let skippedTrail = [];  // { q }    — questions non vérifiées, pour "À observer"
+
+const main = document.getElementById("main");
+const footer = document.getElementById("footer");
+const progressFill = document.getElementById("progress-fill");
+const progressPercent = document.getElementById("progress-percent");
+const headerTitle = document.getElementById("header-title");
+
+function isQuestion(id) { return !!KEY.nodes[id]; }
+function isLeaf(id) { return !!KEY.results[id]; }
+function dedupe(arr) { return Array.from(new Set(arr)); }
+
+/* Progression = part des résultats finaux déjà exclus.
+   0 % au départ ; 100 % dès qu'une seule issue reste. */
+let initialResultUniverse = null;
+function getResultUniverse() {
+  if (!initialResultUniverse) {
+    initialResultUniverse = dedupe(collectAllResults(KEY.start, new Set()));
+  }
+  return initialResultUniverse;
+}
+
+function getLiveResultUniverse() {
+  let results = [];
+  liveSet.forEach((id) => {
+    if (isLeaf(id)) results.push(id);
+    else if (isQuestion(id)) results = results.concat(collectAllResults(id, new Set()));
+  });
+  return dedupe(results);
+}
+
+function estimateProgress() {
+  const total = getResultUniverse().length;
+  const remaining = getLiveResultUniverse().length;
+  if (!total) return 0;
+  if (remaining <= 1) return 100;
+  return Math.max(0, Math.min(100, ((total - remaining) / total) * 100));
+}
+
+function pickDisplay(set) {
+  for (const id of set) {
+    if (isQuestion(id)) return id;
+  }
+  return null;
+}
+
+function collectAllResults(nodeId, visited) {
+  visited = visited || new Set();
+  if (visited.has(nodeId)) return [];
+  visited.add(nodeId);
+  const node = KEY.nodes[nodeId];
+  if (!node) return [];
+  let out = [];
+  node.options.forEach((opt) => {
+    if (typeof opt.next === "string") {
+      out = out.concat(collectAllResults(opt.next, visited));
+    } else if (opt.next && opt.next.result) {
+      out.push(opt.next.result);
+    }
+  });
+  return out;
+}
+
+function goToState(newSet, trailEntry, isSkip) {
+  historyStack.push({
+    liveSet: liveSet.slice(),
+    displayId: displayId,
+    answerTrailLen: answerTrail.length,
+    skippedTrailLen: skippedTrail.length,
+  });
+  if (trailEntry) {
+    if (isSkip) skippedTrail.push(trailEntry);
+    else answerTrail.push(trailEntry);
+  }
+  liveSet = dedupe(newSet);
+  const next = pickDisplay(liveSet);
+  if (next) {
+    displayId = next;
+    renderQuestion(displayId);
+  } else {
+    displayId = null;
+    renderFinalResults(liveSet);
+  }
+}
+
+function answerOption(nodeId, opt) {
+  const rest = liveSet.filter((id) => id !== nodeId);
+  if (typeof opt.next === "string") rest.push(opt.next);
+  else rest.push(opt.next.result);
+  goToState(rest, { q: KEY.nodes[nodeId].question, a: opt.label }, false);
+}
+
+function answerUnknown(nodeId) {
+  const node = KEY.nodes[nodeId];
+  const rest = liveSet.filter((id) => id !== nodeId);
+  node.options.forEach((opt) => {
+    if (typeof opt.next === "string") rest.push(opt.next);
+    else rest.push(opt.next.result);
+  });
+  goToState(rest, { q: node.question }, true);
+}
+
+function goBack() {
+  if (historyStack.length === 0) return;
+  const prev = historyStack.pop();
+  liveSet = prev.liveSet;
+  displayId = prev.displayId;
+  answerTrail.length = prev.answerTrailLen;
+  skippedTrail.length = prev.skippedTrailLen;
+  if (displayId) renderQuestion(displayId);
+  else renderFinalResults(liveSet);
+}
+
+function restart() {
+  historyStack = [];
+  answerTrail = [];
+  skippedTrail = [];
+  liveSet = [KEY.start];
+  displayId = KEY.start;
+  renderQuestion(displayId);
+}
+
+function forceShowAllCandidates() {
+  let allLeaves = [];
+  liveSet.forEach((id) => {
+    if (isLeaf(id)) allLeaves.push(id);
+    else if (isQuestion(id)) allLeaves = allLeaves.concat(collectAllResults(id));
+  });
+  renderCandidateList(dedupe(allLeaves), true);
+}
+
+/* ============================================================
+   Carnet d'observations (localStorage) — indépendant du moteur
+   de détermination : ne stocke que ce que l'utilisateur choisit
+   d'enregistrer une fois un résultat obtenu.
+   ============================================================ */
+
+const OBS_STORAGE_KEY = "champiObservations_v1";
+
+function loadObservations() {
+  try {
+    const raw = localStorage.getItem(OBS_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+function saveObservations(list) {
+  try {
+    localStorage.setItem(OBS_STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    /* stockage indisponible : on continue sans persister */
+  }
+}
+function addObservation(entry) {
+  const list = loadObservations();
+  list.unshift(entry);
+  saveObservations(list);
+}
+function deleteObservation(id) {
+  saveObservations(loadObservations().filter((o) => o.id !== id));
+}
+function todayISO() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").classList.remove("open");
+  document.getElementById("modal-box").innerHTML = "";
+}
+
+function openSaveModal(resultId) {
+  const res = KEY.results[resultId];
+  const box = document.getElementById("modal-box");
+  box.innerHTML = "";
+
+  const title = document.createElement("h2");
+  title.className = "modal-title";
+  title.textContent = "Enregistrer l'observation";
+  box.appendChild(title);
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "modal-subtitle";
+  subtitle.textContent = res.genus;
+  box.appendChild(subtitle);
+
+  function field(labelText, type, placeholder, value) {
+    const wrap = document.createElement("div");
+    wrap.className = "modal-field";
+    const label = document.createElement("label");
+    label.textContent = labelText;
+    const input = document.createElement("input");
+    input.type = type;
+    if (placeholder) input.placeholder = placeholder;
+    if (value !== undefined) input.value = value;
+    wrap.appendChild(label);
+    wrap.appendChild(input);
+    box.appendChild(wrap);
+    return input;
+  }
+
+  const dateInput = field("Date", "date", "", todayISO());
+  const lieuInput = field("Lieu", "text", "Ex. forêt de Fontainebleau");
+  const substratInput = field("Substrat", "text", "Ex. sol, souche de hêtre, litière...");
+
+  const btnRow = document.createElement("div");
+  btnRow.className = "modal-btn-row";
+  const cancelBtn = document.createElement("button");
+  cancelBtn.className = "btn btn-secondary";
+  cancelBtn.textContent = "Annuler";
+  cancelBtn.onclick = closeModal;
+  const saveBtn = document.createElement("button");
+  saveBtn.className = "btn btn-primary";
+  saveBtn.textContent = "Enregistrer";
+  saveBtn.onclick = () => {
+    addObservation({
+      id: Date.now(),
+      resultId: resultId,
+      genus: res.genus,
+      risk: res.risk || null,
+      date: dateInput.value || todayISO(),
+      lieu: lieuInput.value.trim(),
+      substrat: substratInput.value.trim(),
+    });
+    closeModal();
+  };
+  btnRow.appendChild(cancelBtn);
+  btnRow.appendChild(saveBtn);
+  box.appendChild(btnRow);
+
+  document.getElementById("modal-overlay").classList.add("open");
+}
+
+/* ============================================================
+   Rendu (UI) — habillage carnet naturaliste
+   ============================================================ */
+
+function renderHome() {
+  headerTitle.textContent = "Clé des champignons à lames";
+  progressFill.style.width = "0%";
+  progressPercent.textContent = "0%";
+  progressFill.setAttribute("aria-label", "Progression : 0% des pistes finales exclues");
+  progressFill.parentElement.setAttribute("aria-valuenow", "0");
+  progressFill.classList.remove("progress-fill-multi");
+  footer.style.display = "none";
+
+  main.innerHTML = "";
+  const intro = document.createElement("div");
+  intro.className = "intro-text";
+  intro.textContent = "Identifie un champignon à lames observé en forêt, question après question.";
+  main.appendChild(intro);
+
+  if (historyStack.length > 0 && displayId) {
+    const resumeBtn = document.createElement("button");
+    resumeBtn.className = "home-cta home-cta-secondary";
+    resumeBtn.textContent = "Reprendre l'identification en cours";
+    resumeBtn.onclick = () => renderQuestion(displayId);
+    main.appendChild(resumeBtn);
+  }
+
+  const startBtn = document.createElement("button");
+  startBtn.className = "home-cta";
+  startBtn.textContent = "Nouvelle identification";
+  startBtn.onclick = restart;
+  main.appendChild(startBtn);
+
+  const obsHead = makeSectionHead("Mes observations", "pin", "sh-id");
+  obsHead.style.marginTop = "26px";
+  main.appendChild(obsHead);
+
+  const list = loadObservations();
+  if (list.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "obs-empty";
+    empty.textContent = "Aucune observation enregistrée pour l'instant. Elles apparaîtront ici après avoir identifié un champignon et choisi de l'enregistrer.";
+    main.appendChild(empty);
+  } else {
+    list.forEach((obs) => {
+      const card = document.createElement("div");
+      card.className = "candidate-card";
+      if (obs.risk && RISK_LABELS[obs.risk]) card.appendChild(makeRiskBadge(obs.risk));
+      const g = document.createElement("p");
+      g.className = "candidate-genus";
+      g.textContent = obs.genus;
+      card.appendChild(g);
+      const bits = [];
+      if (obs.date) bits.push(obs.date);
+      if (obs.lieu) bits.push(obs.lieu);
+      if (obs.substrat) bits.push(obs.substrat);
+      const meta = document.createElement("p");
+      meta.className = "candidate-note";
+      meta.textContent = bits.length > 0 ? bits.join(" · ") : "Aucun détail renseigné";
+      card.appendChild(meta);
+      const delBtn = document.createElement("button");
+      delBtn.className = "obs-delete";
+      delBtn.textContent = "Supprimer";
+      delBtn.onclick = () => {
+        deleteObservation(obs.id);
+        renderHome();
+      };
+      card.appendChild(delBtn);
+      main.appendChild(card);
+    });
+  }
+}
+
+function renderQuestion(nodeId) {
+  const node = KEY.nodes[nodeId];
+  headerTitle.textContent = "Clé des champignons à lames";
+  const progress = estimateProgress();
+  const progressRounded = Math.round(progress);
+  progressFill.style.width = progressRounded + "%";
+  progressPercent.textContent = progressRounded + "%";
+  progressFill.setAttribute("aria-label", "Progression : " + progressRounded + "% des pistes finales exclues");
+  progressFill.parentElement.setAttribute("aria-valuenow", String(Math.round(progress)));
+  progressFill.classList.toggle("progress-fill-multi", getLiveResultUniverse().length > 1);
+  footer.style.display = "flex";
+  main.innerHTML = "";
+  const stepLabel = document.createElement("div");
+  stepLabel.className = "step-label";
+  stepLabel.textContent = "Question " + (historyStack.length + 1);
+  main.appendChild(stepLabel);
+
+  const q = document.createElement("div");
+  q.className = "question";
+  q.textContent = node.question;
+  main.appendChild(q);
+
+  if (node.hint) {
+    const hint = document.createElement("div");
+    hint.className = "hint" + (node.hint.indexOf("risque") !== -1 || node.hint.indexOf("Prudence") !== -1 ? " hint-warning" : "");
+    hint.textContent = node.hint;
+    main.appendChild(hint);
+  }
+
+  const opts = document.createElement("div");
+  opts.className = "options";
+  node.options.forEach((opt) => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = opt.label;
+    btn.onclick = () => answerOption(nodeId, opt);
+    opts.appendChild(btn);
+  });
+  main.appendChild(opts);
+
+  if (node.allowUnknown) {
+    const unknownBtn = document.createElement("button");
+    unknownBtn.className = "option-btn-unknown";
+    unknownBtn.textContent = "Je ne sais pas / je n'ai pas pu vérifier";
+    unknownBtn.onclick = () => answerUnknown(nodeId);
+    main.appendChild(unknownBtn);
+  }
+
+  const noMatch = document.createElement("button");
+  noMatch.className = "no-match-link";
+  noMatch.textContent = "Aucune de ces réponses ne correspond ? Continuer avec d'autres questions";
+  noMatch.onclick = () => answerUnknown(nodeId);
+  main.appendChild(noMatch);
+
+  const stop = document.createElement("button");
+  stop.className = "stop-link";
+  stop.textContent = "Ou arrêter les questions et voir toutes les pistes encore possibles";
+  stop.onclick = () => forceShowAllCandidates();
+  main.appendChild(stop);
+
+  footer.innerHTML = "";
+  if (historyStack.length > 0) {
+    const backBtn = document.createElement("button");
+    backBtn.className = "btn btn-secondary";
+    backBtn.textContent = "\u2190 Précédent";
+    backBtn.onclick = goBack;
+    footer.appendChild(backBtn);
+  }
+  const restartBtn = document.createElement("button");
+  restartBtn.className = "btn btn-restart";
+  restartBtn.textContent = "Recommencer";
+  restartBtn.onclick = restart;
+  footer.appendChild(restartBtn);
+}
+
+function renderFinalResults(ids) {
+  if (ids.length === 1) {
+    renderResult(ids[0]);
+  } else {
+    renderCandidateList(ids, false);
+  }
+}
+
+function renderCandidateList(ids, isForced) {
+  const sorted = Array.from(new Set(ids)).sort((a, b) => riskRank(KEY.results[a]) - riskRank(KEY.results[b]));
+
+  headerTitle.textContent = "Plusieurs pistes possibles";
+  progressFill.style.width = "100%";
+  progressPercent.textContent = "100%";
+  progressFill.setAttribute("aria-label", "Progression : 100% des pistes finales exclues");
+  progressFill.parentElement.setAttribute("aria-valuenow", "100");
+  progressFill.classList.remove("progress-fill-multi");
+  footer.style.display = "flex";
+
+  main.innerHTML = "";
+  const intro = document.createElement("div");
+  intro.className = "intro-text";
+  intro.textContent = isForced
+    ? "Tu as choisi d'arrêter les questions. Voici toutes les pistes encore compatibles avec ce qui a déjà été répondu (" + sorted.length + "), des plus risquées aux plus sûres :"
+    : "Aucune question supplémentaire ne permet de trancher davantage avec ce qui est su. Voici les pistes encore compatibles (" + sorted.length + "), des plus risquées aux plus sûres :";
+  main.appendChild(intro);
+
+  sorted.forEach((id) => {
+    const res = KEY.results[id];
+    if (!res) return;
+    const card = document.createElement("div");
+    card.className = "candidate-card";
+    if (res.risk && RISK_LABELS[res.risk]) {
+      card.appendChild(makeRiskBadge(res.risk));
+    }
+    const g = document.createElement("p");
+    g.className = "candidate-genus";
+    g.textContent = res.genus;
+    const n = document.createElement("p");
+    n.className = "candidate-note";
+    n.textContent = res.note || res.chapeau || "";
+    card.appendChild(g);
+    card.appendChild(n);
+
+    const enrich = sorted.length <= 4 && hasSpeciesSheet(res);
+    if (enrich) {
+      const clueText = extractClue(res, sorted);
+      if (clueText) {
+        const clue = document.createElement("div");
+        clue.className = "candidate-clue";
+        const clueIcon = document.createElement("span");
+        clueIcon.className = "badge-icon";
+        clueIcon.innerHTML = ICONS.why;
+        clue.appendChild(clueIcon);
+        clue.appendChild(document.createTextNode(clueText));
+        card.appendChild(clue);
+      }
+      const openHint = document.createElement("p");
+      openHint.className = "candidate-open-hint";
+      openHint.textContent = "Voir la fiche complète \u2192";
+      card.appendChild(openHint);
+      card.classList.add("candidate-card-clickable");
+      card.onclick = () => renderResult(id, () => renderCandidateList(ids, isForced));
+    }
+
+    main.appendChild(card);
+  });
+
+  const doubt = document.createElement("div");
+  doubt.className = "doubt-card";
+  const doubtTitle = document.createElement("strong");
+  doubtTitle.textContent = "Pour trancher entre ces pistes";
+  const doubtText = document.createElement("span");
+  doubtText.textContent = "Essaie d'observer à nouveau le détail qui posait problème, ou réalise une sporée (dépose le chapeau seul sur une feuille mi-blanche mi-noire, 2 à 4 heures) pour comparer la couleur du dépôt.";
+  doubt.appendChild(doubtTitle);
+  doubt.appendChild(doubtText);
+  main.appendChild(doubt);
+
+  const disclaimer = document.createElement("div");
+  disclaimer.className = "disclaimer";
+  disclaimer.textContent = "Ne jamais consommer un champignon sauvage sur la base d'une piste non confirmée. Fais confirmer ton identification par un pharmacien, une association mycologique ou un expert reconnu.";
+  main.appendChild(disclaimer);
+
+  footer.innerHTML = "";
+  const backBtn = document.createElement("button");
+  backBtn.className = "btn btn-secondary";
+  backBtn.textContent = "\u2190 Revenir à la question";
+  backBtn.onclick = () => {
+    if (isForced && displayId) renderQuestion(displayId);
+    else goBack();
+  };
+  footer.appendChild(backBtn);
+
+  const restartBtn = document.createElement("button");
+  restartBtn.className = "btn btn-restart";
+  restartBtn.textContent = "Recommencer";
+  restartBtn.onclick = restart;
+  footer.appendChild(restartBtn);
+}
+
+function renderResult(resultId, backOverride) {
+  const res = KEY.results[resultId];
+  headerTitle.textContent = "Résultat";
+  progressFill.style.width = "100%";
+  progressPercent.textContent = "100%";
+  progressFill.setAttribute("aria-label", "Progression : 100% des pistes finales exclues");
+  progressFill.parentElement.setAttribute("aria-valuenow", "100");
+  progressFill.classList.remove("progress-fill-multi");
+  footer.style.display = "flex";
+
+  main.innerHTML = "";
+
+  /* ---- IDENTIFICATION ---- */
+  const idCard = document.createElement("div");
+  idCard.className = "result-card";
+  idCard.appendChild(makeSectionHead("Identification", "idtag", "sh-id"));
+  if (res.risk && RISK_LABELS[res.risk]) {
+    idCard.appendChild(makeRiskBadge(res.risk));
+  }
+  const genus = document.createElement("p");
+  genus.className = "result-genus";
+  genus.textContent = res.genus;
+  idCard.appendChild(genus);
+  if (res.latin) {
+    const latin = document.createElement("p");
+    latin.className = "result-latin";
+    latin.textContent = res.latin;
+    idCard.appendChild(latin);
+  }
+  main.appendChild(idCard);
+
+  const warning = document.createElement("div");
+  warning.className = "warning-card";
+  warning.textContent = "Piste probable, pas une certitude : ne jamais consommer un champignon sauvage sur la seule base de cette application.";
+  main.appendChild(warning);
+
+  const saveBtn = document.createElement("button");
+  saveBtn.className = "save-obs-btn";
+  const pinIcon = document.createElement("span");
+  pinIcon.className = "badge-icon";
+  pinIcon.innerHTML = ICONS.pin;
+  saveBtn.appendChild(pinIcon);
+  saveBtn.appendChild(document.createTextNode("Enregistrer l'observation"));
+  saveBtn.onclick = () => openSaveModal(resultId);
+  main.appendChild(saveBtn);
+
+  /* ---- POURQUOI CETTE PISTE ? ---- */
+  if (answerTrail.length > 0) {
+    const whySection = document.createElement("div");
+    whySection.className = "sheet-section";
+    whySection.appendChild(makeSectionHead("Pourquoi cette piste ?", "why", "sh-why"));
+    const row = document.createElement("div");
+    row.className = "chip-row";
+    answerTrail.forEach((entry) => row.appendChild(buildChip(entry.q, entry.a, "why")));
+    whySection.appendChild(row);
+    main.appendChild(whySection);
+  }
+
+  /* ---- À OBSERVER ---- */
+  const obsSection = document.createElement("div");
+  obsSection.className = "sheet-section";
+  obsSection.appendChild(makeSectionHead("À observer", "eye", "sh-observe"));
+  if (skippedTrail.length > 0) {
+    const row = document.createElement("div");
+    row.className = "chip-row";
+    skippedTrail.forEach((entry) => row.appendChild(buildObserveChip(entry.q)));
+    obsSection.appendChild(row);
+  }
+  const obsTip = document.createElement("p");
+  obsTip.className = "detail-text";
+  if (skippedTrail.length > 0) obsTip.style.marginTop = "10px";
+  obsTip.textContent = "En cas de doute persistant, une sporée peut trancher : dépose le chapeau seul sur une feuille mi-blanche mi-noire sous un bol, 2 à 4 h, puis compare la couleur du dépôt (blanche à crème, rose, brune/ocre/rouille, ou noire/violacée/brun pourpré).";
+  obsSection.appendChild(obsTip);
+  main.appendChild(obsSection);
+
+  /* ---- DESCRIPTION ---- */
+  const descSection = document.createElement("div");
+  descSection.className = "sheet-section";
+  descSection.appendChild(makeSectionHead("Description", "capicon", "sh-desc"));
+  if (res.chapeau) {
+    const fields = [
+      ["Chapeau", res.chapeau],
+      ["Pied", res.pied],
+      ["Lames", res.lames],
+      ["Chair", res.chair],
+      ["Habitat", res.habitat],
+    ];
+    fields.forEach(([label, text]) => {
+      if (!text) return;
+      const block = document.createElement("div");
+      block.className = "detail-block";
+      const l = document.createElement("span");
+      l.className = "detail-label";
+      l.textContent = label;
+      const t = document.createElement("p");
+      t.className = "detail-text";
+      t.textContent = text;
+      block.appendChild(l);
+      block.appendChild(t);
+      descSection.appendChild(block);
+    });
+  } else {
+    const t = document.createElement("p");
+    t.className = "detail-text";
+    t.textContent = res.note;
+    descSection.appendChild(t);
+  }
+  main.appendChild(descSection);
+
+  /* ---- CONFUSIONS ---- */
+  if (res.confusions) {
+    const confSection = document.createElement("div");
+    confSection.className = "sheet-section";
+    confSection.appendChild(makeSectionHead("Confusions", "confuse", "sh-confuse"));
+    const t = document.createElement("p");
+    t.className = "detail-text";
+    t.textContent = res.confusions;
+    confSection.appendChild(t);
+    main.appendChild(confSection);
+  }
+
+  const disclaimer = document.createElement("div");
+  disclaimer.className = "disclaimer";
+  disclaimer.textContent = "En cas de doute, fais confirmer ton identification par un pharmacien, une association mycologique ou un expert reconnu avant toute consommation.";
+  main.appendChild(disclaimer);
+
+  footer.innerHTML = "";
+  const backBtn = document.createElement("button");
+  backBtn.className = "btn btn-secondary";
+  backBtn.textContent = backOverride ? "\u2190 Retour aux pistes" : "\u2190 Précédent";
+  backBtn.onclick = backOverride || goBack;
+  footer.appendChild(backBtn);
+
+  const restartBtn = document.createElement("button");
+  restartBtn.className = "btn btn-primary";
+  restartBtn.textContent = "Nouvelle recherche";
+  restartBtn.onclick = restart;
+  footer.appendChild(restartBtn);
+}
+
+const homeBtn = document.getElementById("home-btn");
+homeBtn.innerHTML = ICONS.home;
+homeBtn.onclick = renderHome;
+
+document.getElementById("modal-overlay").addEventListener("click", (e) => {
+  if (e.target.id === "modal-overlay") closeModal();
+});
+
+renderHome();
+</script>
+</body>
+</html>
