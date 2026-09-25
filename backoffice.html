@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Champi — Back-office</title>
+<style>
+:root{--paper:#f3eadb;--paper2:#fbf6ed;--ink:#302a22;--muted:#756957;--moss:#5b684d;--moss2:#dce2d0;--rust:#a75532;--line:#d1bea1}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif}
+header{background:#3d4935;color:#fff;padding:18px 22px;position:sticky;top:0;z-index:5}header h1{font:700 28px Georgia,serif;margin:0 0 5px}header p{margin:0;opacity:.8;font-size:13px}
+nav{display:flex;gap:8px;padding:12px 18px;background:var(--paper2);border-bottom:1px solid var(--line);position:sticky;top:77px;z-index:4;flex-wrap:wrap}
+button{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#e1dacd;color:var(--ink)}button.primary{background:var(--moss);color:white}button.rust{background:var(--rust);color:white}.tab.active{background:var(--ink);color:#fff}
+main{max-width:1450px;margin:0 auto;padding:22px}.panel{background:var(--paper2);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+h2,h3{font-family:Georgia,serif;margin:0 0 12px}.muted{color:var(--muted);font-size:13px}
+.tree{overflow:auto}.tree ul{list-style:none;margin:6px 0;padding-left:22px;border-left:1px solid var(--line)}.tree>ul{border:0;padding-left:0}.tree li{margin:7px 0}
+.node{display:inline-flex;align-items:center;gap:7px;background:#eee6d9;border:1px solid var(--line);border-radius:12px;padding:8px 10px;cursor:pointer}.node.q{background:#e1e8d8}.node.r{background:#f1ddd2}.node.selected{outline:3px solid #b9c79e}
+.badge{font-size:11px;padding:3px 7px;border-radius:999px;background:#cfd8c1}.badge.result{background:#efd0c2}.badge.missing{background:#ead5a8}
+label{display:block;font-size:12px;font-weight:700;margin:11px 0 5px}input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--ink);font:inherit}textarea{min-height:100px;resize:vertical}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.row button{flex:0 0 auto}
+.option{display:grid;grid-template-columns:1fr 1fr auto;gap:7px;align-items:center;margin:7px 0}@media(max-width:700px){.option{grid-template-columns:1fr}}
+.notice{padding:11px 13px;background:#eee4d4;border-left:4px solid var(--rust);border-radius:8px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}.stat{background:#eee6d9;border-radius:15px;padding:13px}.stat b{display:block;font:700 25px Georgia,serif}
+.tax ul{list-style:none;padding-left:20px}.tax>ul{padding:0}.tax li{margin:6px 0}.tax button{padding:6px 9px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+</style>
+</head>
+<body>
+<header>
+<h1>Champi — Back-office</h1>
+<p>Construis l'arbre et organise les résultats. Pour publier : exporte <b>data.js</b>, puis remplace ce fichier dans GitHub.</p>
+</header>
+<nav>
+<button class="tab active" data-view="tree">🌿 Arbre</button>
+<button class="tab" data-view="taxonomy">🧬 Taxonomie</button>
+<button class="tab" data-view="export">⇩ Publier</button>
+</nav>
+<main id="app"></main>
+<script src="data.js"></script>
+<script>
+const D=window.CHAMPI_DATA; let selectedNode=D.start, view="tree";
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const isQ=id=>!!D.nodes[id], isR=id=>!!D.results[id];
+const qid=()=>`q_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,6)}`;
+const rid=()=>`espece_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,6)}`;
+
+function render(){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.view===view));const a=document.getElementById("app");if(view==="tree")treeView(a);else if(view==="taxonomy")taxView(a);else exportView(a)}
+function selectNode(id){selectedNode=id;view="tree";render()}
+function treeView(a){
+ const qs=Object.keys(D.nodes).length,rs=Object.keys(D.results).length;
+ a.innerHTML=`<div class="stats"><div class="stat"><span class="muted">Questions</span><b>${qs}</b></div><div class="stat"><span class="muted">Résultats</span><b>${rs}</b></div><div class="stat"><span class="muted">Racine</span><b>${esc(D.start)}</b></div><div class="stat"><span class="muted">Sélection</span><b>${esc(selectedNode)}</b></div></div><div class="grid" style="margin-top:18px"><section class="panel"><h2>Arbre de décision</h2><p class="muted">Clique une question pour modifier ses choix ou créer une nouvelle ramification.</p><div class="tree">${treeHTML(D.start,new Set())}</div></section><section class="panel"><h2>Édition</h2>${isQ(selectedNode)?questionEditor(selectedNode):isR(selectedNode)?resultEditor(selectedNode):"<p>Sélectionne un élément.</p>"}</section></div>`
+}
+function treeHTML(id,seen){if(seen.has(id))return `<span class="badge missing">boucle</span>`;seen.add(id);
+ if(isR(id)){const r=D.results[id];return `<li><span class="node r ${selectedNode===id?"selected":""}" onclick="selectNode('${esc(id)}')">🍄 ${esc(r.genus||id)} <span class="badge result">fiche</span></span></li>`}
+ if(!isQ(id))return `<li><span class="badge missing">cible absente : ${esc(id)}</span></li>`;
+ const n=D.nodes[id];return `<li><span class="node q ${selectedNode===id?"selected":""}" onclick="selectNode('${esc(id)}')">❓ ${esc(n.question||id)}</span><ul>${n.options.map((o,i)=>{const t=typeof o.next==="string"?o.next:(o.next?.result||"");return `<li><span class="muted">${i+1}. ${esc(o.label)}</span> → ${treeHTML(t,new Set(seen))}</li>`}).join("")}</ul></li>`
+}
+function targetOptions(current){let x=`<option value="">-- cible --</option>`;for(const[id,n]of Object.entries(D.nodes))x+=`<option value="q:${esc(id)}" ${current===id?"selected":""}>Question · ${esc((n.question||id).slice(0,65))}</option>`;for(const[id,r]of Object.entries(D.results))x+=`<option value="r:${esc(id)}" ${current===id?"selected":""}>Fiche · ${esc(r.genus||id)}</option>`;return x}
+function optionEditor(o,i){const t=typeof o.next==="string"?o.next:(o.next?.result||"");return `<div class="option"><input data-label="${i}" value="${esc(o.label)}"><select data-target="${i}">${targetOptions(t)}</select><button onclick="removeOption(${i})">Supprimer</button></div>`}
+function questionEditor(id){const n=D.nodes[id];return `<label>Question</label><textarea id="qtext">${esc(n.question)}</textarea><label>Indice / aide</label><textarea id="qhint">${esc(n.hint||"")}</textarea><label><input type="checkbox" id="qunknown" ${n.allowUnknown?"checked":""}> Autoriser « je ne sais pas »</label><hr><h3>Choix</h3><div id="options">${n.options.map(optionEditor).join("")}</div><div class="row"><button onclick="addOption()">+ Choix</button><button class="primary" onclick="saveQuestion('${esc(id)}')">Enregistrer</button><button onclick="newQuestion('${esc(id)}')">+ Question suivante</button><button class="rust" onclick="newSpecies('${esc(id)}')">+ Fiche espèce</button></div>`}
+function resultEditor(id){const r=D.results[id];return `<label>Nom affiché</label><input id="rgenus" value="${esc(r.genus||"")}"><label>Famille</label><input id="rfamily" value="${esc(r.family||"")}" placeholder="ex. Amanitaceae"><label>Genre taxonomique</label><input id="rtax" value="${esc(r.genusTax||"")}" placeholder="ex. Amanita"><label>Note / caractères distinctifs</label><textarea id="rnote">${esc(r.note||"")}</textarea><label>Risque</label><select id="rrisk"><option value="">non renseigné</option>${["deadly","toxic","caution","inedible","unknown","edible"].map(x=>`<option value="${x}" ${r.risk===x?"selected":""}>${x}</option>`).join("")}</select><button class="primary" style="margin-top:12px" onclick="saveResult('${esc(id)}')">Enregistrer</button>`}
+function addOption(){D.nodes[selectedNode].options.push({label:"Nouveau choix",next:""});render()}
+function removeOption(i){D.nodes[selectedNode].options.splice(i,1);render()}
+function saveQuestion(id){const n=D.nodes[id];n.question=document.getElementById("qtext").value.trim();n.hint=document.getElementById("qhint").value.trim();n.allowUnknown=document.getElementById("qunknown").checked;n.options=[...document.querySelectorAll("#options .option")].map(row=>{const label=row.querySelector("input").value.trim(),raw=row.querySelector("select").value;return{label,next:raw.startsWith("q:")?raw.slice(2):raw.startsWith("r:")?{result:raw.slice(2)}:""}});render()}
+function saveResult(id){const r=D.results[id];r.genus=document.getElementById("rgenus").value.trim();r.family=document.getElementById("rfamily").value.trim();r.genusTax=document.getElementById("rtax").value.trim();r.note=document.getElementById("rnote").value.trim();const risk=document.getElementById("rrisk").value;if(risk)r.risk=risk;else delete r.risk;render()}
+function newQuestion(parent){const id=qid();D.nodes[id]={question:"Nouvelle question",options:[{label:"Oui",next:""},{label:"Non",next:""}]};D.nodes[parent].options.push({label:"Nouvelle branche",next:id});selectedNode=id;render()}
+function newSpecies(parent){const id=rid();D.results[id]={genus:"Nouvelle espèce / résultat",note:""};D.nodes[parent].options.push({label:"Nouvelle espèce",next:{result:id}});selectedNode=id;render()}
+function taxView(a){const g={};for(const[id,r]of Object.entries(D.results)){const f=r.family||"À classer";const ge=r.genusTax||"Genre non renseigné";(g[f]??={})[ge]??=[];g[f][ge].push([id,r])}a.innerHTML=`<section class="panel"><h2>Vue taxonomique</h2><p class="muted">Famille → genre → résultats. Cette vue est indépendante du chemin de détermination.</p><div class="tax">${Object.entries(g).sort().map(([f,gs])=>`<h3>🌿 ${esc(f)}</h3><ul>${Object.entries(gs).sort().map(([ge,arr])=>`<li><b>${esc(ge)}</b><ul>${arr.map(([id,r])=>`<li><button onclick="selectNode('${esc(id)}')">🍄 ${esc(r.genus||id)}</button></li>`).join("")}</ul></li>`).join("")}</ul>`).join("")}</div></section>`}
+function serialize(){return "/* Champi — export du back-office */\nwindow.CHAMPI_DATA = "+JSON.stringify(D,null,2)+";\n"}
+function exportView(a){a.innerHTML=`<section class="panel"><h2>Publier</h2><div class="notice"><b>Étape indispensable :</b> télécharge <code>data.js</code>, puis remplace l'ancien fichier dans ton dépôt GitHub.</div><p>Après publication, <code>index.html</code> utilisera automatiquement les nouvelles ramifications et fiches.</p><button class="primary" onclick="download()">⇩ Télécharger data.js</button><hr><p>${Object.keys(D.nodes).length} questions · ${Object.keys(D.results).length} résultats · racine <b>${esc(D.start)}</b></p></section>`}
+function download(){const b=new Blob([serialize()],{type:"text/javascript"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="data.js";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{view=b.dataset.view;render()});render();
+</script>
+</body>
+</html>
