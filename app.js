@@ -136,66 +136,14 @@ function buildObserveChip(question) {
    Aucune fiche générique de genre ne porte ce champ : elles ne
    reçoivent donc jamais d'indice supplémentaire. */
 function hasSpeciesSheet(res) {
-  return res && res.risk !== undefined;
+  return !!(res && res.confusions && Array.isArray(res.confusions));
 }
 function extractClue(res, candidates) {
-  const source = res.note || res.chapeau || res.confusions || "";
-  if (!source) return "";
-  const sentences = source.split(/(?<=[.!?;])\s+/).map((s) => s.trim()).filter(Boolean);
-  const distinctive = [
-    [/écaill|verrue|mèch|flocon|fibrille|squam/i, 12],
-    [/anneau|cortine|volve/i, 11],
-    [/bulbe|bourrelet|guêtr|radicant/i, 10],
-    [/lame|lamelle|arête/i, 9],
-    [/chair|roug|jaun|brun.*à la cassure/i, 8],
-    [/odeur|phénol|anis|radis/i, 8],
-    [/habitat|feuillu|résineux|pelouse|herbe|bois|souche/i, 7],
-    [/mamelon|strié|visqueux|gluant|velout/i, 6],
-  ];
-  const candidateText = (candidates || []).map((id) => {
-    const r = KEY.results[id] || {};
-    return [r.note, r.chapeau, r.pied, r.lames, r.chair, r.habitat, r.confusions].filter(Boolean).join(" ").toLowerCase();
-  });
-  function score(sentence) {
-    const lower = sentence.toLowerCase();
-    let score = 0;
-    distinctive.forEach(([re, points]) => { if (re.test(lower)) score += points; });
-    distinctive.forEach(([re]) => {
-      if (!re.test(lower)) return;
-      const frequency = candidateText.filter((text) => re.test(text)).length;
-      if (candidateText.length > 1 && frequency <= Math.ceil(candidateText.length / 2)) score += 6;
-    });
-    if (/^grosse? espèce|^grande espèce|^espèce moyenne|^petite espèce/i.test(lower)) score -= 7;
-    return score;
-  }
-  let best = sentences.sort((a, b) => score(b) - score(a))[0] || "";
-
-  /* Dans une phrase du type « grosse espèce blanche, larges écailles,
-     anneau farineux », on remonte les fragments réellement distinctifs
-     au début pour éviter que l'indice soit dominé par l'allure générale. */
-  const fragments = best.split(/[,;]+/).map((s) => s.trim()).filter(Boolean);
-  if (fragments.length > 1) {
-    const ranked = fragments.map((fragment, index) => ({
-      fragment,
-      index,
-      score: score(fragment) + (index === 0 ? 0 : 2),
-    })).sort((a, b) => b.score - a.score);
-    const useful = ranked.filter((item) => item.score > 5).slice(0, 2);
-    if (useful.length) {
-      useful.sort((a, b) => a.index - b.index);
-      best = useful.map((item) => item.fragment).join(", ");
-    }
-  }
-
-  if (best.length > 150) {
-    let cut = best.slice(0, 150);
-    const lastSpace = cut.lastIndexOf(" ");
-    if (lastSpace > 100) cut = cut.slice(0, lastSpace);
-    best = cut + "\u2026";
-  }
-  return best;
+  if (!res || !Array.isArray(res.confusions) || !candidates || candidates.length < 2) return "";
+  const candidateSet = new Set(candidates);
+  const match = res.confusions.find(c => c && c.with && candidateSet.has(c.with) && String(c.clue || "").trim());
+  return match ? String(match.clue).trim() : "";
 }
-
 const KEY = window.CHAMPI_DATA;
 let liveSet = [KEY.start];
 let displayId = KEY.start;
