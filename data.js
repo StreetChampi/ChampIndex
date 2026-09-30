@@ -1,4 +1,4 @@
-/* Champi — données éditoriales générées par le back-office */
+/* Champi — données générées par le back-office */
 window.CHAMPI_DATA = {
   "start": "q_ring",
   "nodes": {
@@ -122,7 +122,7 @@ window.CHAMPI_DATA = {
         {
           "label": "Brun violacé à noirâtres",
           "next": {
-            "result": "strophaire"
+            "group": "groupe_muolg0ol_9j1j"
           }
         },
         {
@@ -824,7 +824,7 @@ window.CHAMPI_DATA = {
         {
           "label": "Non",
           "next": {
-            "result": "rhodocybe"
+            "group": "groupe_muon67ik_1psl"
           }
         }
       ]
@@ -1541,9 +1541,56 @@ window.CHAMPI_DATA = {
           }
         }
       ]
+    },
+    "q_muolg0ol_eubf": {
+      "question": "Quelle est la couleur du chapeau et la taille du pied ?",
+      "hint": "",
+      "allowUnknown": true,
+      "options": [
+        {
+          "label": "Vert-de-gris à bleu-vert",
+          "next": {
+            "result": "espece_muolx1o6_psm2"
+          }
+        },
+        {
+          "label": "Jaune clair à ocre",
+          "next": "q_muom82fz_sbqr"
+        },
+        {
+          "label": "Blanc bleuté avec un petit pied (2-3 cm)",
+          "next": {
+            "result": "espece_muomq728_kve1"
+          }
+        }
+      ]
+    },
+    "q_muom82fz_sbqr": {
+      "question": "Où pousse le champignon ?",
+      "hint": "",
+      "allowUnknown": true,
+      "options": [
+        {
+          "label": "Sur une crotte, du fumier, ou un pré récemment épendu",
+          "next": {
+            "result": "espece_muombtgy_qywh"
+          }
+        },
+        {
+          "label": "Dans de l'herbe",
+          "next": {
+            "result": "espece_muomh9ld_8zj2"
+          }
+        },
+        {
+          "label": "Dans les bois, sur des souches ou du bois enterré",
+          "next": {
+            "result": "espece_muomwb2y_re6b"
+          }
+        }
+      ]
     }
   },
-  "groups": {},
   "results": {
     "limacelle": {
       "genus": "Limacelle (Limacella)",
@@ -1844,14 +1891,6 @@ window.CHAMPI_DATA = {
       "note": "Chapeau qui a tendance à noircir et à se liquéfier avec l'âge.",
       "family": "Psathyrellaceae",
       "genusTax": "Coprinus",
-      "edibility": "",
-      "confusions": []
-    },
-    "strophaire": {
-      "genus": "Strophaire (Stropharia)",
-      "note": "Chapeau nettement visqueux, anneau souvent présent, lames brun violacé à noirâtres.",
-      "family": "Strophariaceae",
-      "genusTax": "Stropharia",
       "edibility": "",
       "confusions": []
     },
@@ -2205,9 +2244,10 @@ window.CHAMPI_DATA = {
         }
       ],
       "risk": "toxic",
-      "family": "",
-      "genusTax": "",
-      "edibility": "toxic"
+      "family": "Amanitaceae",
+      "genusTax": "Amanita",
+      "edibility": "toxic",
+      "note": ""
     },
     "amanite_pantherina": {
       "genus": "Amanite panthère (Amanita pantherina)",
@@ -2533,6 +2573,66 @@ window.CHAMPI_DATA = {
       "genusTax": "Agaricus",
       "edibility": "toxic",
       "confusions": []
+    },
+    "espece_muolx1o6_psm2": {
+      "genus": "Strophaire bleue",
+      "family": "Strophariaceae",
+      "genusTax": "Stropharia",
+      "edibility": "toxic",
+      "note": "Assez fréquent par pieds solitaires ou petits groupes dans les bois et les parcs.",
+      "confusions": []
+    },
+    "espece_muombtgy_qywh": {
+      "genus": "Strophaire hémisphérique (Protostropharia semiglobata)",
+      "family": "Strophariaceae",
+      "genusTax": "Stropharia",
+      "edibility": "toxic",
+      "note": "Il est considéré comme hallucinogène, mais attention aux accidents psychiatriques avec de champignon.",
+      "confusions": []
+    },
+    "espece_muomh9ld_8zj2": {
+      "genus": "Strophaire Coronille (Stropharia coronilla)",
+      "family": "Strophariaceae",
+      "genusTax": "Stropharia",
+      "edibility": "toxic",
+      "note": "Odeur de rave, de radis ou de pomme de terre crue",
+      "confusions": []
+    },
+    "espece_muomq728_kve1": {
+      "genus": "Strophaire blanc bleuté (Stropharia pseudocyanea)",
+      "family": "Strophariaceae",
+      "genusTax": "Stropharia",
+      "edibility": "toxic",
+      "note": "",
+      "confusions": []
+    },
+    "espece_muomwb2y_re6b": {
+      "genus": "Strophaire squammeux (Leratiomyces squamosus)",
+      "family": "Strophariaceae",
+      "genusTax": "Stropharia",
+      "edibility": "inedible",
+      "note": "",
+      "confusions": []
+    },
+    "espece_muon6chk_ip83": {
+      "genus": "Nouvelle espèce",
+      "family": "",
+      "genusTax": "",
+      "edibility": "",
+      "note": "",
+      "confusions": []
+    }
+  },
+  "groups": {
+    "groupe_muolg0ol_9j1j": {
+      "name": "Strophaire (Stropharia)",
+      "note": "Ancien résultat transformé en groupe intermédiaire.",
+      "root": "q_muolg0ol_eubf"
+    },
+    "groupe_muon67ik_1psl": {
+      "name": "Rhodocybe (Rhodocybe)",
+      "note": "Ancien résultat transformé en groupe intermédiaire.",
+      "root": ""
     }
   }
 };
