@@ -144,7 +144,35 @@ function extractClue(res, candidates) {
   const match = res.confusions.find(c => c && c.with && candidateSet.has(c.with) && String(c.clue || "").trim());
   return match ? String(match.clue).trim() : "";
 }
+function destinationResults(next) {
+  if (!next) return [];
+  if (typeof next === "string") return [];
+  if (next.result) return [next.result];
+  if (Array.isArray(next.results)) return next.results.filter(Boolean);
+  return [];
+}
+function destinationQuestions(next) {
+  if (typeof next === "string") return [next];
+  if (next && next.question) return [next.question];
+  return [];
+}
+function destinationGroups(next) {
+  if (next && next.group) return [next.group];
+  return [];
+}
+function resolveGroup(id) {
+  const g = KEY.groups && KEY.groups[id];
+  return g && g.root ? g.root : null;
+}
+function destinationTargets(next) {
+  if (typeof next === "string") return [next];
+  if (!next) return [];
+  if (next.group) { const root = resolveGroup(next.group); return root ? [root] : []; }
+  if (next.question) return [next.question];
+  return destinationResults(next);
+}
 const KEY = window.CHAMPI_DATA;
+KEY.groups = KEY.groups || {};
 let liveSet = [KEY.start];
 let displayId = KEY.start;
 let historyStack = [];
@@ -156,6 +184,20 @@ const footer = document.getElementById("footer");
 const progressFill = document.getElementById("progress-fill");
 const progressPercent = document.getElementById("progress-percent");
 const headerTitle = document.getElementById("header-title");
+const landing = document.getElementById("landing");
+const landingStart = document.getElementById("landing-start");
+const landingContinue = document.getElementById("landing-continue");
+
+function showLanding() {
+  landing.style.display = "flex";
+  landingContinue.style.display = historyStack.length > 0 && displayId ? "block" : "none";
+}
+function enterApp(resume) {
+  landing.style.display = "none";
+  document.getElementById("app").style.display = "flex";
+  if (resume && displayId) renderQuestion(displayId);
+  else restart();
+}
 
 function isQuestion(id) { return !!KEY.nodes[id]; }
 function isLeaf(id) { return !!KEY.results[id]; }
@@ -203,11 +245,10 @@ function collectAllResults(nodeId, visited) {
   if (!node) return [];
   let out = [];
   node.options.forEach((opt) => {
-    if (typeof opt.next === "string") {
-      out = out.concat(collectAllResults(opt.next, visited));
-    } else if (opt.next && opt.next.result) {
-      out.push(opt.next.result);
-    }
+    destinationTargets(opt.next).forEach((target) => {
+      if (isQuestion(target)) out = out.concat(collectAllResults(target, visited));
+      else if (isLeaf(target)) out.push(target);
+    });
   });
   return out;
 }
@@ -236,18 +277,14 @@ function goToState(newSet, trailEntry, isSkip) {
 
 function answerOption(nodeId, opt) {
   const rest = liveSet.filter((id) => id !== nodeId);
-  if (typeof opt.next === "string") rest.push(opt.next);
-  else rest.push(opt.next.result);
+  destinationTargets(opt.next).forEach(id => rest.push(id));
   goToState(rest, { q: KEY.nodes[nodeId].question, a: opt.label }, false);
 }
 
 function answerUnknown(nodeId) {
   const node = KEY.nodes[nodeId];
   const rest = liveSet.filter((id) => id !== nodeId);
-  node.options.forEach((opt) => {
-    if (typeof opt.next === "string") rest.push(opt.next);
-    else rest.push(opt.next.result);
-  });
+  node.options.forEach((opt) => destinationTargets(opt.next).forEach(id => rest.push(id)));
   goToState(rest, { q: node.question }, true);
 }
 
@@ -742,15 +779,26 @@ function renderResult(resultId, backOverride) {
   main.appendChild(descSection);
 
   /* ---- CONFUSIONS ---- */
-  if (res.confusions) {
+  if (Array.isArray(res.confusions) && res.confusions.length) {
     const confSection = document.createElement("div");
     confSection.className = "sheet-section";
     confSection.appendChild(makeSectionHead("Confusions", "confuse", "sh-confuse"));
-    const t = document.createElement("p");
-    t.className = "detail-text";
-    t.textContent = res.confusions;
-    confSection.appendChild(t);
-    main.appendChild(confSection);
+    const valid = res.confusions.filter(c => c && c.with && String(c.clue || "").trim());
+    if (valid.length) {
+      valid.forEach(c => {
+        const other = KEY.results[c.with];
+        const block = document.createElement("div");
+        block.className = "detail-block";
+        const l = document.createElement("span");
+        l.className = "detail-label";
+        l.textContent = other ? "Avec " + other.genus : "Indice";
+        const t = document.createElement("p");
+        t.className = "detail-text";
+        t.textContent = c.clue;
+        block.appendChild(l); block.appendChild(t); confSection.appendChild(block);
+      });
+      main.appendChild(confSection);
+    }
   }
 
   const disclaimer = document.createElement("div");
@@ -774,10 +822,11 @@ function renderResult(resultId, backOverride) {
 
 const homeBtn = document.getElementById("home-btn");
 homeBtn.innerHTML = ICONS.home;
-homeBtn.onclick = renderHome;
+homeBtn.onclick = showLanding;
 
 document.getElementById("modal-overlay").addEventListener("click", (e) => {
   if (e.target.id === "modal-overlay") closeModal();
 });
-
-renderHome();
+landingStart.onclick = () => enterApp(false);
+landingContinue.onclick = () => enterApp(true);
+showLanding();

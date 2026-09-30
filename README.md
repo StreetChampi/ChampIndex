@@ -1,17 +1,23 @@
-# Champi -- architecture éditable
+# Champi — version back-office améliorée
 
-- `index.html` -- application
-- `app.js` -- moteur/interface
-- `data.js` -- arbre, groupes et fiches
-- `backoffice.html` -- construction visuelle de l'arbre
+Fichiers à mettre à la racine de ChampIndex :
+- index.html
+- app.js
+- data.js
+- backoffice.html
+- champi-cover.jpeg
 
-## Back-office v2
+Le back-office conserve automatiquement les modifications dans le navigateur.
+Il permet notamment :
+- arbre décisionnel repliable ;
+- suppression d'une question sans supprimer les branches voisines ;
+- retrait d'un groupe en conservant toutes ses questions ;
+- plusieurs espèces comme issues d'une même réponse ;
+- choix entre espèce existante ou création d'une nouvelle ;
+- édition depuis la vue taxonomique ;
+- familles/genres via menus et création immédiate d'une nouvelle valeur ;
+- indices « si confondu avec… » ;
+- annuler/rétablir ;
+- sauvegarde locale anti-F5.
 
-Une réponse peut maintenant :
-- créer une nouvelle question directement à cet endroit ;
-- créer un groupe intermédiaire ;
-- créer une fiche espèce ;
-- affiner un résultat existant ;
-- transformer un résultat provisoire en groupe à affiner.
-
-Le workflow est : Back-office → Publier → Télécharger `data.js` → remplacer `data.js` dans GitHub.
+La page de garde utilise `champi-cover.jpeg` avec une animation CSS légère afin de rester hors ligne et légère.

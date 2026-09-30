@@ -681,11 +681,62 @@
     color: var(--soil);
   }
 
+
+  /* ---- Page de garde ---- */
+  #landing {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: stretch; justify-content: center;
+    background: var(--soil); color: var(--paper);
+    overflow: hidden;
+  }
+  .landing-inner {
+    width: min(480px, 100%); min-height: 100%; position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    overflow: hidden;
+  }
+  .landing-image-wrap { position: absolute; inset: 0; overflow: hidden; }
+  .landing-image {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    animation: landing-breathe 12s ease-in-out infinite alternate;
+    filter: saturate(.92) contrast(.98);
+  }
+  .landing-image-wrap::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(25,18,12,.08) 25%, rgba(25,18,12,.18) 48%, rgba(25,18,12,.88) 100%);
+  }
+  .landing-glow {
+    position: absolute; width: 55%; height: 22%; left: 20%; top: 14%;
+    background: rgba(255,244,210,.12); filter: blur(34px); border-radius: 50%;
+    animation: landing-glow 8s ease-in-out infinite alternate;
+  }
+  .landing-content { position: relative; z-index: 2; padding: 28px 25px calc(30px + env(safe-area-inset-bottom)); }
+  .landing-kicker { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: .78; margin-bottom: 8px; }
+  .landing-title { margin: 0; font-family: var(--font-serif); font-size: 38px; line-height: 1.02; font-variant: small-caps; letter-spacing: .5px; }
+  .landing-subtitle { margin: 10px 0 22px; max-width: 360px; font-size: 14px; line-height: 1.45; color: rgba(243,236,221,.86); }
+  .landing-btn { width: 100%; padding: 15px 18px; border: 0; border-radius: 20px 8px 20px 8px; background: var(--rust); color: var(--paper); font-size: 15px; font-weight: 800; box-shadow: 0 5px 0 rgba(43,35,24,.25); cursor: pointer; }
+  .landing-continue { display:none; width:100%; margin-top:10px; padding:12px 18px; border:1px solid rgba(243,236,221,.3); border-radius:16px 7px 16px 7px; background:rgba(34,27,19,.45); color:var(--paper); font-weight:700; }
+  @keyframes landing-breathe { from { transform: scale(1.015); } to { transform: scale(1.07); } }
+  @keyframes landing-glow { from { opacity:.25; transform:translateX(-4%); } to { opacity:.65; transform:translateX(12%); } }
+  @media (prefers-reduced-motion: reduce) { .landing-image,.landing-glow { animation:none; } }
+
 </style>
 </head>
 <body>
 
-<div id="app">
+<section id="landing" aria-label="Page de garde">
+  <div class="landing-inner">
+    <div class="landing-image-wrap"><img class="landing-image" src="champi-cover.jpeg" alt="Amanite tue-mouches dans une forêt"/><div class="landing-glow"></div></div>
+    <div class="landing-content">
+      <div class="landing-kicker">Carnet de terrain</div>
+      <h1 class="landing-title">Champi</h1>
+      <p class="landing-subtitle">Une clé simple pour explorer les champignons à lames, directement sur le terrain.</p>
+      <button id="landing-start" class="landing-btn" type="button">Commencer l'identification</button>
+      <button id="landing-continue" class="landing-continue" type="button">Reprendre l'identification en cours</button>
+    </div>
+  </div>
+</section>
+
+<div id="app" style="display:none">
   <header>
     <div class="brand-row">
       <svg class="brand-glyph" viewBox="0 0 48 48" width="22" height="22" aria-hidden="true">
