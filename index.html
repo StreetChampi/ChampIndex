@@ -8,18 +8,18 @@
 
   :root {
     /* Palette "carnet de terrain" : papier chaud, encre brune, tampons terracotta */
-    --paper: #F3ECDD;
-    --paper-deep: #EAE0C9;
-    --paper-line: #DCCFAF;
-    --ink: #2B2318;
-    --ink-soft: #5C5341;
-    --soil: #221B13;
-    --soil-mid: #3A2E1F;
-    --rust: #B15A2C;
-    --rust-deep: #8A4220;
-    --clay: #C48A3E;
-    --moss: #5F7A4A;
-    --moss-pale: #DEE2CB;
+    --paper: #F2E9D8;
+    --paper-deep: #D9A577;
+    --paper-line: #D9A577;
+    --ink: #3A261C;
+    --ink-soft: #8C5C32;
+    --soil: #3A261C;
+    --soil-mid: #5B2D1A;
+    --rust: #D97B66;
+    --rust-deep: #912900;
+    --clay: #D9A577;
+    --moss: #8C5C32;
+    --moss-pale: #F2E9D8;
 
     --risk-deadly-bg: #551A13;
     --risk-toxic-bg: #9B3A1B;
@@ -27,8 +27,8 @@
     --risk-edible-bg: #55694A;
     --risk-unknown-bg: #746C5D;
 
-    --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    --font-serif: "Barbra", Georgia, "Iowan Old Style", serif;
+    --font-sans: "Courier Prime", "Courier New", monospace;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
@@ -719,13 +719,39 @@
   @keyframes landing-glow { from { opacity:.25; transform:translateX(-4%); } to { opacity:.65; transform:translateX(12%); } }
   @media (prefers-reduced-motion: reduce) { .landing-image,.landing-glow { animation:none; } }
 
+
+  /* Champi V4.4 — interface organique, tactile et carnet de terrain */
+  body { font-family: var(--font-sans); background: #D9A577; }
+  button, input, textarea, select { font-family: var(--font-sans); }
+  header { background: linear-gradient(145deg, #912900, #5B2D1A); border-radius: 0 0 28px 28px; box-shadow: 0 10px 30px rgba(58,38,28,.18); }
+  .brand-row { gap: 11px; }
+  header h1, .question, .landing-title, .sheet-title, h2, h3 { font-family: var(--font-serif); }
+  .question { font-size: 22px; line-height: 1.35; }
+  .options { gap: 10px; }
+  .option-btn { border-radius: 22px 12px 22px 12px; background: #FBF5E8; border: 1px solid rgba(217,165,119,.65); box-shadow: 0 6px 0 rgba(140,92,50,.08), 0 10px 22px rgba(58,38,28,.05); }
+  .option-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(140,92,50,.08); }
+  .option-btn-unknown { border-radius: 18px; border-color: #D9A577; background: rgba(217,165,119,.16); }
+  .sheet-section, .result-card, .candidate-card, .why-card { border-radius: 24px; }
+  .landing-inner { width: min(480px,100%); }
+  .landing-image-wrap { background: #3A261C; }
+  .landing-video, .landing-image { width:100%; height:100%; object-fit:cover; display:block; }
+  .landing-video { position:absolute; inset:0; animation: landing-breathe 14s ease-in-out infinite alternate; filter:saturate(.9) contrast(1.02); }
+  .landing-image { position:absolute; inset:0; animation: landing-breathe 14s ease-in-out infinite alternate; }
+  .landing-image-wrap::after { background: linear-gradient(to bottom, rgba(58,38,28,.04) 20%, rgba(58,38,28,.12) 46%, rgba(58,38,28,.92) 100%); }
+  .landing-content { padding: 30px 24px calc(30px + env(safe-area-inset-bottom)); }
+  .landing-kicker { font-family: var(--font-sans); letter-spacing: 2.5px; color:#D9A577; }
+  .landing-title { font-size: 46px; letter-spacing: .2px; }
+  .landing-subtitle { font-family: var(--font-sans); }
+  .landing-btn { background: #D97B66; color:#3A261C; border-radius: 24px 10px 24px 10px; box-shadow: 0 5px 0 rgba(58,38,28,.3); }
+  .landing-continue { font-family: var(--font-sans); border-radius:18px; }
+
 </style>
 </head>
 <body>
 
 <section id="landing" aria-label="Page de garde">
   <div class="landing-inner">
-    <div class="landing-image-wrap"><img class="landing-image" src="champi-cover.jpeg" alt="Amanite tue-mouches dans une forêt"/><div class="landing-glow"></div></div>
+    <div class="landing-image-wrap"><img class="landing-image" src="champi-cover.jpeg" alt="Amanite tue-mouches dans une forêt"/><video class="landing-video" autoplay muted loop playsinline preload="metadata" poster="champi-cover.jpeg" aria-hidden="true"><source src="champi-cover.mp4" type="video/mp4"></video><div class="landing-glow"></div></div>
     <div class="landing-content">
       <div class="landing-kicker">Carnet de terrain</div>
       <h1 class="landing-title">Champi</h1>
