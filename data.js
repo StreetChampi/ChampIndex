@@ -325,9 +325,7 @@ window.CHAMPI_DATA = {
       "options": [
         {
           "label": "Oui",
-          "next": {
-            "result": "lactaire"
-          }
+          "next": "q_lactaire_lait_color"
         },
         {
           "label": "Non",
@@ -1589,6 +1587,241 @@ window.CHAMPI_DATA = {
           }
         }
       ]
+    },
+    "q_lactaire_lait_color": {
+      "question": "Quelle est la couleur du latex, ou comment évolue-t-il après la cassure ?",
+      "options": [
+        {
+          "label": "Rouge sang ou rouge vineux dès le départ",
+          "next": {
+            "result": "lactaire_sanguin"
+          }
+        },
+        {
+          "label": "Orange vif",
+          "next": "q_lactaire_orange"
+        },
+        {
+          "label": "Jaune net, rapidement ou progressivement",
+          "next": "q_lactaire_jaune"
+        },
+        {
+          "label": "Violet à la blessure ou en séchant",
+          "next": "q_lactaire_violet"
+        },
+        {
+          "label": "Rose en séchant",
+          "next": {
+            "result": "lactaire_fuligineux"
+          }
+        },
+        {
+          "label": "Blanc, incolore, ou virant au gris/vert/brun",
+          "next": "q_lactaire_latex_pale"
+        },
+        {
+          "label": "Je ne peux pas déterminer la couleur",
+          "next": "q_lactaire_habitat"
+        }
+      ],
+      "hint": "Observer le latex sur une lame fraîchement cassée ; certaines évolutions demandent quelques minutes. Ne pas goûter le champignon.",
+      "allowUnknown": true
+    },
+    "q_lactaire_orange": {
+      "question": "Quel profil correspond le mieux au champignon ?",
+      "options": [
+        {
+          "label": "Sous épicéa ; chapeau orangé peu zoné qui verdit vite ; lait orange",
+          "next": {
+            "result": "lactaire_detestable"
+          }
+        },
+        {
+          "label": "Aucun de ces caractères / doute",
+          "next": "q_lactaire_habitat"
+        }
+      ],
+      "allowUnknown": true
+    },
+    "q_lactaire_jaune": {
+      "question": "Quel caractère correspond le mieux ?",
+      "options": [
+        {
+          "label": "Chapeau jaune fauve zoné ; le lait blanc jaunit très rapidement et nettement",
+          "next": {
+            "result": "lactaire_lait_jaune"
+          }
+        },
+        {
+          "label": "Grosse espèce à marge laineuse, pied à nombreuses fossettes ; chair jaunissant citron",
+          "next": {
+            "result": "lactaire_scrobicule"
+          }
+        },
+        {
+          "label": "Petit chapeau crème-orangé ridé autour d'un mamelon, milieu tourbeux sous bouleaux",
+          "next": {
+            "result": "lactaire_chiffonne"
+          }
+        },
+        {
+          "label": "Chapeau brun-rouge foncé, sous pinèdes ou pessières ; lait blanc jaunissant lentement",
+          "next": {
+            "result": "lactaire_hepatique"
+          }
+        },
+        {
+          "label": "Autre aspect / doute",
+          "next": "q_lactaire_habitat"
+        }
+      ],
+      "allowUnknown": true
+    },
+    "q_lactaire_violet": {
+      "question": "Le chapeau est-il jaune clair, ou plutôt beige/gris ?",
+      "options": [
+        {
+          "label": "Jaune clair ; toutes les parties meurtries deviennent violettes",
+          "next": {
+            "result": "lactaire_jaunatre"
+          }
+        },
+        {
+          "label": "Beige, gris ou roussâtre pâle, gras/visqueux, bois humide",
+          "next": {
+            "result": "lactaire_humide"
+          }
+        },
+        {
+          "label": "Autre aspect / doute",
+          "next": "q_lactaire_habitat"
+        }
+      ],
+      "allowUnknown": true
+    },
+    "q_lactaire_latex_pale": {
+      "question": "Quel profil correspond le mieux à votre observation ?",
+      "options": [
+        {
+          "label": "Chapeau très visqueux gris-brun/olivâtre, sous hêtre ; lait gris-vert en séchant",
+          "next": {
+            "result": "lactaire_muqueux"
+          }
+        },
+        {
+          "label": "Grand chapeau brun olivâtre presque noir, très visqueux ; le document le signale toxique",
+          "next": {
+            "result": "lactaire_plombe"
+          }
+        },
+        {
+          "label": "Lait très abondant qui brunit lentement ; chapeau orangé roux velouté, odeur forte d'artichaut",
+          "next": {
+            "result": "vachotte"
+          }
+        },
+        {
+          "label": "Chapeau blanc, très large et velouté, lait blanc abondant très âcre",
+          "next": {
+            "result": "lactaire_veloute"
+          }
+        },
+        {
+          "label": "Chapeau crème zoné d'orange rosâtre, feuillus calcaires, lait blanc très poivré",
+          "next": {
+            "result": "lactaire_zone"
+          }
+        },
+        {
+          "label": "Chapeau rose orangé zoné et couvert de toison sous bouleaux",
+          "next": {
+            "result": "lactaire_toison"
+          }
+        },
+        {
+          "label": "Chapeau très pâle, feutré, peu ou pas zoné, sous bouleaux",
+          "next": {
+            "result": "lactaire_pubescent"
+          }
+        },
+        {
+          "label": "Chapeau orange vif brillant, sous mélèze ; lait blanc âcre",
+          "next": {
+            "result": "lactaire_melezes"
+          }
+        },
+        {
+          "label": "Chapeau orange vif non zoné, sous épicéa en montagne ; lait blanc",
+          "next": {
+            "result": "lactaire_fauve_orange"
+          }
+        },
+        {
+          "label": "Chapeau sec gris/brun, chair rosissant lentement, sous feuillus humides",
+          "next": {
+            "result": "lactaire_fuligineux"
+          }
+        },
+        {
+          "label": "Autre profil / doute",
+          "next": "q_lactaire_habitat"
+        }
+      ],
+      "allowUnknown": true
+    },
+    "q_lactaire_habitat": {
+      "question": "Quel indice de terrain est le plus proche de votre observation ?",
+      "options": [
+        {
+          "label": "Sous noisetier ; chapeau jaunâtre-gris/olive, lait blanc très abondant et brûlant",
+          "next": {
+            "result": "lactaire_lait_brule"
+          }
+        },
+        {
+          "label": "Petit chapeau grisâtre rosé, odeur forte de noix de coco, sous bouleau ou aulne",
+          "next": {
+            "result": "lactaire_coco"
+          }
+        },
+        {
+          "label": "Petit chapeau brun-roux, odeur de punaise, surtout sous chênes",
+          "next": {
+            "result": "lactaire_tranquille"
+          }
+        },
+        {
+          "label": "Petit chapeau roux terne non zoné, mat comme du caoutchouc, plutôt sous hêtre",
+          "next": {
+            "result": "lactaire_doucetre"
+          }
+        },
+        {
+          "label": "Chapeau brun-rouge sombre, odeur de chicorée/camphre persistante",
+          "next": {
+            "result": "lactaire_chicoree"
+          }
+        },
+        {
+          "label": "Chapeau brun sombre très lobé et rugueux, lieux humides sous chênes",
+          "next": {
+            "result": "lactaire_ride"
+          }
+        },
+        {
+          "label": "Chapeau sec, velouté, gris/brun ; chair rosissant lentement",
+          "next": {
+            "result": "lactaire_fuligineux"
+          }
+        },
+        {
+          "label": "Je ne reconnais pas de profil assez net",
+          "next": {
+            "result": "lactaire"
+          }
+        }
+      ],
+      "allowUnknown": true
     }
   },
   "results": {
@@ -2620,6 +2853,246 @@ window.CHAMPI_DATA = {
       "genusTax": "",
       "edibility": "",
       "note": "",
+      "confusions": []
+    },
+    "lactaire_veloute": {
+      "genus": "Lactaire velouté (Lactifluus vellereus (Lactarius vellereus))",
+      "latin": "Lactifluus vellereus (Lactarius vellereus)",
+      "note": "Habitat : Sous différents feuillus, souvent en troupes abondantes ; espèce fréquente. Chapeau : Large (10 à 20 cm et plus), blanc à blanc sali de jaunâtre, épais et charnu, velouté, en entonnoir, à marge longtemps enroulée. Pied : Très court (5 à 8 cm), épais, dur, blanc. Lames : Nombreuses, assez épaisses et espacées, blanches, jaunissant avec l'âge. Remarque : D'aspect appétissant mais affreusement âcre. Consommé dans certains pays de l'Est après un blanchiment qui détruit cette âcreté, ou réduit en poudre comme condiment — à éviter tel quel.",
+      "family": "Russulaceae",
+      "genusTax": "Lactifluus",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_detestable": {
+      "genus": "Lactaire détestable (Lactarius deterrimus)",
+      "latin": "Lactarius deterrimus",
+      "note": "Habitat : Localisé uniquement sous épicéas ; très commun. Chapeau : Peu ou pas zoné, orangé un peu givré, verdissant vite et de façon homogène. Pied : Peu scrobiculé (peu de fossettes), souvent avec un cerne blanchâtre juste sous les lames. Remarque : Très souvent confondu avec le lactaire délicieux (comestible réputé), qui lui ne pousse que sous les pins — un repère de terrain fiable.; Espèce proche : le lactaire couleur saumon (Lactarius salmonicolor) est d'un orangé plus vif, plus saumoné, peu zoné, et ne verdit pas ; il ne pousse que sous les sapins.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_sanguin": {
+      "genus": "Lactaire sanguin (Lactarius sanguifluus)",
+      "latin": "Lactarius sanguifluus",
+      "note": "Habitat : Espèce surtout méridionale, liée aux pins ; rare en région atlantique, exceptionnelle au nord de la Loire. Chapeau : Brun orangé rougeâtre ou rosâtre, peu zoné, plus ou moins verdissant. Pied : Scrobiculé (à fossettes), brun rougeâtre. Lames : Typiquement rosé vineux. Remarque : Considéré comme le meilleur comestible de ce groupe.; Espèce proche : le lactaire semi-sanguin (Lactarius semisanguifluus) pousse aussi sous pins, sur sol calcaire. Il ressemble à un petit lactaire délicieux (chapeau jusqu'à 6-7 cm) à lait orangé, qui devient vineux puis brun rougeâtre en 5 à 10 minutes.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "edible",
+      "edibility": "edible",
+      "confusions": []
+    },
+    "lactaire_zone": {
+      "genus": "Lactaire zoné (Lactarius zonarius)",
+      "latin": "Lactarius zonarius",
+      "note": "Habitat : Bois de feuillus secs, lisières ; assez commun en plaine sur terrain calcaire. Chapeau : Dur, assez massif (5 à 12 cm), creux, crème, zoné d'orange rosâtre chez les jeunes puis brun orangé terne en vieillissant ; surface glabre peu visqueuse, finement veloutée au bord chez les jeunes ; marge longtemps enroulée puis ondulée. Pied : Court et trapu (4 à 7 cm), blanc puis jaune taché de brun, parfois scrobiculé, caverneux. Lames : Assez serrées, crème, fonçant vers l'ocre avec l'âge. Remarque : Espèce proche (assez commune sous feuillus) : le lactaire très âcre (Lactarius acerrimus), chapeau de 10 à 15 cm, roux ocré, plus ou moins zoné, à bord souvent relevé devenant lobé et festonné ; lames typiquement rosâtres, anastomosées près du pied ; chair blanchâtre, lait très âcre.; Autre espèce proche : le lactaire à odeur de pomme (Lactarius evosmus), sous peupliers et saules (mais aussi chênes) ; chapeau pâle, lames plutôt serrées, blanchâtres à crème pâle ; odeur acidulée évoquant la compote de pommes.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_melezes": {
+      "genus": "Lactaire des mélèzes (Lactarius porninsis (Lactaire du mélèze))",
+      "latin": "Lactarius porninsis (Lactaire du mélèze)",
+      "note": "Habitat : Inféodé au mélèze ; assez commun en montagne, souvent sur calcaire, présent dans les Alpes et le Jura. Chapeau : Large de 5 à 8 cm, d'un bel orange vif brillant, non ou à peine zoné, un peu visqueux par l'humidité. Pied : Orange, presque lisse, creux. Lames : Échancrées, orangées plus pâles. Remarque : Bien qu'il appartienne, taxonomiquement, au groupe du lactaire délicieux, son lait reste âcre : à ne pas consommer comme son cousin.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_scrobicule": {
+      "genus": "Lactaire scrobiculé (Lactarius scrobiculatus)",
+      "latin": "Lactarius scrobiculatus",
+      "note": "Habitat : Grosse espèce commune dans les bois de résineux en montagne, particulièrement sous épicéas. Chapeau : Large de 10 à 25 cm, jaune ochracé à brun ochracé, devenant brun roussâtre ; marge enroulée ; revêtement courtement barbu-laineux au bord. Pied : Court (5 à 7 cm), à nombreuses fossettes jaunâtres sur fond blanc. Lames : Larges, espacées, échancrées, jaunâtres. Remarque : Espèce proche : le lactaire à odeur de citron (Lactarius citriolens), des feuillus (bouleaux, noisetiers, chênes) ; chapeau large de 10 à 15 cm, très poilu à la marge, blanchâtre ocré ; pied non scrobiculé ; chair jaunissante, amère ; odeur de citron ; lait jaunissant, âcre.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_toison": {
+      "genus": "Lactaire à toison (Lactarius torminosus (Lactaire à coliques))",
+      "latin": "Lactarius torminosus (Lactaire à coliques)",
+      "note": "Habitat : Sous bouleaux, dans les landes et les bois, toujours en terrain un peu humide et acide. Chapeau : Charnu, creusé au centre, large de 5 à 12 cm, rose orangé, zoné, entièrement couvert de peluches soyeuses formant une sorte de toison qui s'estompe avec l'âge mais persiste longtemps à la marge. Pied : Ferme, haut de 7 à 9 cm, devenant creux, de même couleur, parfois un peu scrobiculé. Lames : Très serrées, crème rosé, minces, descendant sur le pied. Remarque : Plusieurs espèces proches, reconnaissables à leur revêtement laineux et à leur âcreté, sont inféodées à des essences précises en montagne ou en région méditerranéenne. Le lactaire pubescent lui ressemble beaucoup et pousse également sous bouleaux, mais il est plus pâle et non (ou très peu) zoné.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "toxic",
+      "edibility": "toxic",
+      "confusions": []
+    },
+    "lactaire_pubescent": {
+      "genus": "Lactaire pubescent (Lactarius pubescens)",
+      "latin": "Lactarius pubescens",
+      "note": "Habitat : Très commun sous les bouleaux plantés dans les pelouses et les parcs, plus rare dans les bois de feuillus, de préférence sur sol argilo-calcaire. Chapeau : Large de 6 à 10 cm, très pâle, blanchâtre à rosé roussâtre très clair, non zoné, plutôt feutré que laineux ; la pilosité s'atténue avec l'âge sauf sur la marge, qui reste pubescente. Pied : Court (3 à 5 cm), invisible sous le chapeau, rosé. Lames : Un peu rosées. Remarque : Espèce proche : le lactaire pâle (Lactarius pallidus), commun en hêtraie ; chapeau large de 5 à 15 cm, lisse et visqueux ; pied non scrobiculé ; lames crème ocré ; lait blanc, d'abord doux puis devenant faiblement piquant.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "vachotte": {
+      "genus": "Vachotte (Lactifluus volemus (Lactarius volemus) — Lactaire à lait abondant)",
+      "latin": "Lactifluus volemus (Lactarius volemus) — Lactaire à lait abondant",
+      "note": "Habitat : Espèce peu commune et ayant tendance à se raréfier, sous feuillus, plus rarement sous résineux. Chapeau : Large de 10 à 16 cm, de teinte variant autour de l'orangé vers le roux ou le fauve, velouté mat, non zoné, souvent plus ou moins fendillé, gercé. Pied : Haut de 3 à 8 cm, de même couleur en dégradé, plus foncé à la base, clair au sommet. Lames : Orangées, se tachant de brun roussâtre aux endroits blessés. Remarque : Espèce proche : le lactaire rugueux (Lactarius rugatus), sous feuillus en milieux plus chauds ; assez semblable mais plus petit, chapeau très rugueux et craquelé, de teinte plus foncée ; lames blanchâtres ; pied court.",
+      "family": "Russulaceae",
+      "genusTax": "Lactifluus",
+      "risk": "edible",
+      "edibility": "edible",
+      "confusions": []
+    },
+    "lactaire_lait_brule": {
+      "genus": "Lactaire à lait brûlant (Lactarius pyrogalus)",
+      "latin": "Lactarius pyrogalus",
+      "note": "Habitat : Uniquement sous noisetiers, dans les haies, les bois, les parcs ; été et début d'automne, parfois très abondant. Chapeau : Large de 4 à 12 cm, jaunâtre assez pâle et terne, mêlé de gris, de brun ou d'olive, mince, déprimé, vaguement zoné, légèrement visqueux. Pied : Court (3 à 8 cm), de même couleur, rétréci vers le bas. Lames : Espacées, jaune pâle au début puis d'un ocre un peu orangé caractéristique.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_muqueux": {
+      "genus": "Lactaire muqueux (Lactarius blennius)",
+      "latin": "Lactarius blennius",
+      "note": "Habitat : Commun en été et en automne, uniquement sous les hêtres. Chapeau : Large de 4 à 10 cm, plan ou déprimé, très visqueux, lisse, variant de gris-brun rosâtre à brun verdâtre ou olivâtre, souvent marqué de fossettes sombres. Pied : Assez court, visqueux comme le chapeau, de même couleur, devenant creux. Lames : Minces, serrées, blanches ou très pâles, tachées de verdâtre pâle par le lait séché. Remarque : Espèce proche : le lactaire à lait abondant (Lactarius fluens), semblable et poussant aussi sous les hêtres, mais à chapeau à peine gras au toucher, vite sec, souvent plus pâle au bord ; lait très abondant, blanc puis gris olivâtre en séchant.; Autre espèce proche : le lactaire fané (Lactarius vietus), sur sol acide et humide sous bouleaux ; chapeau de 3 à 8 cm, lilas brunâtre, surface grasse au toucher ; lames crème ; lait peu abondant, devenant gris olivacé en séchant sur les lames ; chair douce mais lait âcre.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_plombe": {
+      "genus": "Lactaire plombé (Lactarius necator (= L. plumbeus = L. turpis))",
+      "latin": "Lactarius necator (= L. plumbeus = L. turpis)",
+      "note": "Habitat : Grosse espèce de couleurs tristes, pouvant être commune sous bouleaux, mais aussi sous épicéas, sur sols acides plus ou moins tourbeux. Chapeau : Large de 8 à 15 cm, brun olivâtre à brun presque noir avec l'âge, marge enroulée plus claire ; surface visqueuse, un peu zonée par un feutrage foncé. Pied : De même couleur, trapu, épais. Lames : Serrées, crème, se tachant de brun à la blessure. Remarque : TOXIQUE — à ne pas consommer. C'est l'unique représentant européen d'un groupe d'espèces plus abondantes outre-Atlantique, notamment aux États-Unis. Une goutte de lessive de potasse ou de soude colore sa chair en violet vif, un caractère unique chez les lactaires européens (test réservé à la confirmation, pas à la cueillette de terrain).",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "toxic",
+      "edibility": "toxic",
+      "confusions": []
+    },
+    "lactaire_jaunatre": {
+      "genus": "Lactaire jaunâtre (Lactarius flavidus)",
+      "latin": "Lactarius flavidus",
+      "note": "Habitat : Assez fréquent dans les bois de feuillus humides de plaine, sous chênes, frênes, charmes, surtout en terrain argilo-calcaire. Chapeau : Large de 5 à 12 cm, jaune clair, vaguement zoné, humide et visqueux, taché de violet dans les blessures. Pied : Haut de 5 à 8 cm, blanchâtre à jaune, taché de violet, devenant creux. Lames : Crème, inégales, minces et serrées, violettes à la blessure ; spores crème. Remarque : Bien caractérisé par ses teintes jaunâtres et par les traces violettes que prennent toutes les parties à la cassure.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_humide": {
+      "genus": "Lactaire humide (Lactarius uvidus)",
+      "latin": "Lactarius uvidus",
+      "note": "Habitat : Dans les bois humides de feuillus (bouleaux, saules), ou sous épicéas en terrain marécageux ; assez commun. Chapeau : Nettement gras, voire visqueux, large de 5 à 10 cm, beige, grisé ou roussâtre pâle, non zoné, plan étalé juste un peu déprimé. Pied : Haut de 5 à 8 cm, crème, taché de violet à la meurtrissure. Remarque : Espèce proche : le lactaire violet (Lactarius violascens), en stations sèches sous chênes ou châtaigniers ; chapeau de 6 à 12 cm, non visqueux, brun-pourpre ou bistré, zoné, foncé au centre, taché de gouttes foncées vers la marge ; lait blanc puis violet, pas d'âcreté mais chair amère.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_coco": {
+      "genus": "Lactaire à odeur de noix de coco (Lactarius glyciosmus)",
+      "latin": "Lactarius glyciosmus",
+      "note": "Habitat : Petit champignon poussant en milieu humide, en plaine, sous bouleaux ou aulnes, où il est assez commun. Chapeau : Large de 3 à 6 cm, grisâtre clair à reflets rosés, creux, velouté, soyeux, pâlissant par la sécheresse. Pied : Grêle, haut de 3 à 5 cm, blanchâtre. Lames : Blanchâtres à ochracé rosâtre. Remarque : Espèce proche : le lactaire mamelonné (Lactarius mammosus), même odeur, mais plutôt sous conifères, chapeau brun-châtain chaud.; Autre espèce proche : le lactaire à odeur de céleri (Lactarius helvus), en milieu humide sous conifères mêlés de bouleaux, dans les tourbières ; chapeau de 5 à 15 cm, brun ochracé à brun-rose, velouté ; lait aqueux, vite épuisé et séchant ; odeur nette de céleri chez les adultes.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_tranquille": {
+      "genus": "Lactaire tranquille (Lactarius quietus)",
+      "latin": "Lactarius quietus",
+      "note": "Habitat : L'un des lactaires à chapeau brun les plus communs en plaine, dans tous types de forêts, surtout sous chênes. Chapeau : Large de 3 à 9 cm, brun-roux un peu rougeâtre, étalé et peu déprimé, marge devenant onduleuse, vaguement zoné, surface un peu givrée. Pied : De même couleur ou plus foncé, typiquement brun rougeâtre à la base, creux. Lames : Assez serrées, minces, prolongées par une dent sur le pied, crème à crème rosâtre.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_doucetre": {
+      "genus": "Lactaire douceâtre (Lactarius subdulcis)",
+      "latin": "Lactarius subdulcis",
+      "note": "Habitat : Tout aussi fréquent que le lactaire tranquille, auquel il ressemble, mais préférant la hêtraie. Chapeau : Mince, roux terne, large de 3 à 6 cm, non zoné, parfois à peine mamelonné, très mat (comme un objet en caoutchouc). Pied : Lisse, plus clair, courbé à la base, légèrement feutré. Lames : Serrées, minces, prolongées sur le pied, crème puis ocre orangé.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_fauve_orange": {
+      "genus": "Lactaire fauve orangé (Lactarius aurantiofulvus)",
+      "latin": "Lactarius aurantiofulvus",
+      "note": "Habitat : Espèce à peine moyenne, commune sous épicéas en montagne, beaucoup plus rare en plaine dans les forêts mêlées. Chapeau : Teinte générale éclatante, orange vif, large de 3 à 7 cm, assez plat, non zoné, lisse. Pied : Haut de 5 à 7 cm, orange moins vif. Lames : Plus claires, jaunâtres, échancrées. Remarque : Ce groupe de lactaires orangés est complexe et encore en cours de révision. Le lactaire des mélèzes pousse également en montagne mais, lui, est strictement inféodé aux mélèzes.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_lait_jaune": {
+      "genus": "Lactaire à lait jaune (Lactarius chrysorrheus)",
+      "latin": "Lactarius chrysorrheus",
+      "note": "Habitat : Très commun, isolé ou en troupes, dans les bois de feuillus siliceux, en été et en automne. Chapeau : Large de 4 à 10 cm, jaune plus ou moins fauve rosé à orangé, zoné de plages plus foncées, lisse et sec, légèrement déprimé. Pied : Court, blanchâtre, lisse. Lames : Serrées, blanches puis crème, un peu décurrentes. Remarque : Espèce proche : le lactaire trompeur (Lactarius decipiens), dans les bois plutôt secs de feuillus ou de résineux ; mince, ocré ou roux clair avec une teinte rosée particulière, irrégulier, à surface humide ; lait blanc peu abondant, jaunissant mais nettement moins que chez le lactaire à lait jaune ; saveur âcre, odeur nette de pélargonium (géranium des fleuristes).",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_chiffonne": {
+      "genus": "Lactaire chiffonné (Lactarius tabidus)",
+      "latin": "Lactarius tabidus",
+      "note": "Habitat : Commun en milieu humide acide, sous bouleaux, dans les sphaignes des zones tourbeuses. Chapeau : Large de 3 à 6 cm, crème orangé à ocre orangé, centre mamelonné plus foncé, marge irrégulière, finement ridé surtout autour du mamelon. Pied : Lisse, de même couleur. Lames : Plus claires. Remarque : Espèce proche : le lactaire des bourbiers (Lactarius lacunarum), dans les fossés, les lieux boueux, sur les bords de mares asséchées ; chapeau orangé de 5 à 7 cm, lames pâles légèrement décurrentes, formant typiquement des filets en haut du pied, juste sous les lames.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_hepatique": {
+      "genus": "Lactaire hépatique (Lactarius hepaticus)",
+      "latin": "Lactarius hepaticus",
+      "note": "Habitat : Espèce caractéristique des pinèdes ou des pessières de plaine et de basse montagne, en troupes nombreuses jusqu'en arrière-saison. Chapeau : Large de 3 à 5 cm, plat ou un peu déprimé, finissant lobé, brun-rouge foncé couleur de foie, plus clair en séchant. Pied : Haut de 5 à 10 cm, plus foncé à la base. Lames : Crème à chamois. Remarque : Espèce proche : le lactaire roux (Lactarius rufus), également commensal des résineux et des bouleaux ; chapeau brun-roux velouté, non zoné ni cannelé, toujours mamelonné ; lait blanc et le restant, abondant, très piquant.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_chicoree": {
+      "genus": "Lactaire à odeur de chicorée (Lactarius camphoratus (Lactaire camphré))",
+      "latin": "Lactarius camphoratus (Lactaire camphré)",
+      "note": "Habitat : Espèce de couleur générale foncée, commune sous feuillus ou résineux, de juin à novembre. Chapeau : Large de 2 à 6 cm, mat, brun rougeâtre, plus pâle au bord, brunissant avec l'âge, un peu creusé au centre. Pied : Haut de 2 à 5 cm, brun-rouge sombre, devenant creux et plus foncé à la base. Lames : Serrées, cannelle rosé puis brun-rouge sombre. Remarque : Espèce proche (rare) : le lactaire à lait aqueux (Lactarius rostratus), dans les tapis de mousse sous les hêtres ; petit chapeau (3,5 cm maximum), brun-roux orangé, entièrement ridé-rugueux ; forte odeur de punaise.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_ride": {
+      "genus": "Lactaire ridé (Lactarius subumbonatus)",
+      "latin": "Lactarius subumbonatus",
+      "note": "Habitat : Fréquent dans les lieux humides des forêts : fossés argileux, ornières, bords d'étangs boisés, surtout sous chênes. Chapeau : Large de 3 à 8 cm, d'abord mamelonné puis plan, brun foncé à brun rougeâtre ou brun ochracé sombre, très lobé à la marge, surface rugueuse irrégulière, pâlissant par le sec. Pied : De même couleur, haut de 2 à 4 cm. Lames : Couleur ocre rosâtre.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
+      "confusions": []
+    },
+    "lactaire_fuligineux": {
+      "genus": "Lactaire fuligineux (Lactarius fuliginosus)",
+      "latin": "Lactarius fuliginosus",
+      "note": "Habitat : Sous feuillus (chênes), plus rarement sous conifères, dans les bois humides, en terrain argileux. Chapeau : Large de 4 à 10 cm, sec, velouté, couleur variable : gris, brun plus ou moins foncé, café au lait. Pied : Trapu, haut de 5 à 6 cm, de même couleur ou blanc (variété albipes). Lames : Crème ocrées, peu serrées. Remarque : Espèce proche : le lactaire âcre (Lactarius acris), sous hêtres en terrain calcaire ; café au lait, typiquement visqueux, un peu mamelonné, marge un peu relevée ; lait devenant rose vif à l'air (« rose dentifrice »).; Autre espèce proche : le lactaire enfumé (Lactarius picinus), espèce montagnarde des épicéas ou des sapins ; chapeau de 5 à 12 cm, brun foncé presque noir couleur de poix, déprimé, charnu et assez ferme, surface mate sèche, non zonée ; lames serrées, crème puis ocre, se tachant de brun à la cassure ; lait âcre et amer, blanc rougissant. Comestible malgré son âcreté, localement apprécié.",
+      "family": "Russulaceae",
+      "genusTax": "Lactarius",
+      "risk": "inedible",
+      "edibility": "inedible",
       "confusions": []
     }
   },
