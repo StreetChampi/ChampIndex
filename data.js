@@ -250,54 +250,29 @@ window.CHAMPI_DATA = {
       ]
     },
     "q_pluteus_color": {
-      "question": "De quelle couleur est le chapeau ?",
-      "hint": "Genre reconnu par ses lames libres virant au rose, sans anneau ni volve, poussant sur bois mort.",
+      "question": "Quelle famille de couleurs décrit le mieux le chapeau ?",
       "options": [
         {
-          "label": "Jaune vif, entièrement velouté, petit chapeau (2-5 cm)",
-          "next": {
-            "result": "pluteus_leoninus"
-          }
+          "label": "Jaune à orangé",
+          "next": "q_pluteus_yellow"
         },
         {
-          "label": "Brun brillant et soyeux, fibrilles plus foncées au centre (8-12 cm)",
-          "next": "q_pluteus_cervinus_check"
+          "label": "Brun",
+          "next": "q_pluteus_brown"
         },
         {
-          "label": "Gris verdâtre (environ 8 cm)",
+          "label": "Gris à verdâtre",
           "next": {
             "result": "pluteus_salicinus"
           }
         },
         {
-          "label": "Blanc, centre ocré et crevassé, grande espèce (jusqu'à 20 cm)",
-          "next": {
-            "result": "pluteus_patricien"
-          }
+          "label": "Blanc à crème",
+          "next": "q_pluteus_white"
         },
         {
-          "label": "Entièrement blanc, sur bois de résineux",
-          "next": {
-            "result": "pluteus_blanc"
-          }
-        },
-        {
-          "label": "Cendré, à veines saillantes, petit (3-4 cm)",
-          "next": {
-            "result": "pluteus_cendre"
-          }
-        },
-        {
-          "label": "Rouge vif devenant orangé",
-          "next": {
-            "result": "pluteus_rouge"
-          }
-        },
-        {
-          "label": "Aucune de ces couleurs ne correspond bien",
-          "next": {
-            "result": "plutee"
-          }
+          "label": "Cendré, veiné ou rouge vif",
+          "next": "q_pluteus_other"
         }
       ]
     },
@@ -1693,74 +1668,25 @@ window.CHAMPI_DATA = {
       ]
     },
     "q_lactaire_latex_pale": {
-      "question": "Quel profil correspond le mieux à votre observation ?",
+      "question": "Quelle couleur ou quel aspect domine le chapeau ?",
       "options": [
         {
-          "label": "Chapeau très visqueux gris-brun/olivâtre, sous hêtre ; lait gris-vert en séchant",
-          "next": {
-            "result": "lactaire_muqueux"
-          }
+          "label": "Gris-brun à olivâtre, très visqueux",
+          "next": "q_lactaire_pale_grey"
         },
         {
-          "label": "Grand chapeau brun olivâtre presque noir, très visqueux ; le document le signale toxique",
-          "next": {
-            "result": "lactaire_plombe"
-          }
+          "label": "Blanc, crème ou rose pâle",
+          "next": "q_lactaire_pale_white"
         },
         {
-          "label": "Lait très abondant qui brunit lentement ; chapeau orangé roux velouté, odeur forte d'artichaut",
-          "next": {
-            "result": "vachotte"
-          }
+          "label": "Orange à brun-roux",
+          "next": "q_lactaire_pale_orange"
         },
         {
-          "label": "Chapeau blanc, très large et velouté, lait blanc abondant très âcre",
-          "next": {
-            "result": "lactaire_veloute"
-          }
-        },
-        {
-          "label": "Chapeau crème zoné d'orange rosâtre, feuillus calcaires, lait blanc très poivré",
-          "next": {
-            "result": "lactaire_zone"
-          }
-        },
-        {
-          "label": "Chapeau rose orangé zoné et couvert de toison sous bouleaux",
-          "next": {
-            "result": "lactaire_toison"
-          }
-        },
-        {
-          "label": "Chapeau très pâle, feutré, peu ou pas zoné, sous bouleaux",
-          "next": {
-            "result": "lactaire_pubescent"
-          }
-        },
-        {
-          "label": "Chapeau orange vif brillant, sous mélèze ; lait blanc âcre",
-          "next": {
-            "result": "lactaire_melezes"
-          }
-        },
-        {
-          "label": "Chapeau orange vif non zoné, sous épicéa en montagne ; lait blanc",
-          "next": {
-            "result": "lactaire_fauve_orange"
-          }
-        },
-        {
-          "label": "Chapeau sec gris/brun, chair rosissant lentement, sous feuillus humides",
-          "next": {
-            "result": "lactaire_fuligineux"
-          }
-        },
-        {
-          "label": "Autre profil / doute",
+          "label": "Autre aspect ou doute",
           "next": "q_lactaire_habitat"
         }
-      ],
-      "allowUnknown": true
+      ]
     },
     "q_lactaire_habitat": {
       "question": "Quel indice de terrain correspond le mieux ?",
@@ -1851,7 +1777,7 @@ window.CHAMPI_DATA = {
       ]
     },
     "q_lactaire_white_stable": {
-      "question": "Quelle description du chapeau correspond le mieux ?",
+      "question": "Quel aspect du chapeau blanc ou pâle correspond le mieux ?",
       "options": [
         {
           "label": "Blanc et très velouté, grande espèce",
@@ -1866,13 +1792,13 @@ window.CHAMPI_DATA = {
           }
         },
         {
-          "label": "Uniquement sous peupliers/saules ; chapeau rosissant et lames rosées",
+          "label": "Chapeau rosissant et lames rosées, sous peupliers/saules",
           "next": {
             "result": "lactaire_controverse"
           }
         },
         {
-          "label": "Rose-orangé, zoné et laineux au bord, sous bouleaux",
+          "label": "Rose-orangé zoné et laineux au bord, sous bouleaux",
           "next": {
             "result": "lactaire_toison"
           }
@@ -1882,14 +1808,6 @@ window.CHAMPI_DATA = {
           "next": {
             "result": "lactaire_pubescent"
           }
-        },
-        {
-          "label": "Orange, fauve, brun-roux ou d'une autre couleur",
-          "next": "q_lactaire_white_stable_colored"
-        },
-        {
-          "label": "Aucun profil ne correspond",
-          "next": "q_lactaire_habitat"
         }
       ]
     },
@@ -1897,25 +1815,25 @@ window.CHAMPI_DATA = {
       "question": "Quel caractère complémentaire remarques-tu ?",
       "options": [
         {
-          "label": "Odeur forte de noix de coco ; sous bouleaux",
+          "label": "Odeur de noix de coco, sous bouleaux",
           "next": {
             "result": "lactaire_coco"
           }
         },
         {
-          "label": "Odeur de chicorée ; petit chapeau brun rougeâtre",
+          "label": "Odeur de chicorée, petit chapeau brun rougeâtre",
           "next": {
             "result": "lactaire_chicoree"
           }
         },
         {
-          "label": "Odeur de punaise ; surtout sous chênes",
+          "label": "Odeur de punaise, surtout sous chênes",
           "next": {
             "result": "lactaire_tranquille"
           }
         },
         {
-          "label": "Chapeau brun-roux mat, comme du caoutchouc ; plutôt sous hêtres",
+          "label": "Chapeau brun-roux mat, comme du caoutchouc, sous hêtres",
           "next": {
             "result": "lactaire_doucetre"
           }
@@ -1925,14 +1843,6 @@ window.CHAMPI_DATA = {
           "next": {
             "result": "lactaire_ride"
           }
-        },
-        {
-          "label": "Sous conifères, chapeau brun-roux à brun sombre",
-          "next": "q_lactaire_conifer_brown"
-        },
-        {
-          "label": "Autre aspect ou doute",
-          "next": "q_lactaire_habitat"
         }
       ]
     },
@@ -1989,10 +1899,6 @@ window.CHAMPI_DATA = {
         {
           "label": "Il devient brun sombre, gris-vert ou vert olive",
           "next": "q_lactaire_dark_change"
-        },
-        {
-          "label": "Je ne peux pas observer l'évolution",
-          "next": "q_lactaire_habitat"
         }
       ]
     },
@@ -2443,6 +2349,171 @@ window.CHAMPI_DATA = {
         {
           "label": "Aucun profil ne correspond clairement",
           "next": "q_russule_pungent"
+        }
+      ]
+    },
+    "q_pluteus_yellow": {
+      "question": "Le chapeau jaune est-il petit et entièrement velouté ?",
+      "options": [
+        {
+          "label": "Oui, petit (2–5 cm)",
+          "next": {
+            "result": "pluteus_leoninus"
+          }
+        },
+        {
+          "label": "Non / je ne sais pas",
+          "next": {
+            "result": "plutee"
+          }
+        }
+      ]
+    },
+    "q_pluteus_brown": {
+      "question": "Quel profil brun correspond le mieux ?",
+      "options": [
+        {
+          "label": "Brun brillant et soyeux, fibrilles plus foncées au centre (8–12 cm)",
+          "next": "q_pluteus_cervinus_check"
+        },
+        {
+          "label": "Aucun de ces caractères / doute",
+          "next": {
+            "result": "plutee"
+          }
+        }
+      ]
+    },
+    "q_pluteus_white": {
+      "question": "Quel aspect du chapeau blanc observes-tu ?",
+      "options": [
+        {
+          "label": "Centre ocré, crevassé, grande espèce (jusqu'à 20 cm)",
+          "next": {
+            "result": "pluteus_patricien"
+          }
+        },
+        {
+          "label": "Entièrement blanc, sur bois de résineux",
+          "next": {
+            "result": "pluteus_blanc"
+          }
+        },
+        {
+          "label": "Autre profil blanc ou incertain",
+          "next": {
+            "result": "plutee"
+          }
+        }
+      ]
+    },
+    "q_pluteus_other": {
+      "question": "Quel caractère est le plus évident ?",
+      "options": [
+        {
+          "label": "Cendré, avec des veines saillantes, petit (3–4 cm)",
+          "next": {
+            "result": "pluteus_cendre"
+          }
+        },
+        {
+          "label": "Rouge vif devenant orangé",
+          "next": {
+            "result": "pluteus_rouge"
+          }
+        },
+        {
+          "label": "Aucun de ces profils",
+          "next": {
+            "result": "plutee"
+          }
+        }
+      ]
+    },
+    "q_lactaire_pale_grey": {
+      "question": "Quel détail complémentaire correspond ?",
+      "options": [
+        {
+          "label": "Sous hêtre, lait gris-vert en séchant",
+          "next": {
+            "result": "lactaire_muqueux"
+          }
+        },
+        {
+          "label": "Grand chapeau brun olivâtre presque noir, très visqueux",
+          "next": {
+            "result": "lactaire_plombe"
+          }
+        },
+        {
+          "label": "Aucun de ces profils",
+          "next": "q_lactaire_habitat"
+        }
+      ]
+    },
+    "q_lactaire_pale_white": {
+      "question": "Quel profil clair correspond le mieux ?",
+      "options": [
+        {
+          "label": "Très large, blanc et velouté, lait blanc abondant",
+          "next": {
+            "result": "lactaire_veloute"
+          }
+        },
+        {
+          "label": "Crème zoné d'orange rosâtre, sous feuillus calcaires",
+          "next": {
+            "result": "lactaire_zone"
+          }
+        },
+        {
+          "label": "Rose-orangé zoné et laineux au bord, sous bouleaux",
+          "next": {
+            "result": "lactaire_toison"
+          }
+        },
+        {
+          "label": "Très pâle, feutré, peu zoné, sous bouleaux",
+          "next": {
+            "result": "lactaire_pubescent"
+          }
+        },
+        {
+          "label": "Autre profil clair",
+          "next": "q_lactaire_habitat"
+        }
+      ]
+    },
+    "q_lactaire_pale_orange": {
+      "question": "Quel profil orange ou brun-roux correspond ?",
+      "options": [
+        {
+          "label": "Lait abondant brunissant lentement, odeur forte d'artichaut",
+          "next": {
+            "result": "vachotte"
+          }
+        },
+        {
+          "label": "Orange vif brillant, sous mélèze",
+          "next": {
+            "result": "lactaire_melezes"
+          }
+        },
+        {
+          "label": "Orange vif non zoné, sous épicéa en montagne",
+          "next": {
+            "result": "lactaire_fauve_orange"
+          }
+        },
+        {
+          "label": "Chair rosissant lentement, sous feuillus humides",
+          "next": {
+            "result": "lactaire_fuligineux"
+          }
+        },
+        {
+          "label": "Autre profil",
+          "next": "q_lactaire_habitat"
         }
       ]
     }
