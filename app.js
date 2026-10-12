@@ -554,6 +554,13 @@ function renderQuestion(nodeId) {
   stop.onclick = () => forceShowAllCandidates();
   main.appendChild(stop);
 
+  const mascot = document.createElement("img");
+  mascot.className = "question-mascot";
+  mascot.src = "champs-illus1.png";
+  mascot.alt = "";
+  mascot.setAttribute("aria-hidden", "true");
+  main.appendChild(mascot);
+
   footer.innerHTML = "";
   if (historyStack.length > 0) {
     const backBtn = document.createElement("button");
