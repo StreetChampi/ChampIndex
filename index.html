@@ -745,6 +745,122 @@
   .landing-btn { background: #D97B66; color:#3A261C; border-radius: 24px 10px 24px 10px; box-shadow: 0 5px 0 rgba(58,38,28,.3); }
   .landing-continue { font-family: var(--font-sans); border-radius:18px; }
 
+
+  /* ---- Champi V5 : page questions inspirée du nouveau prototype ---- */
+  :root {
+    --paper: #F3F3EF;
+    --paper-deep: #D0AD78;
+    --paper-line: #D0AD78;
+    --ink: #24251F;
+    --ink-soft: #626454;
+    --soil: #3C452A;
+    --soil-mid: #3C452A;
+    --rust: #A4562B;
+    --rust-deep: #7C3E22;
+    --clay: #D0AD78;
+    --moss: #3C452A;
+    --moss-pale: #E5E8DD;
+  }
+  body { background:#F3F3EF; }
+  #app { background:#F3F3EF; }
+  #app::after { display:none; }
+  header {
+    background:#3C452A;
+    border-radius:0 0 28px 28px;
+    box-shadow:none;
+    padding:16px 28px 17px;
+  }
+  .brand-row { gap:12px; margin-bottom:12px; }
+  header h1 { color:#fff; font-size:clamp(28px, 8vw, 42px); font-variant:normal; font-style:italic; letter-spacing:-1.5px; }
+  .brand-glyph { color:#fff; width:38px; height:38px; }
+  .home-btn { width:38px; height:38px; border:0; border-radius:0; padding:4px; }
+  .progress-row { gap:10px; }
+  .progress-track { height:14px; background:#fff; background-image:none; border-radius:99px; }
+  .progress-fill,.progress-fill.progress-fill-multi { background:#D99A3F; background-image:none; }
+  .progress-percent { color:#D99A3F; font-size:13px; min-width:36px; }
+  main { padding:34px 22px 142px; gap:0; }
+  .step-label { display:none; }
+  .question {
+    background:#A4562B;
+    color:#fff;
+    border-radius:20px;
+    padding:17px 16px;
+    margin:28px 0 28px;
+    font-family:var(--font-sans);
+    font-style:italic;
+    font-weight:900;
+    font-size:clamp(16px,4.5vw,20px);
+    line-height:1.35;
+    text-transform:uppercase;
+    letter-spacing:.45px;
+    box-shadow:0 7px 9px rgba(40,35,26,.2);
+  }
+  .question::after { display:none; }
+  .options {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .option-btn,.option-btn:nth-child(2n),.option-btn:nth-child(3n) {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:88px;
+    padding:15px 12px;
+    background:#F3F3EF;
+    color:#171813;
+    border:0;
+    border-radius:22px;
+    font-family:var(--font-serif);
+    font-weight:600;
+    font-size:clamp(15px,4vw,18px);
+    line-height:1.35;
+    text-align:center;
+    box-shadow:0 5px 7px rgba(33,34,29,.22);
+    filter:none;
+  }
+  .option-btn::before { display:none; }
+  .option-btn:active { background:#E5E8DD; transform:translateY(2px); }
+  .option-btn-unknown {
+    display:block; width:100%; margin:0 0 14px;
+    background:#D0AD78; color:white; border:0; border-radius:22px;
+    padding:14px 16px; text-align:center; text-transform:uppercase;
+    font-weight:900; font-style:italic; font-size:14px;
+    box-shadow:0 5px 7px rgba(33,34,29,.2);
+  }
+  .no-match-link,.stop-link {
+    color:#fff; background:#D0911F; text-decoration:none;
+    font-size:13px; font-weight:900; font-style:italic; text-transform:uppercase;
+    border-radius:20px; padding:9px 12px; margin:0 0 12px;
+    box-shadow:0 4px 6px rgba(33,34,29,.2); opacity:1;
+  }
+  .stop-link { background:#F3F3EF; color:#6C6D61; box-shadow:none; text-decoration:underline dotted; text-transform:none; font-weight:600; }
+  .hint { margin:0 0 20px; border-left-color:#D0AD78; color:#626454; }
+  .hint.hint-warning { background:#F4E6E1; padding:10px 12px; border-radius:4px 12px 12px 4px; }
+  footer {
+    background:#F3F3EF; border-top:0; box-shadow:none;
+    padding:12px 22px calc(22px + env(safe-area-inset-bottom)); gap:14px;
+  }
+  .btn,.btn-secondary,.btn-primary,.btn-restart {
+    min-height:58px; border-radius:20px; border:0; filter:none;
+    font-family:var(--font-serif); font-weight:700; font-size:16px;
+    box-shadow:0 6px 8px rgba(33,34,29,.2);
+  }
+  .btn-secondary { background:#70412A; color:#fff; }
+  .btn-primary { background:#70412A; color:#fff; }
+  .btn-restart { background:#70412A; color:#fff; }
+  /* Accueil et fiches harmonisés sans effacer leur mise en page actuelle */
+  .home-cta { background:#A4562B; color:#fff; border-radius:22px; }
+  .home-cta-secondary { background:#D0AD78; color:#fff; border:0; }
+  .result-card,.candidate-card { background:#D0AD78; }
+  .sheet-section { background:#F3F3EF; border-color:#D0AD78; }
+  @media (max-width:360px) {
+    main { padding-left:18px; padding-right:18px; }
+    .options { gap:10px; }
+    .option-btn,.option-btn:nth-child(2n),.option-btn:nth-child(3n) { min-height:82px; padding:12px 9px; font-size:15px; }
+  }
+
 </style>
 </head>
 <body>
