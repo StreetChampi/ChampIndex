@@ -64,3 +64,11 @@ Webapp légère et utilisable hors ligne. Le fichier `data.js` contient les donn
 - `champi-cover.mp4` — animation vidéo locale de la page de garde
 
 Tout fonctionne sans connexion réseau une fois les fichiers téléchargés ensemble.
+
+
+### V5.2 — corrections après retour sur iPhone
+- Le titre de l’en-tête reste « Champi » sur l’accueil, pendant les questions et sur les résultats.
+- Ajustement des marges, de la taille du bouton d’accueil et de la ligne de marque pour éviter le débordement sur iPhone 13.
+- Barre de progression maintenue visible et adaptée à la largeur disponible.
+- Repositionnement du champignon au niveau du bas des boutons de navigation pour rapprocher visuellement son pied de la zone des boutons.
+- Préparation de l’intégration des polices personnalisées : déposer les fichiers dans `fonts/` pour pouvoir les déclarer avec `@font-face`.
