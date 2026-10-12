@@ -2066,51 +2066,43 @@ window.CHAMPI_DATA = {
       ]
     },
     "q_russule_group": {
-      "question": "Quel est le caractère le plus évident ?",
+      "question": "Quel aspect général correspond le mieux au champignon ?",
       "options": [
         {
-          "label": "Chair rougissant puis noircissant, ou noircissant directement",
+          "label": "La chair rougit puis noircit, ou noircit directement",
           "next": "q_russule_blackening"
         },
         {
-          "label": "Chapeau blanchâtre à ochracé pâle, nettement creusé au centre",
+          "label": "Chapeau blanc à crème, très creusé au centre",
           "next": {
             "result": "russule_sans_lait"
           }
         },
         {
-          "label": "Chair douce ; pied parfois rose, violacé ou jaune",
-          "next": "q_russule_soft_colored_stem"
-        },
-        {
-          "label": "Chair douce ; pied blanc, chapeau vert ou verdâtre",
+          "label": "Chapeau vert, gris-vert ou gris-bleu",
           "next": "q_russule_green"
         },
         {
-          "label": "Chair douce ; pied blanc, chapeau non vert",
-          "next": "q_russule_soft_white_stem"
-        },
-        {
-          "label": "Chair piquante/âcre",
-          "next": "q_russule_pungent"
+          "label": "Chapeau d'une autre couleur (rouge, rose, pourpre, brun, jaune…)",
+          "next": "q_russule_soft_colored_stem"
         }
       ]
     },
     "q_russule_blackening": {
-      "question": "La chair rougit-elle avant de noircir ?",
+      "question": "La chair change-t-elle de couleur après une coupe ou une blessure ?",
       "options": [
         {
-          "label": "Oui, elle rougit puis noircit",
+          "label": "Elle rougit puis noircit",
           "next": "q_russule_red_then_black"
         },
         {
-          "label": "Non, elle noircit directement",
+          "label": "Elle noircit rapidement sans rougir d'abord",
           "next": {
             "result": "russule_blanche_et_noire"
           }
         },
         {
-          "label": "Je ne sais pas",
+          "label": "Je ne peux pas déterminer ce changement",
           "next": {
             "result": "russule_noircissante"
           }
@@ -2121,13 +2113,13 @@ window.CHAMPI_DATA = {
       "question": "Les lames sont-elles très espacées ou serrées ?",
       "options": [
         {
-          "label": "Très espacées",
+          "label": "Lames très espacées",
           "next": {
             "result": "russule_noircissante"
           }
         },
         {
-          "label": "Serrées",
+          "label": "Lames serrées",
           "next": {
             "result": "russule_a_lames_denses"
           }
@@ -2135,69 +2127,67 @@ window.CHAMPI_DATA = {
       ]
     },
     "q_russule_soft_colored_stem": {
-      "question": "Quelle couleur du pied ou des lames est la plus caractéristique ?",
+      "question": "Quel détail visible ou olfactif correspond le mieux ?",
       "options": [
         {
-          "label": "Pied jaune citron, chapeau orangé vif, arête des lames jaune vif",
+          "label": "Pied jaune citron et lames à arête jaune vif",
           "next": {
             "result": "russule_doree"
           }
         },
         {
-          "label": "Pied rose/violacé et chair très ferme, chapeau rose-rouge",
+          "label": "Chapeau rouge-rose mat, très dur et crayeux",
           "next": {
             "result": "russule_jolie"
           }
         },
         {
-          "label": "Odeur de crustacé cuit et chair brunissante",
+          "label": "Odeur de crustacés cuits, pied souvent rouge ou rose",
           "next": {
             "result": "russule_feuille_morte"
           }
         },
         {
-          "label": "Pied rose en haut sous les lames, lames ochracées/jaunes",
-          "next": {
-            "result": "russule_olivacee"
-          }
+          "label": "Pied rosé et lames jaune ocré",
+          "next": "q_russule_colored_yellow_gills"
         },
         {
-          "label": "Pied rose en bas, lames jaune ocré",
-          "next": {
-            "result": "russule_alutacee"
-          }
-        },
-        {
-          "label": "Autre profil",
-          "next": "q_russule_soft_white_stem"
+          "label": "Aucun de ces profils",
+          "next": "q_russule_pungent"
         }
       ]
     },
     "q_russule_green": {
-      "question": "Les lames sont-elles souples et lardacées, ou cassantes ?",
+      "question": "Quel détail correspond le mieux ?",
       "options": [
         {
-          "label": "Souples, lardacées",
+          "label": "Lames souples, un peu grasses au toucher",
           "next": {
             "result": "russule_charbonniere"
           }
         },
         {
-          "label": "Cassantes ; chapeau mat, craquelé et pruineux",
+          "label": "Chapeau vert mat, craquelé en petites plaques",
           "next": {
             "result": "russule_verdoyante"
           }
         },
         {
-          "label": "Cassantes ; lames fourchues-anastomosées près du pied",
+          "label": "Lames fourchues ou reliées entre elles près du pied",
           "next": {
             "result": "russule_a_lames_fourchues"
           }
         },
         {
-          "label": "Cassantes ; chapeau vert, chair un peu piquante dans les lames",
+          "label": "Chapeau vert assez uniforme, sous bouleaux ou conifères",
           "next": {
             "result": "russule_vert_de_gris"
+          }
+        },
+        {
+          "label": "Chapeau gris-bleu, mat et comme poudré",
+          "next": {
+            "result": "russule_bleu_vert"
           }
         }
       ]
@@ -2206,44 +2196,18 @@ window.CHAMPI_DATA = {
       "question": "Quel groupe de caractères correspond le mieux ?",
       "options": [
         {
-          "label": "Lames lardacées",
+          "label": "Lames souples, un peu grasses au toucher",
           "next": {
             "result": "russule_charbonniere"
           }
         },
         {
-          "label": "Sous conifères ; grosse espèce ferme, saveur de noisette",
-          "next": {
-            "result": "russule_des_epiceas"
-          }
-        },
-        {
-          "label": "Chapeau mamelonné, lisse et satiné, sous conifères",
-          "next": {
-            "result": "russule_bleue"
-          }
-        },
-        {
-          "label": "Chapeau mat/pruineux, odeur d'iode à la base du pied",
-          "next": {
-            "result": "russule_de_turco"
-          }
+          "label": "Sous conifères, chapeau ferme et mamelonné",
+          "next": "q_russule_conifer_white_stem"
         },
         {
           "label": "Lames jaunes à ocre",
           "next": "q_russule_yellow_gills"
-        },
-        {
-          "label": "Lames blanches/crème ; chapeau brun-rose",
-          "next": {
-            "result": "russule_comestible"
-          }
-        },
-        {
-          "label": "Lames blanches/crème ; chapeau gris-vert à gris-bleu",
-          "next": {
-            "result": "russule_bleu_vert"
-          }
         },
         {
           "label": "Chair jaunissante, odeur de miel en vieillissant",
@@ -2252,8 +2216,8 @@ window.CHAMPI_DATA = {
           }
         },
         {
-          "label": "Autre profil",
-          "next": "q_russule_pungent"
+          "label": "Autre profil : lames blanches ou crème",
+          "next": "q_russule_white_gills"
         }
       ]
     },
@@ -2298,12 +2262,6 @@ window.CHAMPI_DATA = {
         {
           "label": "Pourpre, violacé à noirâtre",
           "next": "q_russule_purple_pungent"
-        },
-        {
-          "label": "Blanchâtre à ochracé pâle, nettement déprimé",
-          "next": {
-            "result": "russule_sans_lait"
-          }
         }
       ]
     },
@@ -2311,13 +2269,13 @@ window.CHAMPI_DATA = {
       "question": "Le chapeau est-il gris-bleu sombre/pruineux ou vert ?",
       "options": [
         {
-          "label": "Gris-vert à gris-bleu sombre, pruineux",
+          "label": "Gris-vert à gris-bleu sombre, chapeau mat ou pruineux",
           "next": {
             "result": "russule_bleu_vert"
           }
         },
         {
-          "label": "Verdâtre",
+          "label": "Vert assez uniforme, notamment sous bouleaux",
           "next": {
             "result": "russule_vert_de_gris"
           }
@@ -2345,13 +2303,13 @@ window.CHAMPI_DATA = {
       "question": "Quelle caractéristique accompagne le chapeau rouge à rose ?",
       "options": [
         {
-          "label": "Lames parfaitement blanches, odeur sucrée-vanillée typique",
+          "label": "Lames blanches, chapeau rouge vif",
           "next": {
             "result": "russule_emetique_des_chenes"
           }
         },
         {
-          "label": "Lames crème, sous chênes, chair jaunissante",
+          "label": "Chapeau rouge-rose, lames crème, sous feuillus",
           "next": {
             "result": "russule_couleur_de_peche"
           }
@@ -2363,7 +2321,7 @@ window.CHAMPI_DATA = {
           }
         },
         {
-          "label": "Lames jaunes, chapeau rouge et orangé taché de rouille",
+          "label": "Chapeau rouge-orangé taché de rouille",
           "next": {
             "result": "russule_maculee"
           }
@@ -2374,28 +2332,117 @@ window.CHAMPI_DATA = {
       "question": "Les lames sont-elles blanches ou jaunes ?",
       "options": [
         {
-          "label": "Jaunes",
+          "label": "Lames jaunes, surtout sous pins",
           "next": {
             "result": "russule_sardoine"
           }
         },
         {
-          "label": "Blanches ; arête finement denticulée",
+          "label": "Lames blanches, arête finement denticulée",
           "next": {
             "result": "russule_fragile"
           }
         },
         {
-          "label": "Blanches ; sous pins, surtout",
+          "label": "Sous pins, pied souvent violacé",
           "next": {
             "result": "russule_des_pinedes"
           }
         },
         {
-          "label": "Blanches ; sous feuillus, surtout chênes",
+          "label": "Sous feuillus, chapeau brun vineux à noirâtre",
           "next": {
             "result": "russule_pourpre_et_noire"
           }
+        }
+      ]
+    },
+    "q_russule_colored_yellow_gills": {
+      "question": "Quelle combinaison de couleurs vois-tu ?",
+      "options": [
+        {
+          "label": "Lames jaune citron, chapeau pourpre ou violacé, sous pins",
+          "next": {
+            "result": "russule_sardoine"
+          }
+        },
+        {
+          "label": "Lames ocre-jaune, chapeau violet-rouge souvent décoloré",
+          "next": {
+            "result": "russule_alutacee"
+          }
+        },
+        {
+          "label": "Chapeau jaune à orangé, petite russule",
+          "next": {
+            "result": "russule_cameleon"
+          }
+        },
+        {
+          "label": "Chapeau rouge-orangé avec des taches rouille",
+          "next": {
+            "result": "russule_maculee"
+          }
+        }
+      ]
+    },
+    "q_russule_conifer_white_stem": {
+      "question": "Quel détail est le plus net ?",
+      "options": [
+        {
+          "label": "Grosse russule ferme, chapeau variable, lames jaunissant",
+          "next": {
+            "result": "russule_des_epiceas"
+          }
+        },
+        {
+          "label": "Chapeau avec un mamelon net, lisse et brillant",
+          "next": {
+            "result": "russule_bleue"
+          }
+        },
+        {
+          "label": "Chapeau mat ou pruineux, odeur d'iode à la base du pied",
+          "next": {
+            "result": "russule_de_turco"
+          }
+        },
+        {
+          "label": "Aucun de ces profils",
+          "next": "q_russule_white_gills"
+        }
+      ]
+    },
+    "q_russule_white_gills": {
+      "question": "Quel aspect du chapeau ou quel habitat correspond le mieux ?",
+      "options": [
+        {
+          "label": "Chapeau brun-rose, marge parfois relevée",
+          "next": {
+            "result": "russule_comestible"
+          }
+        },
+        {
+          "label": "Chapeau gris-bleu, mat et pruineux",
+          "next": {
+            "result": "russule_bleu_vert"
+          }
+        },
+        {
+          "label": "Chapeau ocre-brun, visqueux, marge très cannelée",
+          "next": {
+            "result": "russule_fetide"
+          }
+        },
+        {
+          "label": "Sous bouleaux, chapeau rose pâle qui se décolore",
+          "next": {
+            "result": "russule_palissante"
+          }
+        },
+        {
+          "label": "Aucun profil ne correspond clairement",
+          "next": "q_russule_pungent"
         }
       ]
     }
