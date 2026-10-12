@@ -537,21 +537,21 @@ function renderQuestion(nodeId) {
   if (node.allowUnknown) {
     const unknownBtn = document.createElement("button");
     unknownBtn.className = "option-btn-unknown";
-    unknownBtn.textContent = "Je ne sais pas / je n'ai pas pu vérifier";
+    unknownBtn.textContent = "Je n’arrive pas à dire";
     unknownBtn.onclick = () => answerUnknown(nodeId);
     main.appendChild(unknownBtn);
   }
 
   const noMatch = document.createElement("button");
   noMatch.className = "no-match-link";
-  noMatch.textContent = "Aucune de ces réponses ne correspond ? Continuer avec d'autres questions";
-  noMatch.onclick = () => answerUnknown(nodeId);
+  noMatch.textContent = "Voir toutes les espèces restantes";
+  noMatch.onclick = () => forceShowAllCandidates();
   main.appendChild(noMatch);
 
   const stop = document.createElement("button");
   stop.className = "stop-link";
-  stop.textContent = "Ou arrêter les questions et voir toutes les pistes encore possibles";
-  stop.onclick = () => forceShowAllCandidates();
+  stop.textContent = "Continuer à affiner mon observation";
+  stop.onclick = () => answerUnknown(nodeId);
   main.appendChild(stop);
 
   const mascot = document.createElement("img");
