@@ -40,6 +40,20 @@ Webapp légère et utilisable hors ligne. Le fichier `data.js` contient les donn
 - Front-office revu dans la même direction graphique.
 - Page de garde avec la vidéo locale `champi-cover.mp4`, avec image de secours `champi-cover.jpeg`.
 
+### V5 — refonte de l’interface et simplification de la clé
+- Nouvelle direction graphique mobile : en-tête vert olive, barre de progression plus visible, cartouche de question terracotta et réponses en cartes à deux colonnes.
+- Harmonisation des boutons de navigation, de l’accueil et des fiches de résultats.
+- Ajout du petit champignon illustré `champs-illus1.png` sur l’écran des questions.
+- Libellés clarifiés : « Je n’arrive pas à dire » et « Voir toutes les espèces restantes ».
+- Division des embranchements trop longs, notamment pour les russules, lactaires et plutées, afin de limiter chaque question à cinq réponses maximum.
+- La clé des russules privilégie les critères observables et évite de proposer la dégustation comme étape de détermination.
+
+### V5.1 — ajustements typographiques et navigation
+- Agrandissement du nom Champi dans l’en-tête et renforcement de la visibilité de la progression.
+- Polices de substitution déclarées pour approcher Barbra, Zing Rust Base et Special Elite. Les fichiers de ces polices ne sont pas embarqués dans le dépôt : le navigateur utilise donc les polices disponibles localement.
+- Champignon positionné au niveau des boutons de navigation pour créer un effet d’ancrage visuel.
+- Mise à jour des libellés et de l’action « Voir toutes les espèces restantes ».
+
 ## Fichiers
 
 - `index.html` — application utilisateur
