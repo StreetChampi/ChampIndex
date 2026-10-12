@@ -426,7 +426,7 @@ function openSaveModal(resultId) {
    ============================================================ */
 
 function renderHome() {
-  headerTitle.textContent = "Clé des champignons à lames";
+  headerTitle.textContent = "Champi";
   progressFill.style.width = "0%";
   progressPercent.textContent = "0%";
   progressFill.setAttribute("aria-label", "Progression : 0% des pistes finales exclues");
@@ -496,7 +496,7 @@ function renderHome() {
 
 function renderQuestion(nodeId) {
   const node = KEY.nodes[nodeId];
-  headerTitle.textContent = "Clé des champignons à lames";
+  headerTitle.textContent = "Champi";
   const progress = estimateProgress();
   const progressRounded = Math.round(progress);
   progressFill.style.width = progressRounded + "%";
@@ -587,7 +587,7 @@ function renderFinalResults(ids) {
 function renderCandidateList(ids, isForced) {
   const sorted = Array.from(new Set(ids)).sort((a, b) => riskRank(KEY.results[a]) - riskRank(KEY.results[b]));
 
-  headerTitle.textContent = "Plusieurs pistes possibles";
+  headerTitle.textContent = "Champi";
   progressFill.style.width = "100%";
   progressPercent.textContent = "100%";
   progressFill.setAttribute("aria-label", "Progression : 100% des pistes finales exclues");
@@ -678,7 +678,7 @@ function renderCandidateList(ids, isForced) {
 
 function renderResult(resultId, backOverride) {
   const res = KEY.results[resultId];
-  headerTitle.textContent = "Résultat";
+  headerTitle.textContent = "Champi";
   progressFill.style.width = "100%";
   progressPercent.textContent = "100%";
   progressFill.setAttribute("aria-label", "Progression : 100% des pistes finales exclues");
