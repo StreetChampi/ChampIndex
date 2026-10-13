@@ -1036,6 +1036,23 @@ footer{background:var(--paper);border-top:1px solid var(--paper-line);box-shadow
  .question-mascot{width:64px;height:88px;left:4px;bottom:19px}
 }
 
+
+/* Logo et empreintes fournis dans assets/illustrations */
+.brand-row{position:relative}
+header h1{font-size:0!important;line-height:1!important;width:auto;height:43px;flex:1;background:url("./assets/illustrations/Logo-champi.svg") left center/contain no-repeat;min-width:0}
+.landing-title{font-family:"Bricolage Grotesque",sans-serif;font-size:0;line-height:1;width:min(330px,90%);height:96px;background:url("./assets/illustrations/Logo-champi.svg") left center/contain no-repeat;margin:0 0 14px}
+.landing-image-wrap{background:var(--soil)}
+.landing-image-wrap .landing-image,.landing-image-wrap .landing-video{display:none}
+.landing-image-wrap::after{background:radial-gradient(ellipse at 50% 40%,rgba(194,138,66,.12),transparent 55%),linear-gradient(150deg,#30392B,#20271F)}
+.landing-glow{display:none}
+.landing-content{padding:28px 24px calc(30px + env(safe-area-inset-bottom))}
+.landing-kicker{font-family:"JMH Typewriter","Courier New",monospace;color:var(--clay);font-size:10px;letter-spacing:1.5px}
+.landing-subtitle{font-family:"JMH Typewriter","Courier New",monospace;font-size:12px;color:var(--paper);line-height:1.6}
+.landing-btn{font-family:"Staatliches",sans-serif;font-size:19px;letter-spacing:.5px;background:var(--rust);color:var(--paper);border-radius:3px;box-shadow:3px 3px 0 rgba(0,0,0,.2)}
+.landing-continue{font-family:"JMH Typewriter","Courier New",monospace;border-radius:3px}
+.question{background-image:linear-gradient(rgba(168,79,42,.94),rgba(168,79,42,.94)),url("./assets/illustrations/empreinte%20(1).png");background-size:auto,150px;background-position:center,right bottom;background-repeat:no-repeat}
+.result-card::after,.candidate-card::after{content:"";display:block;height:9px;margin:14px -4px -4px;background:url("./assets/illustrations/empreinte%20(2).png") left center/auto 26px repeat-x;opacity:.28;pointer-events:none}
+
 </style>
 </head>
 <body>
