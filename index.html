@@ -1087,6 +1087,36 @@ header h1{background-image:url("./assets/illustrations/Logo-champi.svg");height:
 footer .btn-secondary{margin-left:0!important}
 @media(max-width:390px){footer .btn-secondary{margin-left:0!important}}
 
+
+/* Accueil : animation conservée, logo posé lisiblement par-dessus */
+#landing .landing-image-wrap .landing-video{display:block!important;opacity:1!important;filter:saturate(.78) contrast(1.04)!important}
+#landing .landing-image-wrap .landing-image{display:block!important}
+#landing .landing-image-wrap::after{background:linear-gradient(180deg,rgba(32,39,31,.08) 10%,rgba(32,39,31,.18) 45%,rgba(32,39,31,.88) 100%)!important}
+#landing .landing-content{background:linear-gradient(180deg,rgba(37,45,35,0) 0%,var(--soil) 23%)!important;margin-top:-68px;padding-top:34px!important}
+#landing .landing-title{
+ display:block!important;font-size:0!important;line-height:1!important;
+ width:min(310px,88%)!important;height:104px!important;min-height:104px!important;
+ margin:0 auto 16px!important;
+ background:url("./assets/illustrations/Logo-champi.svg") center/contain no-repeat!important;
+ filter:drop-shadow(0 2px 0 rgba(0,0,0,.14))
+}
+#landing .landing-kicker{text-align:center;position:relative;z-index:2}
+#landing .landing-subtitle{max-width:340px;margin-left:auto;margin-right:auto}
+#landing .landing-btn{border-radius:3px!important}
+#landing .landing-continue{border-radius:3px!important}
+/* Utiliser les vrais noms des fichiers (respect de la casse sous GitHub Pages) */
+.question{
+ background-image:linear-gradient(rgba(168,79,42,.72),rgba(168,79,42,.72)),url("./assets/illustrations/Empreinte1.svg")!important;
+ background-size:auto, min(54vw,230px) auto!important;
+ background-position:center,right center!important;background-repeat:no-repeat!important;
+}
+.result-card::after,.candidate-card::after{
+ background-image:url("./assets/illustrations/Empreinte2.svg")!important;
+ background-size:auto 44px!important;height:30px!important;opacity:.72!important;
+ margin:14px 0 -2px!important;background-position:left center!important;
+ background-repeat:repeat-x!important
+}
+
 </style>
 </head>
 <body>
