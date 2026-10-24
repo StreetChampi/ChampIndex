@@ -1153,6 +1153,43 @@ footer .btn-secondary{margin-left:0!important}
  background-repeat:repeat-x!important;opacity:.82!important;
 }
 
+
+/* Correctifs précis selon les annotations PDF du 24 octobre */
+header h1{
+ background-image:url("./assets/illustrations/Logo%20champi.PNG")!important;
+ background-position:left center!important;background-repeat:no-repeat!important;background-size:contain!important;
+ filter:brightness(0) invert(1)!important;
+ width:auto!important;min-width:0!important;height:46px!important;
+}
+/* Le logo horizontal est utilisé en une seule couleur claire, pour rester lisible sur le fond sombre. */
+#landing .landing-title{
+ background-image:url("./assets/illustrations/Logo%20champi.PNG")!important;
+ background-position:center!important;background-repeat:no-repeat!important;background-size:contain!important;
+ filter:brightness(0) invert(1) drop-shadow(0 2px 2px rgba(0,0,0,.18))!important;
+ width:min(360px,94%)!important;height:108px!important;min-height:108px!important;
+ margin:0 auto 18px!important;
+}
+/* Vidéo en lecture automatique et cadrage moins agressif sur le haut du sujet. */
+#landing .landing-image-wrap{height:min(58vh,560px)!important;min-height:360px!important;max-height:none!important}
+#landing .landing-image-wrap .landing-video{
+ display:block!important;visibility:visible!important;opacity:1!important;
+ width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 42%!important;
+}
+#landing .landing-image-wrap .landing-image{display:none!important}
+#landing .landing-image-wrap::after{
+ background:linear-gradient(180deg,rgba(30,38,29,.02) 0%,rgba(30,38,29,.06) 42%,rgba(30,38,29,.88) 100%)!important
+}
+/* Une empreinte unique, grande et en réserve dans la cartouche : pas de frise décorative répétée. */
+.question{
+ position:relative!important;isolation:isolate;
+ background-color:var(--rust)!important;
+ background-image:linear-gradient(rgba(168,79,42,.28),rgba(168,79,42,.28)),url("./assets/illustrations/empreinte%20(1).png")!important;
+ background-size:100% 100%,min(48vw,210px) auto!important;
+ background-position:center,right 12px center!important;background-repeat:no-repeat!important;
+}
+/* Les fiches espèces restent propres et lisibles : suppression de la frise trop petite. */
+.result-card::after,.candidate-card::after{display:none!important;content:none!important}
+
 </style>
 </head>
 <body>
