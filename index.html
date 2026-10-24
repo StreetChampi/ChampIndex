@@ -1190,6 +1190,55 @@ header h1{
 /* Les fiches espèces restent propres et lisibles : suppression de la frise trop petite. */
 .result-card::after,.candidate-card::after{display:none!important;content:none!important}
 
+
+/* Correctifs ciblés : logo horizontal, couverture non masquée, empreintes en touches éditoriales */
+header h1{
+ background-image:url("./assets/illustrations/Logo%20vertical.svg")!important;
+ background-size:contain!important;background-position:left center!important;background-repeat:no-repeat!important;
+ filter:brightness(0) invert(1)!important;
+}
+#landing .landing-title{
+ background-image:url("./assets/illustrations/Logo%20vertical.svg")!important;
+ background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;
+ filter:brightness(0) invert(1) drop-shadow(0 2px 2px rgba(0,0,0,.18))!important;
+}
+/* La couverture doit occuper toute la zone : pas de bande unie au-dessus de la vidéo. */
+#landing .landing-image-wrap{
+ position:absolute!important;inset:0!important;height:auto!important;min-height:0!important;max-height:none!important;
+ background:transparent!important;overflow:hidden!important;
+}
+#landing .landing-image-wrap .landing-video{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ object-fit:cover!important;object-position:center 30%!important;
+}
+#landing .landing-image-wrap .landing-image{display:none!important}
+#landing .landing-image-wrap::after{
+ content:""!important;position:absolute!important;inset:0!important;
+ background:linear-gradient(180deg,rgba(25,32,24,.04) 0%,rgba(25,32,24,.12) 38%,rgba(25,32,24,.92) 100%)!important;
+ pointer-events:none!important;
+}
+/* Empreintes : repères de carnet plutôt que frises. */
+.hint{
+ position:relative;padding-right:38px!important;
+}
+.hint::after{
+ content:"";position:absolute;right:0;top:50%;transform:translateY(-50%) rotate(8deg);
+ width:30px;height:30px;background:url("./assets/illustrations/empreinte%20(3).svg") center/contain no-repeat;
+ opacity:.48;pointer-events:none;
+}
+.result-card,.candidate-card{position:relative;overflow:hidden}
+.result-card::before,.candidate-card::before{
+ content:"";position:absolute;right:10px;top:10px;width:46px;height:46px;
+ background:url("./assets/illustrations/empreinte%20(2).svg") center/contain no-repeat;
+ opacity:.22;pointer-events:none;
+}
+.confusion-card{position:relative}
+.confusion-card::after{
+ content:"";position:absolute;right:8px;bottom:8px;width:26px;height:26px;
+ background:url("./assets/illustrations/empreinte%20(1).svg") center/contain no-repeat;
+ opacity:.28;pointer-events:none;
+}
+
 </style>
 </head>
 <body>
