@@ -1037,285 +1037,82 @@ footer{background:var(--paper);border-top:1px solid var(--paper-line);box-shadow
 }
 
 
-/* Logo et empreintes fournis dans assets/illustrations */
-.brand-row{position:relative}
-header h1{font-size:0!important;line-height:1!important;width:auto;height:43px;flex:1;background:url("./assets/illustrations/Logo-champi.svg") left center/contain no-repeat;min-width:0}
-.landing-title{font-family:"Bricolage Grotesque",sans-serif;font-size:0;line-height:1;width:min(330px,90%);height:96px;background:url("./assets/illustrations/Logo-champi.svg") left center/contain no-repeat;margin:0 0 14px}
-.landing-image-wrap{background:var(--soil)}
-.landing-image-wrap .landing-image,.landing-image-wrap .landing-video{display:none}
-.landing-image-wrap::after{background:radial-gradient(ellipse at 50% 40%,rgba(194,138,66,.12),transparent 55%),linear-gradient(150deg,#30392B,#20271F)}
-.landing-glow{display:none}
-.landing-content{padding:28px 24px calc(30px + env(safe-area-inset-bottom))}
-.landing-kicker{font-family:"JMH Typewriter","Courier New",monospace;color:var(--clay);font-size:10px;letter-spacing:1.5px}
-.landing-subtitle{font-family:"JMH Typewriter","Courier New",monospace;font-size:12px;color:var(--paper);line-height:1.6}
-.landing-btn{font-family:"Staatliches",sans-serif;font-size:19px;letter-spacing:.5px;background:var(--rust);color:var(--paper);border-radius:3px;box-shadow:3px 3px 0 rgba(0,0,0,.2)}
-.landing-continue{font-family:"JMH Typewriter","Courier New",monospace;border-radius:3px}
-.question{background-image:linear-gradient(rgba(168,79,42,.94),rgba(168,79,42,.94)),url("./assets/illustrations/empreinte%20(1).png");background-size:auto,150px;background-position:center,right bottom;background-repeat:no-repeat}
-.result-card::after,.candidate-card::after{content:"";display:block;height:9px;margin:14px -4px -4px;background:url("./assets/illustrations/empreinte%20(2).png") left center/auto 26px repeat-x;opacity:.28;pointer-events:none}
 
-
-/* Ajustements suite au retour visuel : empreintes lisibles, accueil animé, navigation dégagée */
-header h1{background-image:url("./assets/illustrations/Logo-champi.svg");height:50px}
-.question{
- background-image:linear-gradient(rgba(168,79,42,.76),rgba(168,79,42,.76)),url("./assets/illustrations/empreinte%20(1).svg");
- background-size:auto,210px auto;
- background-position:center,right center;
- background-repeat:no-repeat;
+/* Réglages consolidés — logos sans filtre, couverture plein écran,
+   empreinte lisible dans la cartouche et aucune mini-empreinte décorative. */
+header{
+  background:var(--paper)!important;
+  color:var(--ink)!important;
+  border-radius:0!important;
+  box-shadow:0 2px 0 rgba(58,38,28,.12)!important;
 }
-.result-card::after,.candidate-card::after{
- height:26px;
- margin:14px 0 -2px;
- background-image:url("./assets/illustrations/empreinte%20(2).svg");
- background-position:left center;
- background-size:auto 48px;
- background-repeat:repeat-x;
- opacity:.58;
-}
-#landing .landing-image-wrap{position:relative;overflow:hidden}
-#landing .landing-image-wrap .landing-image{display:none}
-#landing .landing-image-wrap .landing-video{display:block;width:100%;height:100%;object-fit:cover;opacity:.78;filter:saturate(.72) contrast(1.05)}
-#landing .landing-image-wrap::after{background:linear-gradient(180deg,rgba(32,39,31,.12),rgba(32,39,31,.72))}
-#landing .landing-content{position:relative;background:var(--soil)}
-#landing .landing-content::before{
- content:"";position:absolute;right:-35px;top:-35px;width:190px;height:190px;
- background:url("./assets/illustrations/texture%20tache%20(1).svg") center/contain no-repeat;
- opacity:.12;pointer-events:none
-}
-#landing .landing-title{position:relative;z-index:1;min-height:100px}
-#landing .landing-btn{position:relative;z-index:1}
-.question-mascot{display:none!important}
-footer .btn-secondary{margin-left:0!important}
-@media(max-width:390px){footer .btn-secondary{margin-left:0!important}}
-
-
-/* Accueil : animation conservée, logo posé lisiblement par-dessus */
-#landing .landing-image-wrap .landing-video{display:block!important;opacity:1!important;filter:saturate(.78) contrast(1.04)!important}
-#landing .landing-image-wrap .landing-image{display:block!important}
-#landing .landing-image-wrap::after{background:linear-gradient(180deg,rgba(32,39,31,.08) 10%,rgba(32,39,31,.18) 45%,rgba(32,39,31,.88) 100%)!important}
-#landing .landing-content{background:linear-gradient(180deg,rgba(37,45,35,0) 0%,var(--soil) 23%)!important;margin-top:-68px;padding-top:34px!important}
-#landing .landing-title{
- display:block!important;font-size:0!important;line-height:1!important;
- width:min(310px,88%)!important;height:104px!important;min-height:104px!important;
- margin:0 auto 16px!important;
- background:url("./assets/illustrations/Logo-champi.svg") center/contain no-repeat!important;
- filter:drop-shadow(0 2px 0 rgba(0,0,0,.14))
-}
-#landing .landing-kicker{text-align:center;position:relative;z-index:2}
-#landing .landing-subtitle{max-width:340px;margin-left:auto;margin-right:auto}
-#landing .landing-btn{border-radius:3px!important}
-#landing .landing-continue{border-radius:3px!important}
-/* Utiliser les vrais noms des fichiers (respect de la casse sous GitHub Pages) */
-.question{
- background-image:linear-gradient(rgba(168,79,42,.72),rgba(168,79,42,.72)),url("./assets/illustrations/Empreinte1.svg")!important;
- background-size:auto, min(54vw,230px) auto!important;
- background-position:center,right center!important;background-repeat:no-repeat!important;
-}
-.result-card::after,.candidate-card::after{
- background-image:url("./assets/illustrations/Empreinte2.svg")!important;
- background-size:auto 44px!important;height:30px!important;opacity:.72!important;
- margin:14px 0 -2px!important;background-position:left center!important;
- background-repeat:repeat-x!important
-}
-
-
-/* Corrections d'après le retour graphique du 24/10 */
-#landing .landing-image-wrap .landing-video{
- display:block!important;opacity:1!important;visibility:visible!important;
- width:100%;height:100%;object-fit:cover;
- animation:landing-breathe 14s ease-in-out infinite alternate;
-}
-#landing .landing-image-wrap .landing-image{display:block!important}
-#landing .landing-image-wrap{height:56vh;min-height:330px;max-height:520px}
-#landing .landing-image-wrap::after{
- background:linear-gradient(180deg,rgba(28,35,27,.08) 0%,rgba(28,35,27,.04) 38%,rgba(28,35,27,.88) 100%)!important
-}
-#landing .landing-content{
- margin-top:-84px!important;padding:22px 24px calc(30px + env(safe-area-inset-bottom))!important;
- background:linear-gradient(180deg,rgba(37,45,35,0) 0%,var(--soil) 24%)!important;
-}
-#landing .landing-title{
- display:block!important;width:min(340px,92%)!important;height:112px!important;min-height:112px!important;
- margin:0 auto 18px!important;
- background:url("./assets/illustrations/Logo%20champi.PNG") center/contain no-repeat!important;
- filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));
-}
-#landing .landing-kicker{margin-bottom:8px!important;text-align:center}
-#landing .landing-subtitle{max-width:350px;margin:10px auto 22px!important}
-.question{
- background-image:linear-gradient(rgba(168,79,42,.54),rgba(168,79,42,.54)),url("./assets/illustrations/Empreinte1.svg")!important;
- background-size:auto,min(62vw,270px) auto!important;
- background-position:center,right center!important;background-repeat:no-repeat!important;
-}
-.result-card::after,.candidate-card::after{
- height:40px!important;margin:15px 0 0!important;
- background-image:url("./assets/illustrations/Empreinte2.svg")!important;
- background-size:auto 54px!important;background-position:left center!important;
- background-repeat:repeat-x!important;opacity:.82!important;
-}
-
-
-/* Correctifs précis selon les annotations PDF du 24 octobre */
-header h1{
- background-image:url("./assets/illustrations/Logo%20champi.PNG")!important;
- background-position:left center!important;background-repeat:no-repeat!important;background-size:contain!important;
- filter:brightness(0) invert(1)!important;
- width:auto!important;min-width:0!important;height:46px!important;
-}
-/* Le logo horizontal est utilisé en une seule couleur claire, pour rester lisible sur le fond sombre. */
-#landing .landing-title{
- background-image:url("./assets/illustrations/Logo%20champi.PNG")!important;
- background-position:center!important;background-repeat:no-repeat!important;background-size:contain!important;
- filter:brightness(0) invert(1) drop-shadow(0 2px 2px rgba(0,0,0,.18))!important;
- width:min(360px,94%)!important;height:108px!important;min-height:108px!important;
- margin:0 auto 18px!important;
-}
-/* Vidéo en lecture automatique et cadrage moins agressif sur le haut du sujet. */
-#landing .landing-image-wrap{height:min(58vh,560px)!important;min-height:360px!important;max-height:none!important}
-#landing .landing-image-wrap .landing-video{
- display:block!important;visibility:visible!important;opacity:1!important;
- width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 42%!important;
-}
-#landing .landing-image-wrap .landing-image{display:none!important}
-#landing .landing-image-wrap::after{
- background:linear-gradient(180deg,rgba(30,38,29,.02) 0%,rgba(30,38,29,.06) 42%,rgba(30,38,29,.88) 100%)!important
-}
-/* Une empreinte unique, grande et en réserve dans la cartouche : pas de frise décorative répétée. */
-.question{
- position:relative!important;isolation:isolate;
- background-color:var(--rust)!important;
- background-image:linear-gradient(rgba(168,79,42,.28),rgba(168,79,42,.28)),url("./assets/illustrations/empreinte%20(1).png")!important;
- background-size:100% 100%,min(48vw,210px) auto!important;
- background-position:center,right 12px center!important;background-repeat:no-repeat!important;
-}
-/* Les fiches espèces restent propres et lisibles : suppression de la frise trop petite. */
-.result-card::after,.candidate-card::after{display:none!important;content:none!important}
-
-
-/* Correctifs ciblés : logo horizontal, couverture non masquée, empreintes en touches éditoriales */
-header h1{
- background-image:url("./assets/illustrations/Logo%20vertical.svg")!important;
- background-size:contain!important;background-position:left center!important;background-repeat:no-repeat!important;
- filter:brightness(0) invert(1)!important;
-}
-#landing .landing-title{
- background-image:url("./assets/illustrations/Logo%20vertical.svg")!important;
- background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;
- filter:brightness(0) invert(1) drop-shadow(0 2px 2px rgba(0,0,0,.18))!important;
-}
-/* La couverture doit occuper toute la zone : pas de bande unie au-dessus de la vidéo. */
-#landing .landing-image-wrap{
- position:absolute!important;inset:0!important;height:auto!important;min-height:0!important;max-height:none!important;
- background:transparent!important;overflow:hidden!important;
-}
-#landing .landing-image-wrap .landing-video{
- position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
- object-fit:cover!important;object-position:center 30%!important;
-}
-#landing .landing-image-wrap .landing-image{display:none!important}
-#landing .landing-image-wrap::after{
- content:""!important;position:absolute!important;inset:0!important;
- background:linear-gradient(180deg,rgba(25,32,24,.04) 0%,rgba(25,32,24,.12) 38%,rgba(25,32,24,.92) 100%)!important;
- pointer-events:none!important;
-}
-/* Empreintes : repères de carnet plutôt que frises. */
-.hint{
- position:relative;padding-right:38px!important;
-}
-.hint::after{
- content:"";position:absolute;right:0;top:50%;transform:translateY(-50%) rotate(8deg);
- width:30px;height:30px;background:url("./assets/illustrations/empreinte%20(3).svg") center/contain no-repeat;
- opacity:.48;pointer-events:none;
-}
-.result-card,.candidate-card{position:relative;overflow:hidden}
-.result-card::before,.candidate-card::before{
- content:"";position:absolute;right:10px;top:10px;width:46px;height:46px;
- background:url("./assets/illustrations/empreinte%20(2).svg") center/contain no-repeat;
- opacity:.22;pointer-events:none;
-}
-.confusion-card{position:relative}
-.confusion-card::after{
- content:"";position:absolute;right:8px;bottom:8px;width:26px;height:26px;
- background:url("./assets/illustrations/empreinte%20(1).svg") center/contain no-repeat;
- opacity:.28;pointer-events:none;
-}
-
-
-/* Logo HD horizontal uniquement dans l'en-tête des pages internes */
-header h1{
- background-image:url("./assets/illustrations/Logo%20horizontal%20hd.svg")!important;
- background-position:left center!important;background-repeat:no-repeat!important;background-size:contain!important;
- filter:none!important;
-}
-/* Accueil : conserver le logo illustré avec le texte sur le champignon */
-#landing .landing-title{
- background-image:url("./assets/illustrations/Logo%20champi.PNG")!important;
- background-position:center!important;background-repeat:no-repeat!important;background-size:contain!important;
- filter:none!important;
-}
-/* Retirer les ornements d'empreintes minuscules et privilégier une composition visible. */
-.hint::after,.result-card::before,.candidate-card::before,.confusion-card::after{display:none!important;content:none!important}
-.question{
- background-image:linear-gradient(rgba(168,79,42,.22),rgba(168,79,42,.22)),url("./assets/illustrations/Empreinte1.svg")!important;
- background-size:100% 100%,min(72vw,300px) auto!important;
- background-position:center,right -8px center!important;background-repeat:no-repeat!important;
-}
-
-/* Reprise des réglages validés : conserver les couleurs originales des logos,
-   donner une vraie place au logo interne et étendre la vidéo à tout l'écran. */
-header .brand-row{gap:10px}
-header h1{
-  flex:0 0 190px!important;width:190px!important;min-width:0!important;
-  height:64px!important;font-size:0!important;line-height:0!important;
-  background:url("./assets/illustrations/Logo horizontal hd.svg") center/contain no-repeat!important;
-  background-color:var(--paper)!important;border-radius:3px!important;
-  filter:none!important;
-}
+header .brand-row{display:flex!important;justify-content:center!important;align-items:center!important;position:relative!important;gap:0!important}
 header .brand-glyph{display:none!important}
+header h1{
+  display:block!important;flex:0 1 260px!important;width:min(260px,72%)!important;min-width:0!important;
+  height:62px!important;margin:0 auto!important;padding:0!important;
+  font-size:0!important;line-height:0!important;color:transparent!important;
+  background:transparent url("./assets/illustrations/Logo horizontal hd.svg") center/contain no-repeat!important;
+  filter:none!important;border:0!important;border-radius:0!important;
+}
+header .home-btn{
+  position:absolute!important;right:0!important;top:50%!important;transform:translateY(-50%)!important;
+  border-color:rgba(58,38,28,.45)!important;color:var(--ink)!important;
+}
+header .progress-percent{color:var(--ink)!important}
 #landing,#landing .landing-inner{
-  position:relative!important;width:100%!important;height:100vh!important;height:100dvh!important;
-  min-height:100vh!important;min-height:100svh!important;max-height:none!important;
+  position:fixed!important;inset:0!important;width:100%!important;height:100%!important;
+  height:100dvh!important;min-height:0!important;max-height:none!important;
   margin:0!important;padding:0!important;overflow:hidden!important;
 }
+#landing{display:block!important;background:var(--soil)!important}
+#landing .landing-inner{max-width:none!important;display:block!important}
 #landing .landing-image-wrap{
   position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
   min-height:0!important;max-height:none!important;margin:0!important;padding:0!important;
-  background:transparent!important;z-index:0!important;overflow:hidden!important;
+  overflow:hidden!important;background:transparent!important;z-index:0!important;
 }
 #landing .landing-image-wrap .landing-video{
-  position:absolute!important;inset:0!important;display:block!important;
-  width:100%!important;height:100%!important;min-height:100%!important;
-  object-fit:cover!important;object-position:center center!important;
+  display:block!important;position:absolute!important;inset:0!important;
+  width:100%!important;height:100%!important;min-height:100%!important;max-height:none!important;
+  object-fit:cover!important;object-position:center 50%!important;
+  opacity:1!important;filter:saturate(.85) contrast(1.02)!important;
 }
 #landing .landing-image-wrap .landing-image{display:none!important}
+#landing .landing-image-wrap .landing-glow{display:none!important}
+#landing .landing-image-wrap::after{
+  content:""!important;display:block!important;position:absolute!important;inset:0!important;
+  background:linear-gradient(180deg,rgba(25,32,24,.03) 0%,rgba(25,32,24,.08) 40%,rgba(25,32,24,.5) 68%,rgba(25,32,24,.92) 100%)!important;
+  pointer-events:none!important;
+}
 #landing .landing-content{
-  position:absolute!important;z-index:1!important;left:0!important;right:0!important;bottom:0!important;
-  margin:0!important;padding:30px 24px calc(28px + env(safe-area-inset-bottom))!important;
-  background:linear-gradient(180deg,transparent 0%,rgba(37,45,35,.58) 22%,var(--soil) 52%)!important;
+  position:absolute!important;left:0!important;right:0!important;bottom:0!important;z-index:2!important;
+  margin:0!important;padding:24px 24px calc(28px + env(safe-area-inset-bottom))!important;
+  background:transparent!important;
 }
 #landing .landing-title{
-  width:min(390px,94%)!important;height:126px!important;min-height:126px!important;
-  margin:0 auto 14px!important;
-  background:url("./assets/illustrations/Logo champi.PNG") center/contain no-repeat!important;
+  display:block!important;width:min(370px,92%)!important;height:118px!important;min-height:0!important;
+  margin:0 auto 14px!important;font-size:0!important;line-height:0!important;
+  background:transparent url("./assets/illustrations/Logo champi.PNG") center/contain no-repeat!important;
   filter:none!important;
 }
-#landing .landing-kicker,#landing .landing-subtitle{color:var(--paper)!important}
-#landing .landing-image-wrap::after{content:""!important;position:absolute!important;inset:0!important;
-  background:linear-gradient(180deg,rgba(25,32,24,.02) 0%,rgba(25,32,24,.04) 42%,rgba(25,32,24,.25) 68%,rgba(25,32,24,.82) 100%)!important;
-  pointer-events:none!important}
+#landing .landing-kicker{color:var(--paper)!important;text-align:center!important}
+#landing .landing-subtitle{color:var(--paper)!important;max-width:350px!important;margin:10px auto 22px!important}
+#landing .landing-btn{position:relative!important;z-index:3!important}
+#landing .landing-continue{position:relative!important;z-index:3!important}
 .question{
   background-color:var(--rust)!important;
-  background-image:linear-gradient(rgba(168,79,42,.22),rgba(168,79,42,.22)),url("./assets/illustrations/Empreinte1.svg")!important;
-  background-size:100% 100%,min(72vw,300px) auto!important;
-  background-position:center,right -8px center!important;background-repeat:no-repeat!important;
+  background-image:linear-gradient(rgba(168,79,42,.12),rgba(168,79,42,.12)),url("./assets/illustrations/empreinte%20(1).png")!important;
+  background-size:100% 100%,min(68vw,280px) auto!important;
+  background-position:center,right -4px center!important;background-repeat:no-repeat!important;
 }
 .hint::after,.result-card::before,.candidate-card::before,.confusion-card::after,
 .result-card::after,.candidate-card::after{display:none!important;content:none!important}
 @media(max-width:390px){
-  header h1{flex-basis:160px!important;width:160px!important;height:58px!important}
-  #landing .landing-title{height:108px!important;min-height:108px!important}
+  header{padding:14px 16px 18px 16px!important}
+  header h1{flex-basis:220px!important;width:min(220px,72%)!important;height:56px!important}
+  #landing .landing-title{height:100px!important}
 }
-
-
 </style>
 </head>
 <body>
