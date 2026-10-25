@@ -1239,6 +1239,27 @@ header h1{
  opacity:.28;pointer-events:none;
 }
 
+
+/* Logo HD horizontal uniquement dans l'en-tête des pages internes */
+header h1{
+ background-image:url("./assets/illustrations/Logo%20horizontal%20hd.svg")!important;
+ background-position:left center!important;background-repeat:no-repeat!important;background-size:contain!important;
+ filter:none!important;
+}
+/* Accueil : conserver le logo illustré avec le texte sur le champignon */
+#landing .landing-title{
+ background-image:url("./assets/illustrations/Logo%20champi.PNG")!important;
+ background-position:center!important;background-repeat:no-repeat!important;background-size:contain!important;
+ filter:none!important;
+}
+/* Retirer les ornements d'empreintes minuscules et privilégier une composition visible. */
+.hint::after,.result-card::before,.candidate-card::before,.confusion-card::after{display:none!important;content:none!important}
+.question{
+ background-image:linear-gradient(rgba(168,79,42,.22),rgba(168,79,42,.22)),url("./assets/illustrations/Empreinte1.svg")!important;
+ background-size:100% 100%,min(72vw,300px) auto!important;
+ background-position:center,right -8px center!important;background-repeat:no-repeat!important;
+}
+
 </style>
 </head>
 <body>
