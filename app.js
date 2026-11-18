@@ -199,6 +199,11 @@ function enterApp(resume) {
   else restart();
 }
 
+/* Les actions de la page d'accueil sont raccordées dès l'initialisation
+   des éléments, sans attendre la fin du rendu de toute l'application. */
+landingStart.addEventListener("click", () => enterApp(false));
+landingContinue.addEventListener("click", () => enterApp(true));
+
 function isQuestion(id) { return !!KEY.nodes[id]; }
 function isLeaf(id) { return !!KEY.results[id]; }
 function dedupe(arr) { return Array.from(new Set(arr)); }
