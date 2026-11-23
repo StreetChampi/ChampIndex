@@ -201,8 +201,6 @@ function enterApp(resume) {
 
 /* Les actions de la page d'accueil sont raccordées dès l'initialisation
    des éléments, sans attendre la fin du rendu de toute l'application. */
-landingStart.addEventListener("click", () => enterApp(false));
-landingContinue.addEventListener("click", () => enterApp(true));
 
 function isQuestion(id) { return !!KEY.nodes[id]; }
 function isLeaf(id) { return !!KEY.results[id]; }
@@ -839,6 +837,4 @@ homeBtn.onclick = showLanding;
 document.getElementById("modal-overlay").addEventListener("click", (e) => {
   if (e.target.id === "modal-overlay") closeModal();
 });
-landingStart.onclick = () => enterApp(false);
-landingContinue.onclick = () => enterApp(true);
 showLanding();
