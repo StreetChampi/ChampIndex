@@ -1091,7 +1091,10 @@ header .progress-percent{color:var(--ink)!important}
   margin:0!important;padding:24px 24px calc(28px + env(safe-area-inset-bottom))!important;
   background:transparent!important;pointer-events:auto!important;
 }
-#landing .landing-content button{position:relative!important;z-index:11!important;pointer-events:auto!important;touch-action:manipulation!important;}
+#landing,#landing .landing-inner,#landing .landing-content{pointer-events:auto!important}
+  #landing .landing-image-wrap,#landing .landing-image-wrap *{pointer-events:none!important}
+  #landing .landing-content{z-index:999!important}
+  #landing .landing-content button{position:relative!important;z-index:1000!important;display:block!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important;}
 #landing .landing-title{
   display:block!important;width:min(370px,92%)!important;height:118px!important;min-height:0!important;
   margin:0 auto 14px!important;font-size:0!important;line-height:0!important;
@@ -1126,8 +1129,8 @@ header .progress-percent{color:var(--ink)!important}
       <div class="landing-kicker">Carnet de terrain</div>
       <h1 class="landing-title">Champi</h1>
       <p class="landing-subtitle">Une clé simple pour explorer les champignons à lames, directement sur le terrain.</p>
-      <button id="landing-start" class="landing-btn" type="button">Commencer l'identification</button>
-      <button id="landing-continue" class="landing-continue" type="button">Reprendre l'identification en cours</button>
+      <button id="landing-start" class="landing-btn" type="button" onclick="document.getElementById('landing').style.display='none';document.getElementById('app').style.display='flex';restart();">Commencer l'identification</button>
+      <button id="landing-continue" class="landing-continue" type="button" onclick="document.getElementById('landing').style.display='none';document.getElementById('app').style.display='flex';renderQuestion(displayId);">Reprendre l'identification en cours</button>
     </div>
   </div>
 </section>
